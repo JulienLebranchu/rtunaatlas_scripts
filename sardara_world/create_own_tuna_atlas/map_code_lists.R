@@ -23,15 +23,5 @@ function_map_dataset_codelists<-function(dataset_to_map,mapping_dataset,mapping_
   return(dataset_to_map)
 }
 
-cat("Mapping code lists of georeferenced georef_dataset datasets...\n")
-georef_dataset<-function_map_dataset_codelists(georef_dataset,mapping_dataset,mapping_keep_src_code)
-cat("Mapping code lists of georeferenced georef_dataset datasets OK\n")
-
-
-if(raising_georef_to_nominal==TRUE){
-  cat("Mapping code lists of nominal georef_dataset datasets...\n")
-  nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
-  cat("Mapping code lists of nominal georef_dataset datasets OK\n")
-}
 
 cat("Mapping code lists OK\n")

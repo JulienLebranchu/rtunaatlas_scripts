@@ -105,7 +105,17 @@ cat("Retrieving primary datasets from Sardara DB OK\n")
 
 if (mapping_map_code_lists==TRUE){
   source(paste0(url_scripts_create_own_tuna_atlas_catch,"map_code_lists.R"))
-}
+  
+  cat("Mapping code lists of georeferenced georef_dataset datasets...\n")
+  georef_dataset<-function_map_dataset_codelists(georef_dataset,mapping_dataset,mapping_keep_src_code)
+  cat("Mapping code lists of georeferenced georef_dataset datasets OK\n")
+  
+  if(raising_georef_to_nominal==TRUE){
+    cat("Mapping code lists of nominal georef_dataset datasets...\n")
+    nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
+    cat("Mapping code lists of nominal georef_dataset datasets OK\n")
+  }
+  }
 
 
 #### 3) Filter data by groups of gears
@@ -159,7 +169,10 @@ if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
 #### 8) Overlapping zone (IATTC/WCPFC): keep data from IATTC or WCPFC?
 
 if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
+  df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas_catch,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
+  georef_dataset<-df
+  rm(df)
 }
 
 
@@ -167,7 +180,10 @@ if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
 if (SBF_data_rfmo_to_keep!="NULL"){
+  df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas_catch,"SBF_data_rfmo_to_keep.R"))
+  georef_dataset<-df
+  rm(df)
 }
 
 

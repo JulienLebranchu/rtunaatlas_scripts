@@ -1,7 +1,7 @@
 
 cat("Converting units of georef_dataset...\n")
 
-cat("Reading the conversion factors dataset.n")
+cat("Reading the conversion factors dataset\n")
 
 df_conversion_factor=read.csv(unit_conversion_csv_conversion_factor_url,stringsAsFactors = F,colClasses="character")
 
