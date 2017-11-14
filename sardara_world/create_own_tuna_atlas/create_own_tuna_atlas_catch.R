@@ -211,6 +211,26 @@ if (unit_conversion_convert==FALSE){      # If the user decides not to convert c
   
   df_conversion_factor=read.csv(unit_conversion_csv_conversion_factor_url,stringsAsFactors = F,colClasses="character")
   
+  ## If we have not mapped the code lists (i.e. if mapping_map_code_lists==FALSE), we need to map the source gear coding system with ISSCFG coding system. In fact, the conversion factors dataset is expressed with ISSCFG coding system for gears, while the primary tRFMOs datasets are expressed with their own gear coding system.
+  if (mapping_map_code_lists==FALSE){
+    source_authority<-c("IOTC","ICCAT","IATTC","WCPFC","CCSBT")
+    db_mapping_dataset_name<-c("codelist_mapping_gear_iotc_isscfg_revision_1","codelist_mapping_gear_iccat_isscfg_revision_1","codelist_mapping_gear_iattc_isscfg_revision_1","codelist_mapping_gear_wcpfc_isscfg_revision_1","codelist_mapping_gear_ccsbt_isscfg_revision_1")
+    mapping_dataset<-data.frame(source_authority,db_mapping_dataset_name)
+    df_mapping_final_this_dimension<-NULL
+    for (j in 1:nrow(mapping_dataset)){ 
+      df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,dataset_name=mapping_dataset$db_mapping_dataset_name[j]))  # Extract the code list mapping dataset from the DB
+      df_mapping$source_authority<-as.character(mapping_dataset$source_authority[j])  # Add the dimension "source_authority" to the mapping dataset. That dimension is not included in the code list mapping datasets. However, it is necessary to map the code list.
+      df_mapping_final_this_dimension<-rbind(df_mapping_final_this_dimension,df_mapping)
+    }
+    #catch with source coding system for gears mapped with isscfg codes:
+    catch<-rtunaatlas::map_codelist(catch,df_mapping_final_this_dimension,"gear",TRUE)$df
+    
+    # change column names before the conversion of units
+    colnames(catch)[colnames(df) == 'gear'] <- 'gear_original_codes'
+    colnames(catch)[colnames(df) == 'gear_mapping'] <- 'gear'
+    
+  }
+  
   ## Convert MTNO to MT and remove NOMT (we do not keep the data that were expressed in number with corresponding value in weight)
   catch$unit[which(catch$unit == "MTNO")]<-"MT"
   catch<-catch[!(catch$unit=="NOMT"),]
@@ -226,6 +246,12 @@ if (unit_conversion_convert==FALSE){      # If the user decides not to convert c
   # catch$stats
   
   catch<-catch$df
+  
+  if (mapping_map_code_lists==FALSE){
+    # resetting gear coding system to primary gear coding system
+    catch$gear<-NULL
+    colnames(catch)[colnames(df) == 'gear_original_codes'] <- 'gear'
+  }
   
   cat("Converting units of catch OK\n")
 }
