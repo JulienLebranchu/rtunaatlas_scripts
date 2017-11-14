@@ -202,8 +202,7 @@ if (gear_filter!="NULL"){
 
 #### 4) Convert units
 
-if (unit_conversion_convert==FALSE){      # If the user decides not to convert catchunits, nothing is done.
-} else {  # else we convert catch units
+if (unit_conversion_convert==TRUE){ 
   
   cat("Converting units of catch...\n")
   
@@ -226,8 +225,8 @@ if (unit_conversion_convert==FALSE){      # If the user decides not to convert c
     catch<-rtunaatlas::map_codelist(catch,df_mapping_final_this_dimension,"gear",TRUE)$df
     
     # change column names before the conversion of units
-    colnames(catch)[colnames(df) == 'gear'] <- 'gear_original_codes'
-    colnames(catch)[colnames(df) == 'gear_mapping'] <- 'gear'
+    colnames(catch)[colnames(catch) == 'gear'] <- 'gear_original_codes'
+    colnames(catch)[colnames(catch) == 'gear_mapping'] <- 'gear'
     
   }
   
@@ -250,7 +249,7 @@ if (unit_conversion_convert==FALSE){      # If the user decides not to convert c
   if (mapping_map_code_lists==FALSE){
     # resetting gear coding system to primary gear coding system
     catch$gear<-NULL
-    colnames(catch)[colnames(df) == 'gear_original_codes'] <- 'gear'
+    colnames(catch)[colnames(catch) == 'gear_original_codes'] <- 'gear'
   }
   
   cat("Converting units of catch OK\n")
