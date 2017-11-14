@@ -174,6 +174,9 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 }
 
 
+
+georef_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarize(value=sum(value))
+
 dbDisconnect(con)
 
 #### END
