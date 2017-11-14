@@ -95,7 +95,7 @@ rm(catch)
 
 ### 1.2 If data will be raised, retrieve nominal catch datasets
 if (raising_georef_to_nominal==TRUE){
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"retrieve_nominal_catch.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"retrieve_nominal_catch.R"))
 }
 
 cat("Retrieving primary datasets from Sardara DB OK\n")
@@ -104,7 +104,7 @@ cat("Retrieving primary datasets from Sardara DB OK\n")
 #### 2) Map code lists 
 
 if (mapping_map_code_lists==TRUE){
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"map_code_lists.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
   
   cat("Mapping code lists of georeferenced georef_dataset datasets...\n")
   georef_dataset<-function_map_dataset_codelists(georef_dataset,mapping_dataset,mapping_keep_src_code)
@@ -121,21 +121,21 @@ if (mapping_map_code_lists==TRUE){
 #### 3) Filter data by groups of gears
 
 if (gear_filter!="NULL"){
- source(paste0(url_scripts_create_own_tuna_atlas_catch,"gear_filter.R"))
+ source(paste0(url_scripts_create_own_tuna_atlas,"gear_filter.R"))
 }
 
 
 #### 4) Convert units
 
 if (unit_conversion_convert==TRUE){ 
- source(paste0(url_scripts_create_own_tuna_atlas_catch,"unit_conversion_convert.R"))
+ source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
 }
 
 
 #### 5) Raise georeferenced georef_dataset to total (nominal) georef_dataset
 
 if (raising_georef_to_nominal==TRUE) {   
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"raising_georef_to_nominal.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"raising_georef_to_nominal.R"))
 } 
 
 
@@ -144,24 +144,24 @@ if (raising_georef_to_nominal==TRUE) {
 
 ## 6.1 Aggregate data on 5° resolution quadrants
 if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg==TRUE) { 
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"aggregate_on_5deg_data_with_resolution_inferior_to_5deg.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"aggregate_on_5deg_data_with_resolution_inferior_to_5deg.R"))
 } 
 
 ## 6.2 Disggregate data on 5° resolution quadrants
 if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg==TRUE) { 
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"disaggregate_on_5deg_data_with_resolution_superior_to_5deg.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_5deg_data_with_resolution_superior_to_5deg.R"))
 } 
 
 ## 6.3 Disggregate data on 1° resolution quadrants
 if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg==TRUE) { 
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"disaggregate_on_1deg_data_with_resolution_superior_to_1deg.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_1deg_data_with_resolution_superior_to_1deg.R"))
 } 
 
 
 #### 7) Reallocation of data mislocated (i.e. on land areas or without any spatial information) (data with no spatial information have the dimension "geographic_identifier" set to "UNK/IND" or NA)
 
 if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"spatial_curation_data_mislocated.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"spatial_curation_data_mislocated.R"))
 }
 
 
@@ -170,7 +170,7 @@ if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
 
 if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
   df<-georef_dataset
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
   georef_dataset<-df
   rm(df)
 }
@@ -181,14 +181,14 @@ if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
 
 if (SBF_data_rfmo_to_keep!="NULL"){
   df<-georef_dataset
-  source(paste0(url_scripts_create_own_tuna_atlas_catch,"SBF_data_rfmo_to_keep.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
   georef_dataset<-df
   rm(df)
 }
 
 
 
-georef_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarize(value=sum(value))
+output_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarize(value=sum(value))
 
 dbDisconnect(con)
 
