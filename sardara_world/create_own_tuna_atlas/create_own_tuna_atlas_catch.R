@@ -397,7 +397,7 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 }
 
 
-
+dbDisconnect(con)
 
 #### END
 cat("End: Your tuna atlas catch dataset has been created! \n")
