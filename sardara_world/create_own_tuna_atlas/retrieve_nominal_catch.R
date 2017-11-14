@@ -1,5 +1,5 @@
 
-cat("Retrieving RFMOs nominal catch (for raising)...\n")
+cat("Retrieving RFMOs nominal catch...\n")
 
 include_rfmo<-c(include_IOTC,include_IATTC,include_WCPFC,include_CCSBT,include_ICCAT)
 
@@ -33,4 +33,4 @@ if (include_ICCAT==TRUE){
   nominal_catch<-rtunaatlas::map_codelist(nominal_catch,df_mapping,"flag")$df  
 }
 
-cat("Retrieving RFMOs nominal catch (for raising) OK\n")
+cat("Retrieving RFMOs nominal catch OK\n")
