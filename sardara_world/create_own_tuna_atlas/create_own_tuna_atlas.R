@@ -43,14 +43,14 @@ con<-rtunaatlas::db_connection_sardara_world()
 #### 1) Retrieve tuna RFMOs data from Sardara DB at level 0. Level 0 is the merging of the tRFMOs primary datasets, with the more complete possible value of georef_dataset per stratum (i.e. duplicated or splitted strata among the datasets are dealt specifically -> this is the case for ICCAT and IATTC)  ####
 cat("Begin: Retrieving primary datasets from Sardara DB... \n")
 
-### 1.1 Retrieve georeferenced georef_dataset
-georef_dataset<-NULL 
+### 1.1 Retrieve georeferenced catch
+catch<-NULL 
 
 ## IOTC 
 if (include_IOTC==TRUE){
   cat("Retrieving IOTC georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::iotc_catch_level0(datasets_year_release)
-  georef_dataset<-rbind(georef_dataset,rfmo_catch)
+  catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   cat("Retrieving IOTC georeferenced catch from Sardara database OK\n")
 }
@@ -59,7 +59,7 @@ if (include_IOTC==TRUE){
 if (include_WCPFC==TRUE){
   cat("Retrieving WCPFC georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::wcpfc_catch_level0(datasets_year_release)
-  georef_dataset<-rbind(georef_dataset,rfmo_catch)
+  catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   cat("Retrieving WCPFC georeferenced catch from Sardara database OK\n")
 }
@@ -68,7 +68,7 @@ if (include_WCPFC==TRUE){
 if (include_CCSBT==TRUE){
   cat("Retrieving CCSBT georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::ccsbt_catch_level0(datasets_year_release)
-  georef_dataset<-rbind(georef_dataset,rfmo_catch)
+  catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   cat("Retrieving CCSBT georeferenced catch from Sardara database OK\n")
 }
@@ -79,7 +79,7 @@ if (include_IATTC==TRUE){
   rfmo_catch<-rtunaatlas::iattc_catch_level0(datasets_year_release,
                                              raise_flags_to_schooltype=iattc_raise_flags_to_schooltype,
                                              dimension_to_use_if_no_raising_flags_to_schooltype=iattc_dimension_to_use_if_no_raising_flags_to_schooltype)
-  georef_dataset<-rbind(georef_dataset,rfmo_catch)
+  catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   cat("Retrieving IATTC georeferenced catch from Sardara database OK\n")
 }
@@ -89,11 +89,13 @@ if (include_ICCAT==TRUE){
   cat("Retrieving ICCAT georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::iccat_catch_level0(datasets_year_release,
                                              include_type_of_school=iccat_include_type_of_school)
-  georef_dataset<-rbind(georef_dataset,rfmo_catch)
+  catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   cat("Retrieving ICCAT georeferenced catch from Sardara database OK\n")
 }
 
+georef_dataset<-catch
+rm(catch)
 
 ### 1.2 If data will be raised, retrieve nominal catch datasets
 if (raising_georef_to_nominal==TRUE){
