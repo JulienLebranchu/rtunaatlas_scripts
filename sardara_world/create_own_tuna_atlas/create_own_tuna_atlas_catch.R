@@ -135,10 +135,12 @@ if (raising_georef_to_nominal==TRUE){
   nominal_catch<-rtunaatlas::extract_and_merge_multiple_datasets(con,rfmo_nominal_catch_metadata,columns_to_keep=c("source_authority","species","gear","flag","time_start","time_end","geographic_identifier","unit","value"))
   
   # For ICCAT Nominal catch, we need to map flag code list, because flag code list used in nominal catch dataset is different from flag code list used in ICCAT task2; however we have to use the same flag code list for data raising. In other words, we express all ICCAT datasets following ICCAT task2 flag code list.
+  if (include_ICCAT==TRUE){
   # extract mapping
   df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,dataset_name="codelist_mapping_flag_iccat_from_ncandcas_flag_iccat"))
   df_mapping$source_authority<-"ICCAT"
   nominal_catch<-rtunaatlas::map_codelist(nominal_catch,df_mapping,"flag")$df  
+  }
   
   cat("Retrieving RFMOs nominal catch (for raising) OK\n")
   
