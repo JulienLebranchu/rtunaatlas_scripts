@@ -74,5 +74,5 @@ output_dataset<-nominal_catch %>% group_by_(.dots = setdiff(colnames(nominal_cat
 dbDisconnect(con)
 
 #### END
-cat("End: Your tuna atlas georef_dataset dataset has been created! \n")
+cat("End: Your tuna atlas dataset has been created! Your output data.frame is called 'output_dataset' \n")
 

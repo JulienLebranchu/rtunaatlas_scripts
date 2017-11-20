@@ -211,5 +211,5 @@ output_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dat
 dbDisconnect(con)
 
 #### END
-cat("End: Your tuna atlas georef_dataset dataset has been created! \n")
+cat("End: Your tuna atlas dataset has been created! Your output data.frame is called 'output_dataset' \n")
 
