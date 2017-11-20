@@ -31,7 +31,7 @@
 require(rtunaatlas)
 require(dplyr)
 require(data.table)
-url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/create_own_tuna_atlas/"
+url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/create_own_tuna_atlas/sourced_scripts/"
 
 # connect to Sardara DB
 con<-rtunaatlas::db_connection_sardara_world()
