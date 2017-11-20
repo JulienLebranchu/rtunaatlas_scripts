@@ -27,10 +27,28 @@
 # wps.in: id = SBF_data_rfmo_to_keep, type = string, title = Concerns Southern Bluefin Tuna (SBF) data. Use only if parameter include_CCSBT is set to TRUE. SBF tuna data do exist in both CCSBT data and the other tuna RFMOs data. Wich data should be kept? CCSBT : CCSBT data are kept for SBF. other_trfmos : data from the other TRFMOs are kept for SBF. NULL : Keep data from all the tRFMOs. Caution: with the option NULL, data in the overlapping zones are likely to be redundant., value = "CCSBT|other_trfmos|NULL";
 # wps.out: id = zip_namefile, type = text/zip, title = Outputs are 3 csv files: the dataset of georeferenced catches + a dataset of metadata (including informations on the computation, i.e. how the primary datasets were transformed by each correction) [TO DO] + a dataset providing the code lists used for each dimension (column) of the output dataset [TO DO]. All outputs and codes are compressed within a single zip file. ; 
 
-# Library rtunaatlas containing useful functions for this script
+
+if(!require(rtunaatlas)){
+  if(!require(devtools)){
+    install.packages("devtools")
+  }
+  require(devtools)
+  install_github("ptaconet/rtunaatlas")
+}
+
+if(!require(dplyr)){
+  install.packages("dplyr")
+}
+
+if(!require(data.table)){
+  install.packages("data.table")
+}
+
 require(rtunaatlas)
 require(dplyr)
 require(data.table)
+
+
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/create_own_tuna_atlas/sourced_scripts/"
 
 # connect to Sardara DB
@@ -115,20 +133,20 @@ if (mapping_map_code_lists==TRUE){
     nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
     cat("Mapping code lists of nominal georef_dataset datasets OK\n")
   }
-  }
+}
 
 
 #### 3) Filter data by groups of gears
 
 if (gear_filter!="NULL"){
- source(paste0(url_scripts_create_own_tuna_atlas,"gear_filter.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"gear_filter.R"))
 }
 
 
 #### 4) Convert units
 
 if (unit_conversion_convert==TRUE){ 
- source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
+  source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
 }
 
 
