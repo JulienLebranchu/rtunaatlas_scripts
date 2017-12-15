@@ -10,8 +10,8 @@ metadata_file<-metadata_file[which(metadata_file$persistent_identifier==persiste
 df_metadata<-NULL
 
 ### dataset_time_start and dataset_time_starttime_end
-df_metadata$dataset_time_start<-min(as.Date(dataset$time_start))
-df_metadata$dataset_time_end<-max(as.Date(dataset$time_end))
+df_metadata$dataset_time_start<-as.character(min(as.Date(dataset$time_start)))
+df_metadata$dataset_time_end<-as.character(max(as.Date(dataset$time_end)))
 
 ### identifier
 df_metadata$identifier<-gsub("tunaatlas",paste(df_metadata$dataset_time_start,df_metadata$dataset_time_end,"tunaatlas",sep="_"),metadata_file$persistent_identifier)
@@ -124,7 +124,8 @@ df_metadata$database_table_name<-metadata_file$database_table_name
 df_metadata$database_view_name<-metadata_file$database_view_name
 
 
-df_metadata<-data.frame(df_metadata,stringsAsFactors = F)
+df_metadata<-data.frame(df_metadata,stringsAsFactors = FALSE)
+
 
 
 ### Get datasets of code lists to load the dataset in the DB
