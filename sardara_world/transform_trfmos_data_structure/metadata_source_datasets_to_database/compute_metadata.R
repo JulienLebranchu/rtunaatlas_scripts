@@ -1,6 +1,6 @@
 
 # Read metadata file
-if (typeof(metadata_file)=="character"){
+if (typeof(path_to_metadata_file)=="character"){
 metadata_file<-read.csv(path_to_metadata_file,stringsAsFactors = F)
 } else {
 metadata_file<-path_to_metadata_file
