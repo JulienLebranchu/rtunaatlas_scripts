@@ -19,7 +19,7 @@ df_metadata$identifier<-gsub("level0",paste(metadata_file$year_tuna_atlas,"level
 df_metadata$identifier<-gsub("-","_",df_metadata$identifier)
 
 ### persistent_identifier
-df_metadata$persistent_identifier<-persistent_identifier
+df_metadata$persistent_identifier<-metadata_file$persistent_identifier
 
 ### title
 df_metadata$title<-gsub("%date_start%",substr(df_metadata$dataset_time_start,1,4),metadata_file$title)
