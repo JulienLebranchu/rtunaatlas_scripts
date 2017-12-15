@@ -1,9 +1,10 @@
 ######################################################################
 ##### 52North WPS annotations ##########
 ######################################################################
-# wps.des: id = west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0, title = Harmonize data structure of WCPFC Nominal catch, abstract = Harmonize the structure of WCPFC YearBook (Nominal catches) dataset;
-# wps.in: id = path_to_raw_dataset, type = String, title = Path to the input CSV dataset. If it is an Excel file, it must be converted to CSV before using this function. Input CSV file must be structured like this: https://goo.gl/KfUXpF, value = "https://goo.gl/KfUXpF";
-# wps.out: id = zip_namefile, type = text/zip, title = Dataset with harmonized structure ; 
+# wps.des: id = west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0, title = Harmonize data structure of WCPFC nominal catch, abstract = Harmonize the structure of WCPFC nominal catch dataset (pid of output file = west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
+# wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize. Input file must be structured as follow: https://goo.gl/KfUXpF, value = "https://goo.gl/KfUXpF";
+# wps.in: id = path_to_metadata_file, type = String, title = NULL or path to the csv of metadata. The template file can be found here: https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/metadata_source_datasets_to_database_template.csv. , value = "NULL";
+# wps.out: id = zip_namefile, type = text/zip, title = Dataset with structure harmonized + File of metadata (for integration within the Tuna Atlas database) + File of code lists (for integration within the Tuna Atlas database) ; 
 
   # Input data sample:
   # yy gear flag fleet alb_mt bet_mt pbf_mt skj_mt yft_mt blm_mt bum_mt mls_mt swo_mt ham_mt mak_mt ocs_mt por_mt fal_mt thr_mt
@@ -22,8 +23,6 @@
   #   AU    L 1987-01-01 1988-01-01    WCPFC    ALL     ALB       ALL         MT   129
   #   AU    L 1987-01-01 1988-01-01    WCPFC    ALL     BET       ALL         MT    64
   #   AU    L 1987-01-01 1988-01-01    WCPFC    ALL     BLM       ALL         MT    17
-  
-#path_to_raw_dataset="https://goo.gl/KfUXpF"
 
 if(!require(rtunaatlas)){
   if(!require(devtools)){
@@ -43,8 +42,6 @@ require(rtunaatlas)
 require(reshape)
 require(dplyr)
 
-
-cat("Begin: Starting harmonization of dataset west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0 ... \n")
 
 ### Nominal catches
 
@@ -105,9 +102,20 @@ colnames(NC)<-c("flag","gear","time_start","time_end","area","schooltype","speci
 
 dataset<-NC
 
-cat("End of the harmonization of the dataset west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0 \n")
 
 
 
 
+### Compute metadata
+if (path_to_metadata_file!="NULL"){
+  source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/compute_metadata.R")
+} else {
+  df_metadata<-NULL
+  df_codelists<-NULL
+}
 
+
+## To check the outputs:
+# str(dataset)
+# str(df_metadata)
+# str(df_codelists)

@@ -2,10 +2,6 @@
 # Read metadata file
 metadata_file<-read.csv(path_to_metadata_file,stringsAsFactors = F)
   
-# Extract row for dataset being treated
-metadata_file<-metadata_file[which(metadata_file$persistent_identifier==persistent_identifier),]
-
-
 ##### Generate the dataset of metadata, that will be loaded in the DB
 df_metadata<-NULL
 
@@ -86,7 +82,7 @@ df_metadata$format<-metadata_file$format
 df_metadata$language<-metadata_file$language
 
 
-# relation
+### relation
 columns_relation<-colnames(metadata_file)[grep("relation_",colnames(metadata_file))]
 roles<-gsub("relation_","",columns_relation)
 
@@ -96,6 +92,12 @@ for (j in 1:length(columns_relation)){
 }
 
 df_metadata$relation<-relation
+
+### spatial_coverage
+# TO DO AFTER THE UPLOAD OF THE DATASET
+
+### temporal_coverage
+df_metadata$temporal_coverage<-paste0("start=",df_metadata$dataset_time_start,";end=",df_metadata$dataset_time_end,";")
 
 ### rights
 df_metadata$rights<-metadata_file$rights
@@ -111,16 +113,16 @@ df_metadata$lineage<-gsub("%relation_source_download%",metadata_file$relation_so
 ### supplemental_information
 df_metadata$supplemental_information<-metadata_file$supplemental_information
 
-# dataset_type
+### dataset_type
 df_metadata$dataset_type<-"raw_dataset"
 
-# sql_query_dataset_extraction
+### sql_query_dataset_extraction
 # TO DO AFTER THE UPLOAD OF THE DATASET
 
-# database_table_name
+### database_table_name
 df_metadata$database_table_name<-metadata_file$database_table_name
 
-# database_view_name
+### database_view_name
 df_metadata$database_view_name<-metadata_file$database_view_name
 
 
