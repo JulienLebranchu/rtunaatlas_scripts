@@ -1,7 +1,5 @@
 
-# Read metadata file
-metadata_file<-read.csv(path_to_metadata_file,stringsAsFactors = F)
-  
+
 ##### Generate the dataset of metadata, that will be loaded in the DB
 df_metadata<-NULL
 
