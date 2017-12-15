@@ -124,7 +124,7 @@ df_metadata$database_table_name<-metadata_file$database_table_name
 df_metadata$database_view_name<-metadata_file$database_view_name
 
 
-df_metadata<-data.frame(df_metadata)
+df_metadata<-data.frame(df_metadata,stringsAsFactors = F)
 
 
 ### Get datasets of code lists to load the dataset in the DB
