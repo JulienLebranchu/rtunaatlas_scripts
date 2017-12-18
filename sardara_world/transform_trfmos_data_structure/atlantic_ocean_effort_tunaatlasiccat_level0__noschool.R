@@ -70,7 +70,8 @@ require(Hmisc) # install mdb tools (http://svitsrv25.epfl.ch/R-doc/library/Hmisc
 ## download database
 working_directory_init=getwd()
 setwd(working_directory_init)
-cat("Downloading database.../n")
+cat("Downloading database...\n")
+cat("The harmonization of this dataset might take a long time\n")
 download.file(path_to_raw_dataset, paste0(working_directory_init,"/db.mdb"))
 
 ICCAT_CE_species_colnames<-c("ALB", "BET" ,"BFT","BUM","SAI","SKJ","SWO","WHM","YFT","BLF","BLT","BON","BOP","BRS","CER","FRI", "KGM","KGX","LTA", "MAW","SLT","SSM","WAH" , "oSmt" , "BIL", "BLM" ,"MLS","SBF" ,"SPF", "oTun" , "BSH", "POR" , "SMA", "MAK", "oSks")
