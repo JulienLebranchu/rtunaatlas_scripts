@@ -67,7 +67,7 @@ NC<-as.data.frame(NC)
 
 colnames(NC)<-c("flag","gear","time_start","time_end","area","schooltype","species","catchtype","unit","value")
 
-dataset %>% mutate_if(is.factor, as.character) -> dataset
+NC %>% mutate_if(is.factor, as.character) -> NC
 
 dataset<-NC
 
