@@ -1,7 +1,7 @@
 ######################################################################
 ##### 52North WPS annotations ##########
 ######################################################################
-# wps.des: id = atlantic_ocean_effort_1deg_1m_tunaatlasiccat_level0__noschool, title = Harmonize data structure of ICCAT effort dataset, abstract = Harmonize the structure of ICCAT catch-and-effort datasets: (pid of output file = atlantic_ocean_effort_1deg_1m_tunaatlasiccat_level0__noschool). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
+# wps.des: id = atlantic_ocean_effort_tunaatlasiccat_level0__noschool, title = Harmonize data structure of ICCAT effort dataset, abstract = Harmonize the structure of ICCAT catch-and-effort datasets: (pid of output file = atlantic_ocean_effort_tunaatlasiccat_level0__noschool). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
 # wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize (Miscroft Access (.mdb)). The input database being voluminous, the execution of the function might take long time. Input file must be structured as follow: https://goo.gl/A6qVhb, value = "https://goo.gl/A6qVhb";
 # wps.in: id = path_to_metadata_file, type = String, title = NULL or path to the csv of metadata. The template file can be found here: https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/metadata_source_datasets_to_database_template.csv . If NULL, no metadata will be outputted., value = "NULL";
 # wps.out: id = zip_namefile, type = text/zip, title = Dataset with structure harmonized + File of metadata (for integration within the Tuna Atlas database) + File of code lists (for integration within the Tuna Atlas database) ; 
@@ -67,13 +67,18 @@ require(Hmisc) # install mdb tools (http://svitsrv25.epfl.ch/R-doc/library/Hmisc
 #  ARG   LL 1967-06-01 1967-07-01  7330040    ALL    NO.HOOKS  66000
 #  ARG   LL 1967-07-01 1967-08-01  7330040    ALL    NO.HOOKS  50000
 
+## download database
+working_directory_init=getwd()
+setwd(working_directory_init)
+cat("Downloading database.../n")
+download.file(path_to_raw_dataset, paste0(working_directory_init,"/db.mdb"))
 
 ICCAT_CE_species_colnames<-c("ALB", "BET" ,"BFT","BUM","SAI","SKJ","SWO","WHM","YFT","BLF","BLT","BON","BOP","BRS","CER","FRI", "KGM","KGX","LTA", "MAW","SLT","SSM","WAH" , "oSmt" , "BIL", "BLM" ,"MLS","SBF" ,"SPF", "oTun" , "BSH", "POR" , "SMA", "MAK", "oSks")
 
 # Requires library(Hmisc)
 # Open the tables directly from the access database  
-t2ce<-mdb.get(path_to_raw_dataset,tables='t2ce',stringsAsFactors=FALSE,strip.white=TRUE)
-Flags<-mdb.get(path_to_raw_dataset,tables='Flags',stringsAsFactors=FALSE,strip.white=TRUE)
+t2ce<-mdb.get(paste0(working_directory_init,"/db.mdb"),tables='t2ce',stringsAsFactors=FALSE,strip.white=TRUE)
+Flags<-mdb.get(paste0(working_directory_init,"/db.mdb"),tables='Flags',stringsAsFactors=FALSE,strip.white=TRUE)
 
 data_pivot_ICCAT<-left_join(t2ce,Flags,by="FleetID")  # equivalent to "select FlagCode,FlagID,t2ce.* from t2ce, Flags where t2ce.FleetID=Flags.FleetID"
 
