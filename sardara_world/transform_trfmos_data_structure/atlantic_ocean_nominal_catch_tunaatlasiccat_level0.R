@@ -53,6 +53,7 @@ NC<-NC_harm_ICCAT
 
 rm(NC_harm_ICCAT)
 
+colToKeep_captures <- c("Flag","Gear","time_start","time_end","AreaName","School","Species","CatchType","CatchUnits","Catch")
 NC <-NC[colToKeep_captures]
 # remove 0 and NA values 
 NC <- NC  %>% 
