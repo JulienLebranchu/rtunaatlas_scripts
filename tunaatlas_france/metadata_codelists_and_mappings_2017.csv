@@ -1,4 +1,4 @@
-persistent_identifier,title,contact_owner,contact_originator,contact_metadata,contact_PointOfContact,contact_PrincipalInvestigator,contact_publisher,contact_processor,contact_data_structure_definition,subject,description,date_publication,date_download,format,langage,relation_source_download,relation_source_dataset,rights,source,lineage,supplemental_information,database_table_name,source_dataset_path_dataset
+persistent_identifier,title,contact_owner,contact_originator,contact_metadata,contact_PointOfContact,contact_PrincipalInvestigator,contact_publisher,contact_processor,contact_data_structure_definition,subject,description,date_publication,date_download,format,langage,relation_source_download,relation_source_dataset,rights,source,lineage,supplemental_information,dataset_type,database_table_name,source_dataset_path_dataset
 catchtype_ob7,Référentiel pour les types de captures utilisé par l’Ob7 de l’IRD,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;julien.barde@ird.fr;emmanuel.blondel@ird.fr,paul.taconet@ird.fr,paul.taconet@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les types de captures utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD). Ce référentiel a été construit en utilisant en entrée les référentiels pour les types de captures utilisés dans les différentes bases de données de l’Ob7.
 
@@ -11,22 +11,22 @@ Step5 : The table observe_seine.targetsample was extracted from Observe databas
 Step6 : The table observe_longline.catchfate was extracted from Observe database. The column used as species code is the column named code
 Step7 : All the tables previously collated were merged.
 Step8 : Some minor adaptations (including removal of redundant codes between the code lists) were made to compose this code list.
-Step9 : The code list was integrated into the Sardara database",,catchtype.catchtype_ob7,
+Step9 : The code list was integrated into the Sardara database",,codelist,catchtype.catchtype_ob7,
 species_ob7_balbaya,Référentiel pour les espèces utilisé par l’Ob7 de l’IRD dans la base de données Balbaya,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;julien.barde@ird.fr;emmanuel.blondel@ird.fr,paul.taconet@ird.fr,paul.taconet@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les espèces utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Balbaya.
 
 // English
 Code list for species used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Balbaya database.",,2017-07-20,,,,,,IRD,"Step1 : The table public.espece was extracted from Balbaya database.
-Step2 : The code list was integrated into the Sardara database",,species.species_ob7_balbaya,
+Step2 : The code list was integrated into the Sardara database",,codelist,species.species_ob7_balbaya,
 species_ob7_observe,Référentiel pour les espèces utilisé par l’Ob7 de l’IRD dans la base de données Observe,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;julien.barde@ird.fr;emmanuel.blondel@ird.fr,paul.taconet@ird.fr,paul.taconet@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les espèces utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Observe.
 
 // English
 Code list for species used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Observe database.",,2017-07-20,,,,,,IRD,"Step1 : The table observe_common.species was extracted from Observe database.
-Step2 : The code list was integrated into the Sardara database",,species.species_ob7_observe,
+Step2 : The code list was integrated into the Sardara database",,codelist,species.species_ob7_observe,
 species_ob7_t3p,Référentiel pour les espèces utilisé par l’Ob7 de l’IRD dans la base de données T3+,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;julien.barde@ird.fr;emmanuel.blondel@ird.fr,paul.taconet@ird.fr,paul.taconet@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les espèces utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données T3+.
 
 // English
 Code list for species used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the T3+ database.",,2017-07-20,,,,,,IRD,"Step1 : The table public.species was extracted from T3+ database.
-Step2 : The code list was integrated into the Sardara database",,species.species_ob7_t3p,
+Step2 : The code list was integrated into the Sardara database",,codelist,species.species_ob7_t3p,
