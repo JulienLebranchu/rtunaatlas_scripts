@@ -39,7 +39,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION area.area_wkt_calc_geom()
-  OWNER TO postgres;
+  OWNER TO %db_admin%;
 GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO %db_admin%;
 GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO %db_datareader%;
 
