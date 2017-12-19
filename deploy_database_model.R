@@ -1,18 +1,18 @@
 ######################################################################
 ##### 52North WPS annotations ##########
 ######################################################################
-# wps.des: id = deploy_database_model, title = Deploy a database on a PostgreSQL+PostGIS server, abstract = Customize the deployement of a database on a server ;
+# wps.des: id = deploy_database_model, title = Deploy a database on a PostgreSQL+PostGIS server, abstract = Customize the deployement of a database on a server. Prerequisites: A PostgreSQL + PostGIS model must be installed on a server. There must be an admin user and a user with select privileges. ;
 # wps.in: id = db_name, type = string, title = Name of the database. , value = "tunaatlas";
 # wps.in: id = host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
 # wps.in: id = password, type = string, title = Password for administrator role of the database. , value = "****";
-# wps.in: id = db_datareader_name, type = string, title = Name of the Read only role. , value = "invsardara";
+# wps.in: id = db_datareader_name, type = string, title = Name of the user with select privileges. , value = "invsardara";
 # wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source";
 # wps.in: id = facts_and_associated_dimensions, type = string, title = Name of the facts to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
 
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
-password="21c0551e7ed2911"
+password="*****"
 db_admin_name="tunaatlas_u"
 db_datareader_name="invsardara"
 dimensions="area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source"
