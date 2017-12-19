@@ -70,10 +70,15 @@ for (i in 1:length(dimensions)){
   dbSendQuery(con,sql_deploy_dimension)
   
   if (dimensions[i]=="area"){
+    # Create table area.area_wkt
     sql_deploy_table_area_wkt<-paste(readLines(paste0(path_to_sql_codes_folder,"create_table_area_wkt.sql")), collapse=" ")
     sql_deploy_table_area_wkt<-gsub("%db_admin%",db_admin_name,sql_deploy_table_area_wkt)
     sql_deploy_table_area_wkt<-gsub("%db_datareader%",db_datareader_name,sql_deploy_table_area_wkt)
     dbSendQuery(con,sql_deploy_table_area_wkt)
+    
+    # Update view area.area_labels
+    sql_deploy_view_area_labels<-paste(readLines(paste0(path_to_sql_codes_folder,"create_view_area_labels.sql")), collapse=" ")
+    
   }
     
   cat(paste0("END deploying dimension ",dimensions[i],"\n"))
