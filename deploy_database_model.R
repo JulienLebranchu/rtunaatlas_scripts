@@ -5,15 +5,15 @@
 # wps.in: id = db_name, type = string, title = Name of the database. , value = "tunaatlas";
 # wps.in: id = host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
-# wps.in: id = password, type = string, title = Password for administrator role of the database. , value = "****";
+# wps.in: id = admin_password, type = string, title = Password for administrator role of the database. , value = "****";
 # wps.in: id = db_datareader_name, type = string, title = Name of the user with select privileges. , value = "invsardara";
 # wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source";
 # wps.in: id = facts_and_associated_dimensions, type = string, title = Name of the facts to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
 
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
-password="*****"
 db_admin_name="tunaatlas_u"
+admin_password="*****"
 db_datareader_name="invsardara"
 dimensions="area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source"
 facts_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
@@ -29,7 +29,7 @@ path_to_sql_codes_folder<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas
 
 # Connect to db with admin rights
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=password, host=host)
+con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=admin_password, host=host)
 
 
 ## 1) Deploy schema metadata and associated tables
