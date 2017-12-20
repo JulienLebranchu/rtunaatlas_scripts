@@ -14,7 +14,7 @@ GRANT SELECT ON TABLE area.area_wkt TO %db_datareader%;
 
 CREATE OR REPLACE FUNCTION area.func_add_new_record_in_link_table_area_wkt()
   RETURNS trigger AS
-$BODY$ BEGIN INSERT INTO area.area ( codesource_area,tablesource_area) VALUES (NEW.code_wkt,'area_wkt') ; RETURN NEW; END; $BODY$
+$BODY$ BEGIN INSERT INTO area.area ( codesource_area,tablesource_area) VALUES (NEW.code,'area_wkt') ; RETURN NEW; END; $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION area.func_add_new_record_in_link_table_area_wkt()
