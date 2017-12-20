@@ -1,9 +1,9 @@
 cat("Generating dataset of metadata...\n")
 # Read metadata file
-if (typeof(path_to_df_metadata)=="character"){
-  df_metadata<-read.csv(path_to_df_metadata,stringsAsFactors = F)
+if (typeof(path_to_metadata_file)=="character"){
+  df_metadata<-read.csv(path_to_metadata_file,stringsAsFactors = F)
 } else {
-  df_metadata<-path_to_df_metadata
+  df_metadata<-path_to_metadata_file
 }
 
 ### Get dataset_time_start and dataset_time_end
