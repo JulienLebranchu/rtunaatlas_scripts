@@ -95,7 +95,7 @@ path_to_raw_dataset=paste(wd,"/dbf_file.DBF",sep="")
   
   ### Compute metadata
   if (path_to_metadata_file!="NULL"){
-    source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/compute_metadata.R")
+    source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/compute_metadata.R")
   } else {
     df_metadata<-NULL
     df_codelists<-NULL
