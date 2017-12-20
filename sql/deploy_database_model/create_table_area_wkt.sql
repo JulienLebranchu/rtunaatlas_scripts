@@ -49,4 +49,4 @@ CREATE TRIGGER trigg_area_wkt_calc_geom
   EXECUTE PROCEDURE area.area_wkt_calc_geom();
 
 
-INSERT INTO area.area_wkt(code) VALUES ("POLYGON((-18.5 6.5,-18.5 7,-18 7,-18 6.5,-18.5 6.5))");
+INSERT INTO area.area_wkt(code) VALUES ('POLYGON((-18.5 6.5,-18.5 7,-18 7,-18 6.5,-18.5 6.5))');
