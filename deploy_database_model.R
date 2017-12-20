@@ -8,15 +8,15 @@
 # wps.in: id = admin_password, type = string, title = Password for administrator role of the database. , value = "****";
 # wps.in: id = db_datareader_name, type = string, title = Name of the user with select privileges. , value = "invsardara";
 # wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source";
-# wps.in: id = facts_and_associated_dimensions, type = string, title = Name of the facts to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
+# wps.in: id = variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
 
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
 db_admin_name="tunaatlas_u"
 admin_password="*****"
 db_datareader_name="invsardara"
-dimensions="area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source"
-facts_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
+dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
+variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
 
 
 if(!require(RPostgreSQL)){
@@ -78,6 +78,9 @@ for (i in 1:length(dimensions)){
     
     # Update view area.area_labels
     sql_deploy_view_area_labels<-paste(readLines(paste0(path_to_sql_codes_folder,"create_view_area_labels.sql")), collapse=" ")
+    sql_deploy_view_area_labels<-gsub("%db_admin%",db_admin_name,sql_deploy_view_area_labels)
+    sql_deploy_view_area_labels<-gsub("%db_datareader%",db_datareader_name,sql_deploy_view_area_labels)
+    dbSendQuery(con,sql_deploy_view_area_labels)
     
   }
     
@@ -86,16 +89,16 @@ for (i in 1:length(dimensions)){
 }
 
 
-## 3) Deploy fact tables
+## 3) Deploy variable tables
 
-facts<-strsplit(facts_and_associated_dimensions, "@")[[1]]
+facts<-strsplit(variables_and_associated_dimensions, "@")[[1]]
 
 for (i in 1:length(facts)){
   
   fact_name<-sub('=.*', '', facts[i])
   dimensions_for_fact<-strsplit(sub('.*=', '', facts[i]),",")[[1]]
 
-  cat(paste0("Deploying fact table ",fact_name," with associated dimensions...\n"))
+  cat(paste0("Deploying variable ",fact_name," with associated dimensions...\n"))
   
   sql_deploy_fact_table<-paste0("CREATE TABLE fact_tables.",fact_name,"(
                                id_",fact_name," SERIAL PRIMARY KEY,

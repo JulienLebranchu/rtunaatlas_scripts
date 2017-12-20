@@ -1,6 +1,6 @@
 CREATE TABLE area.area_wkt
 (
-  code_wkt text NOT NULL,
+  code text NOT NULL,
   geom geometry(Polygon,4326),
   CONSTRAINT code_wkt_pkey PRIMARY KEY (code_wkt)
 )
@@ -26,13 +26,11 @@ CREATE TRIGGER trig_add_new_record_in_link_table_area_wkt
   FOR EACH ROW
   EXECUTE PROCEDURE area.func_add_new_record_in_link_table_area_wkt();
 
-
-
 CREATE OR REPLACE FUNCTION area.area_wkt_calc_geom()
   RETURNS trigger AS
 $BODY$
  BEGIN
- NEW.geom=ST_GeomFromText(NEW.code_wkt, 4326);
+ NEW.geom=ST_GeomFromText(NEW.code, 4326);
  RETURN NEW;
  END;
  $BODY$
@@ -51,3 +49,4 @@ CREATE TRIGGER trigg_area_wkt_calc_geom
   EXECUTE PROCEDURE area.area_wkt_calc_geom();
 
 
+INSERT INTO area.area_wkt(code) VALUES ("POLYGON((-18.5 6.5,-18.5 7,-18 7,-18 6.5,-18.5 6.5))");
