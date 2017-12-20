@@ -91,8 +91,8 @@ efforts <- efforts %>%
   summarise(Effort = sum(Effort))  
 efforts<-as.data.frame(efforts)
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"CCSBT"
 dataset<-efforts
 
 

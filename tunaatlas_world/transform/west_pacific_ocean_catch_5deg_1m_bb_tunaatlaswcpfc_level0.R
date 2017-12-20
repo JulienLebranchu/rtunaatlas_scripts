@@ -83,8 +83,8 @@ catches_pivot_WCPFC$School<-"ALL"
 ### Reach the catches harmonized DSD using a function in WCPFC_functions.R
 colToKeep_captures <- c("Flag","Gear","time_start","time_end","AreaName","School","Species","CatchType","CatchUnits","Catch")
 catches<-WCPFC_CE_catches_pivotDSD_to_harmonizedDSD(catches_pivot_WCPFC,colToKeep_captures)
-
-colnames(catches)<-c("flag","gear","time_start","time_end","area","schooltype","species","catchtype","unit","value")
+catches$source_authority<-"WCPFC"
+colnames(catches)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","species","catchtype","unit","value")
 
 dataset<-catches
 

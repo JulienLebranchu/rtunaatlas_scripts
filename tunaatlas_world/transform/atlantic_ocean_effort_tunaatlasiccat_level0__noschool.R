@@ -101,8 +101,8 @@ efforts_pivot_ICCAT$Flag<-efforts_pivot_ICCAT$FlagCode
 # Reach the efforts harmonized DSD using a function in ICCAT_functions.R
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
 efforts<-ICCAT_CE_effort_pivotDSD_to_harmonizedDSD(efforts_pivot_ICCAT,colToKeep_efforts)
-
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
+efforts$source_authority<-"ICCAT"
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
 
 
 ### Compute metadata

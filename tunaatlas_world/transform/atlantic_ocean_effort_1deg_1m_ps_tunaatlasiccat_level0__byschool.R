@@ -72,8 +72,8 @@ efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_keep_all_efforts(efforts_pivot_ICCAT,c
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
 efforts<-ICCAT_CE_effort_pivotDSD_to_harmonizedDSD(efforts_pivot_ICCAT,colToKeep_efforts)
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"ICCAT"
 dataset<-efforts
 
 

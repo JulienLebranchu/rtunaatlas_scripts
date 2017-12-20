@@ -34,8 +34,8 @@ require(rtunaatlas)
   colToKeep_captures <- c("Flag","Gear","time_start","time_end","AreaName","School","Species","CatchType","CatchUnits","Catch")
   catches<-IATTC_CE_catches_pivotDSD_to_harmonizedDSD(catches_pivot_IATTC,colToKeep_captures)
   
-  colnames(catches)<-c("flag","gear","time_start","time_end","area","schooltype","species","catchtype","unit","value")
-  
+  colnames(catches)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","species","catchtype","unit","value")
+  catches$source_authority<-"IATTC"
   dataset<-catches
   
   

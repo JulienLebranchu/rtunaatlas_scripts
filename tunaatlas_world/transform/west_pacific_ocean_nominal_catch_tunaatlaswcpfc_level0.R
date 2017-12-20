@@ -98,8 +98,8 @@ NC <- NC %>%
 NC<-as.data.frame(NC)
 
 
-colnames(NC)<-c("flag","gear","time_start","time_end","area","schooltype","species","catchtype","unit","value")
-
+colnames(NC)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","species","catchtype","unit","value")
+NC$source_authority<-"WCPFC"
 dataset<-NC
 
 

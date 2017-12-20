@@ -67,8 +67,8 @@ efforts_pivot_WCPFC$Gear<-"D"
 # Reach the efforts harmonized DSD using a function in ICCAT_functions.R
 efforts<-WCPFC_CE_efforts_pivotDSD_to_harmonizedDSD(efforts_pivot_WCPFC,colToKeep_efforts)
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"WCPFC"
 dataset<-efforts
 
 

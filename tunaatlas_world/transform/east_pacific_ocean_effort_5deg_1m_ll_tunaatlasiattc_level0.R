@@ -68,8 +68,8 @@ efforts$SetType<-"ALL"
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
 efforts<-IATTC_CE_efforts_pivotDSD_to_harmonizedDSD(efforts,colToKeep_efforts)
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"IATTC"
 dataset<-efforts
 
 

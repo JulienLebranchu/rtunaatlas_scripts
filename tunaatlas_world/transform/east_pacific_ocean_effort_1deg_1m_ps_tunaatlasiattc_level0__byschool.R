@@ -36,8 +36,8 @@ colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School"
 efforts<-IATTC_CE_efforts_pivotDSD_to_harmonizedDSD(efforts_pivot_IATTC,colToKeep_efforts)
 
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","school","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"IATTC"
 dataset<-efforts
 
 

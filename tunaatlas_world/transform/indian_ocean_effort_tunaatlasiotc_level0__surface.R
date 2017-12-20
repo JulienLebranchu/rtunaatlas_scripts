@@ -74,8 +74,8 @@ colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School"
 efforts<-IOTC_CE_effort_pivotDSD_to_harmonizedDSD(efforts_pivot_IOTC,colToKeep_efforts)
 
 
-colnames(efforts)<-c("flag","gear","time_start","time_end","area","schooltype","unit","value")
-
+colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
+efforts$source_authority<-"IOTC"
 dataset<-efforts
 
 ### Compute metadata
