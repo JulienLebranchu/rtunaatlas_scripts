@@ -2,7 +2,7 @@ CREATE TABLE area.area_wkt
 (
   code text NOT NULL,
   geom geometry(Polygon,4326),
-  CONSTRAINT code_wkt_pkey PRIMARY KEY (code_wkt)
+  CONSTRAINT code_wkt_pkey PRIMARY KEY (code)
 )
 WITH (
   OIDS=FALSE
