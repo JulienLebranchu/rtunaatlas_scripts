@@ -2,7 +2,6 @@ CREATE SCHEMA sizeclass
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA sizeclass TO %db_admin%;
-GRANT USAGE ON SCHEMA sizeclass TO %db_datareader%;
 
 
 
@@ -18,7 +17,6 @@ CREATE TABLE sizeclass.sizeclass
 ALTER TABLE sizeclass.sizeclass
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE sizeclass.sizeclass TO %db_admin%;
-GRANT SELECT ON TABLE sizeclass.sizeclass TO %db_datareader%;
 
 
 CREATE OR REPLACE FUNCTION sizeclass.sizeclass_calc_size_avg()

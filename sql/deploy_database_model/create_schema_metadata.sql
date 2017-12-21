@@ -3,7 +3,6 @@ CREATE SCHEMA metadata
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA metadata TO %db_admin%;
-GRANT USAGE ON SCHEMA metadata TO %db_datareader%;
 
 
 CREATE TABLE metadata.metadata
@@ -38,7 +37,6 @@ dataset_time_end date,
 ALTER TABLE metadata.metadata
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE metadata.metadata TO %db_admin%;
-GRANT SELECT ON TABLE metadata.metadata TO %db_datareader%;
 
 
 CREATE TABLE metadata.metadata_mapping
@@ -59,13 +57,11 @@ CREATE TABLE metadata.metadata_mapping
 ALTER TABLE metadata.metadata_mapping
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE metadata.metadata_mapping TO %db_admin%;
-GRANT SELECT ON TABLE metadata.metadata_mapping TO %db_datareader%;
 
 CREATE SCHEMA fact_tables
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA fact_tables TO %db_admin%;
-GRANT USAGE ON SCHEMA fact_tables TO %db_datareader%;
 
   
 --CREATE TABLE metadata.codelists_codes_labels_column_names
@@ -79,5 +75,4 @@ GRANT USAGE ON SCHEMA fact_tables TO %db_datareader%;
 --ALTER TABLE metadata.codelists_codes_labels_column_names
 --  OWNER TO %db_admin%;
 --GRANT ALL ON TABLE metadata.codelists_codes_labels_column_names TO %db_admin%;
---GRANT SELECT ON TABLE metadata.codelists_codes_labels_column_names TO %db_datareader%;
 

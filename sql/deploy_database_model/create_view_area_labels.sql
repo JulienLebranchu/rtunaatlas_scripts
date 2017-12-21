@@ -37,4 +37,3 @@ area.codesource_area=tab.code::text WHERE area.tablesource_area='area_wkt'::text
 ALTER TABLE area.area_labels
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE area.area_labels TO %db_admin%;
-GRANT SELECT ON TABLE area.area_labels TO %db_datareader%;

@@ -39,7 +39,6 @@ $BODY$
 ALTER FUNCTION area.area_wkt_calc_geom()
   OWNER TO %db_admin%;
 GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO %db_admin%;
-GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO %db_datareader%;
 
 
 CREATE TRIGGER trigg_area_wkt_calc_geom

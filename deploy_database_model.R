@@ -6,15 +6,13 @@
 # wps.in: id = host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
 # wps.in: id = admin_password, type = string, title = Password for administrator role of the database. , value = "****";
-# wps.in: id = db_datareader_name, type = string, title = Name of the user with select privileges. , value = "invsardara";
 # wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,fadclass,flag,gear,schooltype,sex,sizeclass,species,time,source";
 # wps.in: id = variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
 
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
 db_admin_name="tunaatlas_u"
-admin_password="*****"
-db_datareader_name="invsardara"
+admin_password="****"
 dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
 variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
 
@@ -39,7 +37,6 @@ cat(paste0("Deploying schema metadata and tables...\n"))
 fileName <- paste0(path_to_sql_codes_folder,"create_schema_metadata.sql")
 sql_deploy_metadata<-paste(readLines(fileName), collapse=" ")
 sql_deploy_metadata<-gsub("%db_admin%",db_admin_name,sql_deploy_metadata)
-sql_deploy_metadata<-gsub("%db_datareader%",db_datareader_name,sql_deploy_metadata)
 
 dbSendQuery(con,sql_deploy_metadata)
 
@@ -64,7 +61,6 @@ for (i in 1:length(dimensions)){
   
   sql_deploy_dimension<-paste(readLines(fileName), collapse=" ")
   sql_deploy_dimension<-gsub("%db_admin%",db_admin_name,sql_deploy_dimension)
-  sql_deploy_dimension<-gsub("%db_datareader%",db_datareader_name,sql_deploy_dimension)
   sql_deploy_dimension<-gsub("%dimension_name%",dimensions[i],sql_deploy_dimension)
   
   dbSendQuery(con,sql_deploy_dimension)
@@ -73,13 +69,11 @@ for (i in 1:length(dimensions)){
     # Create table area.area_wkt
     sql_deploy_table_area_wkt<-paste(readLines(paste0(path_to_sql_codes_folder,"create_table_area_wkt.sql")), collapse=" ")
     sql_deploy_table_area_wkt<-gsub("%db_admin%",db_admin_name,sql_deploy_table_area_wkt)
-    sql_deploy_table_area_wkt<-gsub("%db_datareader%",db_datareader_name,sql_deploy_table_area_wkt)
     dbSendQuery(con,sql_deploy_table_area_wkt)
     
     # Update view area.area_labels
     sql_deploy_view_area_labels<-paste(readLines(paste0(path_to_sql_codes_folder,"create_view_area_labels.sql")), collapse=" ")
     sql_deploy_view_area_labels<-gsub("%db_admin%",db_admin_name,sql_deploy_view_area_labels)
-    sql_deploy_view_area_labels<-gsub("%db_datareader%",db_datareader_name,sql_deploy_view_area_labels)
     dbSendQuery(con,sql_deploy_view_area_labels)
     
   }
@@ -111,8 +105,7 @@ for (i in 1:length(facts)){
   sql_deploy_fact_table<-paste0(sql_deploy_fact_table,"value numeric(12,2) NOT NULL);ALTER TABLE metadata.metadata
   OWNER TO ",db_admin_name,";
 GRANT ALL ON TABLE fact_tables.",fact_name," TO ",db_admin_name,";
-GRANT SELECT ON TABLE fact_tables.",fact_name," TO ",db_datareader_name,";
-                              
+
 CREATE INDEX id_metadata_",fact_name,"_idx
   ON fact_tables.",fact_name,"
   USING btree

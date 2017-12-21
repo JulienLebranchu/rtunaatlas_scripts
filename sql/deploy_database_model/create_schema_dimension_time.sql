@@ -3,7 +3,6 @@ CREATE SCHEMA "time"
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA "time" TO %db_admin%;
-GRANT USAGE ON SCHEMA "time" TO %db_datareader%;
 
 CREATE TABLE "time"."time"
 (
@@ -24,7 +23,6 @@ CREATE TABLE "time"."time"
 ALTER TABLE "time"."time"
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE "time"."time" TO %db_admin%;
-GRANT SELECT ON TABLE "time"."time" TO %db_datareader%;
 
 
 
