@@ -80,7 +80,7 @@ RFMO_CE$CatchType<-"ALL"
 
 efforts<-RFMO_CE
 
-efforts$EffortUnits<-"HOOKS"
+efforts$EffortUnits<-"NUMBER_OF_HOOKS"
 efforts$Effort<-efforts$NUMBER_OF_HOOKS
 
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
