@@ -72,7 +72,7 @@ RFMO_CE$School<-"ALL"
 
 efforts<-RFMO_CE
 
-efforts$EffortUnits<-"HRSRH"
+efforts$EffortUnits<-"NUMBER_OF_HOURS_SEARCHED"
 efforts$Effort<-efforts$NUMBER_OF_HOURS_SEARCHED
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
 efforts <-efforts[colToKeep_efforts]
