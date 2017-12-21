@@ -113,8 +113,10 @@ catches_pivot_ICCAT$CatchUnits<-catches_pivot_ICCAT$CatchUnit
 ### Reach the catches harmonized DSD using a function in ICCAT_functions.R
 colToKeep_captures <- c("Flag","Gear","time_start","time_end","AreaName","School","Species","CatchType","CatchUnits","Catch")
 catches<-ICCAT_CE_catches_pivotDSD_to_harmonizedDSD(catches_pivot_ICCAT,colToKeep_captures)
-catches$source_authority<-"ICCAT"
 colnames(catches)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","species","catchtype","unit","value")
+catches$source_authority<-"ICCAT"
+
+dataset<-catches
 
 ### Compute metadata
 if (path_to_metadata_file!="NULL"){
