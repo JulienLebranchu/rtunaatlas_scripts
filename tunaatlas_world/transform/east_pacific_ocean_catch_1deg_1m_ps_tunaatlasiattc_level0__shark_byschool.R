@@ -1,8 +1,8 @@
 ######################################################################
 ##### 52North WPS annotations ##########
 ######################################################################
-# wps.des: id = east_pacific_ocean_catch_1deg_1m_ps_tunaatlasiattc_level0__byFlag, title = Harmonize data structure of IATTC PS ByFlag catch datasets, abstract = Harmonize the structure of IATTC catch-and-effort datasets: 'PublicPSBillfishFlag' and 'PublicPSTunaFlag' and 'PublicPSSharkFlag' (pid of output file = east_pacific_ocean_catch_1deg_1m_ps_tunaatlasIATTC_level0__billfish_byFlag or east_pacific_ocean_catch_1deg_1m_ps_tunaatlasIATTC_level0__shark_byFlag or east_pacific_ocean_catch_1deg_1m_ps_tunaatlasIATTC_level0__tuna_byFlag). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
-# wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize. Input file must be structured as follow: https://goo.gl/Q1w7Ur, value = "https://goo.gl/Q1w7Ur";
+# wps.des: id = east_pacific_ocean_catch_1deg_1m_ps_tunaatlasiattc_level0__shark_bySchool, title = Harmonize data structure of IATTC PS Shark BySchool catch datasets, abstract = Harmonize the structure of IATTC catch-and-effort datasets: 'PublicPSSharkSetType' (pid of output file = east_pacific_ocean_catch_1deg_1m_ps_tunaatlasIATTC_level0__shark_bySchool). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
+# wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize. Input file must be structured as follow: https://goo.gl/xaeTwG, value = "https://goo.gl/xaeTwG";
 # wps.in: id = path_to_metadata_file, type = String, title = NULL or path to the csv of metadata. The template file can be found here: https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/metadata_source_datasets_to_database_template.csv . If NULL, no metadata will be outputted., value = "NULL";
 # wps.out: id = zip_namefile, type = text/zip, title = Dataset with structure harmonized + File of metadata (for integration within the Tuna Atlas database) + File of code lists (for integration within the Tuna Atlas database) ; 
 
@@ -22,7 +22,7 @@ require(rtunaatlas)
 
   ##Catches
   
-  catches_pivot_IATTC <-FUN_catches_IATTC_CE_Flag_or_SetType(path_to_raw_dataset,"Flag","PS")
+  catches_pivot_IATTC <-FUN_catches_IATTC_CE_Flag_or_SetType_Shark(path_to_raw_dataset,"SetType","PS")
   catches_pivot_IATTC$NumSets<-NULL
   
   colToKeep_captures <- c("Flag","Gear","time_start","time_end","AreaName","School","Species","CatchType","CatchUnits","Catch")
