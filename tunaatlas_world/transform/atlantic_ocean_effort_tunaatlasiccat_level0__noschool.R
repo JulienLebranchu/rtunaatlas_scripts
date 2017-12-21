@@ -103,7 +103,7 @@ colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School"
 efforts<-ICCAT_CE_effort_pivotDSD_to_harmonizedDSD(efforts_pivot_ICCAT,colToKeep_efforts)
 efforts$source_authority<-"ICCAT"
 colnames(efforts)<-c("flag","gear","time_start","time_end","geographic_identifier","schooltype","unit","value")
-
+dataset<-efforts
 
 ### Compute metadata
 if (path_to_metadata_file!="NULL"){
