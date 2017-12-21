@@ -10,7 +10,6 @@ WITH (
 ALTER TABLE area.area_wkt
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE area.area_wkt TO %db_admin%;
-GRANT SELECT ON TABLE area.area_wkt TO %db_datareader%;
 
 CREATE OR REPLACE FUNCTION area.func_add_new_record_in_link_table_area_wkt()
   RETURNS trigger AS
