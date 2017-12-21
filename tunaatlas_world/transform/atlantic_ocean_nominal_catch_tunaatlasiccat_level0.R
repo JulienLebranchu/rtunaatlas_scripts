@@ -69,6 +69,9 @@ colnames(NC)<-c("flag","gear","time_start","time_end","geographic_identifier","s
 NC$source_authority<-"ICCAT"
 NC %>% mutate_if(is.factor, as.character) -> NC
 
+NC$flag[NC$flag=="Côte d'Ivoire"] <- "Côte D Ivoire"
+NC$flag[NC$flag=="Serbia & Montenegro"] <- "Serbia and Montenegro"
+
 dataset<-NC
 
 ### Compute metadata
