@@ -29,7 +29,7 @@ if ("time_start" %in% colnames(dataset)){
 
 dimensions<-substring(dimensions, 2)
 
-df_metadata$subject<-paste0(df_metadata$subject,"; DIMENSIONS =",dimensions)
+df_metadata$subject<-paste0("DIMENSIONS =",dimensions," ; ",df_metadata$subject)
 
 ### Get datasets of code lists to load the dataset in the DB
 df_codelists<-read.csv(df_metadata$source_dataset_path_csv_codelists)
