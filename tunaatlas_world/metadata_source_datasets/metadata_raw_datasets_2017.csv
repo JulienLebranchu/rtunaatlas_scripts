@@ -373,7 +373,7 @@ Caracteristics, specific issues and problems that need to be taken into accountÂ
 
 The file contain data provided by Members and Cooperating Non-Members. No attempt has been made to convert numbers to weight or weight to numbers.
 
-Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-08-17,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was downloaded on the %date_download% at this URL: %relation_source_dataset% reached through this web page: %relation_source_download% 
+Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-08-17,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was sent by the data manager on the %date_download%
 step2: Through a dedicated R script, the dataset was restructured to be in line with the Tuna Atlas database structure (columns normalization, names, etc.). However the content of data and the code lists were kept exactly as their are available in the source dataset.
 step3: The dataset was exported in CSV format.
 step4: The CSV file was integrated into the Tuna Atlas database.",,fact_tables.catch,tunaatlas_iattc.epo_catch_5deg_1m_ll_tunaatlasIATTC_level0__shark,2017,PublicCatchOrigFormatShark,csv,http://data.d4science.org/QnR6NEUveTNlTit6R2hYM1ZXaElma1h5UlJaYmpSQVJHbWJQNStIS0N6Yz0,https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/east_pacific_ocean_catch_5deg_1m_ll_tunaatlasiattc_level0.R,http://data.d4science.org/MForaHVJTUtEbCtZdFBua3lVbFNXSmVmMjdMSk9yVFhHbWJQNStIS0N6Yz0
@@ -390,7 +390,7 @@ Caracteristics, specific issues and problems that need to be taken into accountÂ
 
 The file contain data provided by Members and Cooperating Non-Members.
 
-Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-08-17,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was downloaded on the %date_download% at this URL: %relation_source_dataset% reached through this web page: %relation_source_download% 
+Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-08-17,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was sent by the data manager on the %date_download%
 step2: Through a dedicated R script, the dataset was restructured to be in line with the Tuna Atlas database structure (columns normalization, names, etc.). However the content of data and the code lists were kept exactly as their are available in the source dataset.
 step3: The dataset was exported in CSV format.
 step4: The CSV file was integrated into the Tuna Atlas database.",,fact_tables.effort,tunaatlas_iattc.epo_effort_5deg_1m_ll_tunaatlasIATTC_level0__shark,2017,PublicEffortOrigFormatShark,csv,http://data.d4science.org/anNzR0dWUjZBb1d6R2hYM1ZXaElmbU0wOVNJVTMyS1pHbWJQNStIS0N6Yz0,https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/east_pacific_ocean_effort_5deg_1m_ll_tunaatlasiattc_level0.R,http://data.d4science.org/cHlnTlZhTlNmeXVZdFBua3lVbFNXQkdNN0FHZThINjZHbWJQNStIS0N6Yz0
@@ -405,7 +405,7 @@ Caracteristics, specific issues and problems that need to be taken into accountÂ
 
 The file contain data provided by Members and Cooperating Non-Members. No attempt has been made to convert numbers to weight or weight to numbers.
 
-Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-03-24,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was downloaded on the %date_download% at this URL: %relation_source_dataset% reached through this web page: %relation_source_download% 
+Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-03-24,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was sent by the data manager on the %date_download%
 step2: Through a dedicated R script, the dataset was restructured to be in line with the Tuna Atlas database structure (columns normalization, names, etc.). However the content of data and the code lists were kept exactly as their are available in the source dataset.
 step3: The dataset was exported in CSV format.
 step4: The CSV file was integrated into the Tuna Atlas database.",,fact_tables.catch,tunaatlas_iattc.epo_catch_5deg_1m_ll_tunaatlasIATTC_level0__tuna_billfish,2017,PublicCatchOrigFormat,csv,http://data.d4science.org/V3ZvT0t2KzNQSE96R2hYM1ZXaElmaFBCMUxPWVVDOFFHbWJQNStIS0N6Yz0,https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/east_pacific_ocean_catch_5deg_1m_ll_tunaatlasiattc_level0.R,http://data.d4science.org/MForaHVJTUtEbCtZdFBua3lVbFNXSmVmMjdMSk9yVFhHbWJQNStIS0N6Yz0
@@ -421,7 +421,7 @@ The description below (caracteristics, specific issues and problems that need to
 Caracteristics, specific issues and problems that need to be taken into accountÂ :
 
 The file contain data provided by Members and Cooperating Non-Members.
-Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-03-24,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was downloaded on the %date_download% at this URL: %relation_source_dataset% reached through this web page: %relation_source_download% 
+Estimated East Pacific Ocean tuna catch totals are presented in the IATTC Fishery Status Reports (http://www.iattc.org/FisheryStatusReportsENG.htm).",2016-12-01,2017-03-24,,,Asked to and provided by Nick Vogel by e-mail,,,IATTC,"step1: The dataset was sent by the data manager on the %date_download%
 step2: Through a dedicated R script, the dataset was restructured to be in line with the Tuna Atlas database structure (columns normalization, names, etc.). However the content of data and the code lists were kept exactly as their are available in the source dataset.
 step3: The dataset was exported in CSV format.
 step4: The CSV file was integrated into the Tuna Atlas database.",,fact_tables.effort,tunaatlas_iattc.epo_effort_5deg_1m_ll_tunaatlasIATTC_level0__tuna_billfish,2017,PublicEffortOrigFormat,csv,http://data.d4science.org/V3ZvT0t2KzNQSE96R2hYM1ZXaElmcXlBb0ZnUWJqb21HbWJQNStIS0N6Yz0,https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/east_pacific_ocean_effort_5deg_1m_ll_tunaatlasiattc_level0.R,http://data.d4science.org/cHlnTlZhTlNmeXVZdFBua3lVbFNXQkdNN0FHZThINjZHbWJQNStIS0N6Yz0
