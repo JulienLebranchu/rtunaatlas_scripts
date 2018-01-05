@@ -14,7 +14,7 @@
 # wps.in: id = mapping_keep_src_code, type = boolean, title = Use only if parameter mapping_map_code_lists is set to TRUE. In case of code list mapping (mapping_map_code_lists==TRUE) keep source coding system column? TRUE : conserve in the output dataset both source and target coding systems columns. FALSE : conserve only target coding system. , value=FALSE ;
 # wps.in: id = SBF_data_rfmo_to_keep, type = string, title = Concerns Southern Bluefin Tuna (SBF) data. Use only if parameter include_CCSBT is set to TRUE. SBF tuna data do exist in both CCSBT data and the other tuna RFMOs data. Wich data should be kept? CCSBT : CCSBT data are kept for SBF. other_trfmos : data from the other TRFMOs are kept for SBF. NULL : Keep data from all the tRFMOs. Caution: with the option NULL, data in the overlapping zones are likely to be redundant., value = "CCSBT|other_trfmos|NULL";
 # wps.out: id = zip_namefile, type = text/zip, title = Outputs are 3 csv files: the dataset of georeferenced catches + a dataset of metadata (including informations on the computation, i.e. how the primary datasets were transformed by each correction) [TO DO] + a dataset providing the code lists used for each dimension (column) of the output dataset [TO DO]. All outputs and codes are compressed within a single zip file. ; 
-#dfjdkfj
+
 
 if(!require(rtunaatlas)){
   if(!require(devtools)){
@@ -40,21 +40,30 @@ require(data.table)
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/"
 
 # connect to Sardara DB
-con<-rtunaatlas::db_connection_sardara_world()
+con<-rtunaatlas::db_connection_tunaaltas_world()
+
+# initialize metadata elements
+contact_originator<-NULL
+lineage<-NULL
+description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
+supplemental_information<-NULL
 
 #### 1) Retrieve tuna RFMOs data from Sardara DB at level 0. 
 cat("Begin: Retrieving primary datasets from Sardara DB... \n")
   source(paste0(url_scripts_create_own_tuna_atlas,"retrieve_nominal_catch.R"))
 cat("Retrieving primary datasets from Sardara DB OK\n")
 
+description<-paste0(description,"- The primary nominal (also called total) catch datasets released by the tuna RFMOs were merged.\n")
+lineage<-c(lineage,"All the datasets were merged")
+
 
 #### 2) Map code lists 
 
 if (mapping_map_code_lists==TRUE){
   source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
-  cat("Mapping code lists of nominal georef_dataset datasets...\n")
+  cat("Mapping code lists...\n")
   nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
-  cat("Mapping code lists of nominal georef_dataset datasets OK\n")
+  cat("Mapping code lists OK\n")
   }
 
 
@@ -70,6 +79,11 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 
 
 output_dataset<-nominal_catch %>% group_by_(.dots = setdiff(colnames(nominal_catch),"value")) %>% summarize(value=sum(value))
+
+# fill metadata elements
+description<-paste0(description," More details on the processes are provided in the supplemental information and in the lineage section.")
+supplemental_information<-paste0(supplemental_information,"- Catches in the Pacific ocean are over-estimated. In fact, IATTC and WCPFC, who report the data respectively for the Eastern Pacific and Western Pacific oceans, have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone.
+- Geographical stratification in this dataset is : major FAO fishing area for the Indian ocean (IOTC), sampling areas for the Atlantic ocean (ICCAT), whole areas of competence of the respective RFMOs for the Pacific ocean (IATTC and WCPFC), area of competence of the CCSBT for the Southern Bluefin tuna.")
 
 dbDisconnect(con)
 

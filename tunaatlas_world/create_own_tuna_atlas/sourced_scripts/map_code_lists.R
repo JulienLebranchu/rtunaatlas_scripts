@@ -23,5 +23,9 @@ function_map_dataset_codelists<-function(dataset_to_map,mapping_dataset,mapping_
   return(dataset_to_map)
 }
 
+# fill metadata elements
+lineage<-c(lineage,paste0("Coding systems and nomenclatures used to describe the data (e.g. gears, flags, species) may differ according to tRFMOs. Codes used by the tuna RFMOs in their respective datasets were mapped to global code lists (ISSCFG, ISO3 countries codes, ASFIS). These mappings have been done with the collaboration of the Secretariats. Some codes could not have been mapped to standard code lists, for some tRFMOs own-defined codes that usually are aggregation of existing codes (e.g. flag “IDPH” - Indonesia and Philippines – for WCPFC; species “Otun” - other tuna – for ICCAT). In those cases, the code for species was set to UNK (Unknown). However, these codes have been mapped with more aggregated code lists – i.e. group of species. Information regarding the data that have species set to Unknown (i.e. data for which raw species do not have any correspondence in ASFIS): the catches that have species set to Unknown represent percentage_catches_species_unknown_mt % of the catches expressed in weight and percentage_catches_species_unknown_no % of the catches expressed in number of fishes."))
+description<-paste0(description,"- Original code were mapped with standard FAO code lists (for gears, species, flags). These mappings were in collaboration with the RFMOs secretariats.\n")
+supplemental_information<-paste0(supplemental_information,"- Some codes could not have been mapped to standard code lists, for some tRFMOs own-defined codes that usually are aggregation of existing codes (e.g. flag IDPH - Indonesia and Philippines for WCPFC; species Otun - other tuna for ICCAT). In those cases, the code for species was set to UNK (Unknown). However, these codes have been mapped with more aggregated code lists i.e. group of species.\n")
 
 cat("Mapping code lists OK\n")
