@@ -6,7 +6,7 @@ cat("Reading the conversion factors dataset\n")
 df_conversion_factor=read.csv(unit_conversion_csv_conversion_factor_url,stringsAsFactors = F,colClasses="character")
 
 ## If we have not mapped the code lists (i.e. if mapping_map_code_lists==FALSE), we need to map the source gear coding system with ISSCFG coding system. In fact, the conversion factors dataset is expressed with ISSCFG coding system for gears, while the primary tRFMOs datasets are expressed with their own gear coding system.
-if (mapping_map_code_lists==FALSE){
+if (mapping_map_code_lists=="FALSE"){
   source_authority<-c("IOTC","ICCAT","IATTC","WCPFC","CCSBT")
   db_mapping_dataset_name<-c("codelist_mapping_gear_iotc_isscfg_revision_1","codelist_mapping_gear_iccat_isscfg_revision_1","codelist_mapping_gear_iattc_isscfg_revision_1","codelist_mapping_gear_wcpfc_isscfg_revision_1","codelist_mapping_gear_ccsbt_isscfg_revision_1")
   mapping_dataset<-data.frame(source_authority,db_mapping_dataset_name)
@@ -18,7 +18,6 @@ if (mapping_map_code_lists==FALSE){
   }
   #georef_dataset with source coding system for gears mapped with isscfg codes:
   georef_dataset<-rtunaatlas::map_codelist(georef_dataset,df_mapping_final_this_dimension,"gear",TRUE)$df
-  
   # change column names before the conversion of units
   colnames(georef_dataset)[colnames(georef_dataset) == 'gear'] <- 'gear_original_codes'
   colnames(georef_dataset)[colnames(georef_dataset) == 'gear_mapping'] <- 'gear'
@@ -41,7 +40,7 @@ georef_dataset<-rtunaatlas::convert_units(con = con,
 
 georef_dataset<-georef_dataset$df
 
-if (mapping_map_code_lists==FALSE){
+if (mapping_map_code_lists=="FALSE"){
   # resetting gear coding system to primary gear coding system
   georef_dataset$gear<-NULL
   colnames(georef_dataset)[colnames(georef_dataset) == 'gear_original_codes'] <- 'gear'

@@ -59,7 +59,7 @@ lineage<-c(lineage,"All the datasets were merged")
 
 #### 2) Map code lists 
 
-if (mapping_map_code_lists==TRUE){
+if (mapping_map_code_lists=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
   cat("Mapping code lists...\n")
   nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)

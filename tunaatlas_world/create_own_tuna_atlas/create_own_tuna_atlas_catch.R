@@ -67,7 +67,7 @@ cat("Begin: Retrieving primary datasets from Sardara DB... \n")
 catch<-NULL 
 
 ## IOTC 
-if (include_IOTC==TRUE){
+if (include_IOTC=="TRUE"){
   cat("Retrieving IOTC georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::iotc_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
@@ -79,7 +79,7 @@ if (include_IOTC==TRUE){
 }
 
 ## WCPFC
-if (include_WCPFC==TRUE){
+if (include_WCPFC=="TRUE"){
   cat("Retrieving WCPFC georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::wcpfc_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
@@ -91,7 +91,7 @@ if (include_WCPFC==TRUE){
 }
 
 ## CCSBT
-if (include_CCSBT==TRUE){
+if (include_CCSBT=="TRUE"){
   cat("Retrieving CCSBT georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::ccsbt_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
@@ -103,7 +103,7 @@ if (include_CCSBT==TRUE){
 }
 
 ## IATTC
-if (include_IATTC==TRUE){
+if (include_IATTC=="TRUE"){
   cat("Retrieving IATTC georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::iattc_catch_level0(datasets_year_release,
                                              raise_flags_to_schooltype=iattc_raise_flags_to_schooltype,
@@ -117,7 +117,7 @@ if (include_IATTC==TRUE){
 }
 
 ## ICCAT
-if (include_ICCAT==TRUE){
+if (include_ICCAT=="TRUE"){
   cat("Retrieving ICCAT georeferenced catch from Sardara database...\n")
   rfmo_catch<-rtunaatlas::iccat_catch_level0(datasets_year_release,
                                              include_type_of_school=iccat_include_type_of_school)
@@ -133,15 +133,15 @@ georef_dataset<-catch
 rm(catch)
 
 ### 1.2 If data will be raised, retrieve nominal catch datasets
-if (raising_georef_to_nominal==TRUE){
+if (raising_georef_to_nominal=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"retrieve_nominal_catch.R"))
 }
 
 cat("Retrieving primary datasets from Sardara DB OK\n")
 
 # fill metadata elements
-if (include_ICCAT==TRUE){
-  if(iccat_include_type_of_school==TRUE){
+if (include_ICCAT=="TRUE"){
+  if(iccat_include_type_of_school=="TRUE"){
     lineage_iccat="Both datasets were combined to produce a dataset that covers the whole time period, with fishing mode information (Fad | free school)."
   } else {
     lineage_iccat="Only the dataset without the type of school was used. Hence, the output dataset does not have the information on fishing mode for ICCAT Purse seine data."
@@ -149,8 +149,8 @@ if (include_ICCAT==TRUE){
 lineage<-c(lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
 }
 
-if (include_IATTC==TRUE){
-  if (iattc_raise_flags_to_schooltype==TRUE){
+if (include_IATTC=="TRUE"){
+  if (iattc_raise_flags_to_schooltype=="TRUE"){
     lineage_iattc<-"For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum."
     supplemental_information<-paste0(supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum.\n")
     } else {
@@ -173,14 +173,14 @@ description<-paste0(description,"- Catch-and-effort data are disseminated in suc
 
 #### 2) Map code lists 
 
-if (mapping_map_code_lists==TRUE){
+if (mapping_map_code_lists=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
   
   cat("Mapping code lists of georeferenced georef_dataset datasets...\n")
   georef_dataset<-function_map_dataset_codelists(georef_dataset,mapping_dataset,mapping_keep_src_code)
   cat("Mapping code lists of georeferenced georef_dataset datasets OK\n")
   
-  if(raising_georef_to_nominal==TRUE){
+  if(raising_georef_to_nominal=="TRUE"){
     cat("Mapping code lists of nominal georef_dataset datasets...\n")
     nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
     cat("Mapping code lists of nominal georef_dataset datasets OK\n")
@@ -197,14 +197,14 @@ if (gear_filter!="NULL"){
 
 #### 4) Convert units
 
-if (unit_conversion_convert==TRUE){ 
+if (unit_conversion_convert=="TRUE"){ 
   source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
 }
 
 
 #### 5) Raise georeferenced georef_dataset to total (nominal) georef_dataset
 
-if (raising_georef_to_nominal==TRUE) {   
+if (raising_georef_to_nominal=="TRUE") {   
   source(paste0(url_scripts_create_own_tuna_atlas,"raising_georef_to_nominal.R"))
 } 
 
@@ -213,17 +213,17 @@ if (raising_georef_to_nominal==TRUE) {
 #### 6) Spatial Aggregation / Disaggregation of data
 
 ## 6.1 Aggregate data on 5° resolution quadrants
-if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg==TRUE) { 
+if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE") { 
   source(paste0(url_scripts_create_own_tuna_atlas,"aggregate_on_5deg_data_with_resolution_inferior_to_5deg.R"))
 } 
 
 ## 6.2 Disggregate data on 5° resolution quadrants
-if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg==TRUE) { 
+if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg=="TRUE") { 
   source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_5deg_data_with_resolution_superior_to_5deg.R"))
 } 
 
 ## 6.3 Disggregate data on 1° resolution quadrants
-if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg==TRUE) { 
+if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg=="TRUE") { 
   source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_1deg_data_with_resolution_superior_to_1deg.R"))
 } 
 

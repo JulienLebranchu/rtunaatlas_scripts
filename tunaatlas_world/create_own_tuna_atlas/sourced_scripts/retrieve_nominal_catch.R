@@ -17,7 +17,7 @@ nominal_catch_datasets_permanent_identifiers<-c("indian_ocean_nominal_catch_tuna
 nominal_catch_contact_originators<-c("fabio.fiorellato@iotc.org","nvogel@iattc.org","PeterW@spc.int","CMillar@ccsbt.org","carlos.palma@iccat.int")
 nominal_catch_datasets_permanent_identifiers_to_keep<-NULL
 for (i in 1:length(include_rfmo)){
-  if (include_rfmo[i]==TRUE){
+  if (include_rfmo[i]=="TRUE"){
     nominal_catch_datasets_permanent_identifiers_to_keep<-paste0(nominal_catch_datasets_permanent_identifiers_to_keep,",'",nominal_catch_datasets_permanent_identifiers[i],"'")
     
     # fill metadata elements
@@ -31,7 +31,7 @@ rfmo_nominal_catch_metadata<-dbGetQuery(con,paste0("SELECT * from metadata.metad
 nominal_catch<-rtunaatlas::extract_and_merge_multiple_datasets(con,rfmo_nominal_catch_metadata,columns_to_keep=c("source_authority","species","gear","flag","time_start","time_end","geographic_identifier","unit","value"))
 
 # For ICCAT Nominal catch, we need to map flag code list, because flag code list used in nominal catch dataset is different from flag code list used in ICCAT task2; however we have to use the same flag code list for data raising. In other words, we express all ICCAT datasets following ICCAT task2 flag code list.
-if (include_ICCAT==TRUE){
+if (include_ICCAT=="TRUE"){
   # extract mapping
   df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,dataset_name="codelist_mapping_flag_iccat_from_ncandcas_flag_iccat"))
   df_mapping$source_authority<-"ICCAT"
