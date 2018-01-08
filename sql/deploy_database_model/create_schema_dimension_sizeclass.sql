@@ -3,6 +3,7 @@ CREATE SCHEMA sizeclass
 
 GRANT ALL ON SCHEMA sizeclass TO %db_admin%;
 
+ALTER DEFAULT PRIVILEGES IN SCHEMA sizeclass GRANT SELECT ON TABLES TO %db_read_name%;
 
 
 CREATE TABLE sizeclass.sizeclass

@@ -4,6 +4,9 @@ CREATE SCHEMA %dimension_name%
 
 GRANT ALL ON SCHEMA %dimension_name% TO %db_admin%;
 
+ALTER DEFAULT PRIVILEGES IN SCHEMA %dimension_name% GRANT SELECT ON TABLES TO %db_read_name%;
+
+
 CREATE TABLE %dimension_name%.%dimension_name%
 (
   id_%dimension_name% serial NOT NULL,

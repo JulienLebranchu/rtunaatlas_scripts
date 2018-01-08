@@ -3,6 +3,7 @@ CREATE SCHEMA metadata
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA metadata TO %db_admin%;
+ALTER DEFAULT PRIVILEGES IN SCHEMA metadata GRANT SELECT ON TABLES TO %db_read_name%;
 
 
 CREATE TABLE metadata.metadata
