@@ -5,6 +5,7 @@
 # wps.in: id = db_name, type = string, title = Name of the database. , value = "tunaatlas";
 # wps.in: id = host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
+# wps.in: id = db_read_name, type = string, title = Name of the user role with select privileges. , value = "invsardara";
 # wps.in: id = admin_password, type = string, title = Password for administrator role of the database. , value = "****";
 # wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
 # wps.in: id = variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
@@ -12,7 +13,8 @@
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
 db_admin_name="tunaatlas_u"
-admin_password="****"
+db_read_name="tunaatlas_inv"
+admin_password="21c0551e7ed2911"
 dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
 variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
 
@@ -29,6 +31,8 @@ path_to_sql_codes_folder<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas
 drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=admin_password, host=host)
 
+# Preliminary step: grant select on all objects of the DB to the user with select privileges
+dbSendQuery(con,paste0("alter default privileges grant select on tables to ",db_read_name))
 
 ## 1) Deploy schema metadata and associated tables
 
@@ -37,6 +41,7 @@ cat(paste0("Deploying schema metadata and tables...\n"))
 fileName <- paste0(path_to_sql_codes_folder,"create_schema_metadata.sql")
 sql_deploy_metadata<-paste(readLines(fileName), collapse=" ")
 sql_deploy_metadata<-gsub("%db_admin%",db_admin_name,sql_deploy_metadata)
+sql_deploy_metadata<-gsub("%db_read%",db_read_name,sql_deploy_metadata)
 
 dbSendQuery(con,sql_deploy_metadata)
 
@@ -62,6 +67,7 @@ for (i in 1:length(dimensions)){
   sql_deploy_dimension<-paste(readLines(fileName), collapse=" ")
   sql_deploy_dimension<-gsub("%db_admin%",db_admin_name,sql_deploy_dimension)
   sql_deploy_dimension<-gsub("%dimension_name%",dimensions[i],sql_deploy_dimension)
+  sql_deploy_dimension<-gsub("%db_read%",db_read_name,sql_deploy_dimension)
   
   dbSendQuery(con,sql_deploy_dimension)
   
@@ -77,7 +83,7 @@ for (i in 1:length(dimensions)){
     dbSendQuery(con,sql_deploy_view_area_labels)
     
   }
-    
+  
   cat(paste0("END deploying dimension ",dimensions[i],"\n"))
   
 }
