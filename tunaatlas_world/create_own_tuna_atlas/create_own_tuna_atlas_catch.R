@@ -52,7 +52,7 @@ require(data.table)
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/"
 
 # connect to Sardara DB
-con<-rtunaatlas::db_connection_tunaaltas_world()
+con<-rtunaatlas::db_connection_tunaatlas_world()
 
 # initialize metadata elements
 contact_originator<-NULL
@@ -68,43 +68,43 @@ catch<-NULL
 
 ## IOTC 
 if (include_IOTC=="TRUE"){
-  cat("Retrieving IOTC georeferenced catch from Sardara database...\n")
+  cat("Retrieving IOTC georeferenced catch from the Tuna atlas database...\n")
   rfmo_catch<-rtunaatlas::iotc_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,";fabio.fiorellato@iotc.org")
+  contact_originator<-paste0(contact_originator,"fabio.fiorellato@iotc.org")
   lineage<-c(lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
-  cat("Retrieving IOTC georeferenced catch from Sardara database OK\n")
+  cat("Retrieving IOTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
 ## WCPFC
 if (include_WCPFC=="TRUE"){
-  cat("Retrieving WCPFC georeferenced catch from Sardara database...\n")
+  cat("Retrieving WCPFC georeferenced catch from the Tuna atlas database...\n")
   rfmo_catch<-rtunaatlas::wcpfc_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
   contact_originator<-paste0(contact_originator,";PeterW@spc.int")
   lineage<-c(lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
-  cat("Retrieving WCPFC georeferenced catch from Sardara database OK\n")
+  cat("Retrieving WCPFC georeferenced catch from the Tuna atlas database OK\n")
 }
 
 ## CCSBT
 if (include_CCSBT=="TRUE"){
-  cat("Retrieving CCSBT georeferenced catch from Sardara database...\n")
+  cat("Retrieving CCSBT georeferenced catch from the Tuna atlas database...\n")
   rfmo_catch<-rtunaatlas::ccsbt_catch_level0(datasets_year_release)
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
   contact_originator<-paste0(contact_originator,";CMillar@ccsbt.org")
   lineage<-c(lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
-  cat("Retrieving CCSBT georeferenced catch from Sardara database OK\n")
+  cat("Retrieving CCSBT georeferenced catch from the Tuna atlas database OK\n")
 }
 
 ## IATTC
 if (include_IATTC=="TRUE"){
-  cat("Retrieving IATTC georeferenced catch from Sardara database...\n")
+  cat("Retrieving IATTC georeferenced catch from the Tuna atlas database...\n")
   rfmo_catch<-rtunaatlas::iattc_catch_level0(datasets_year_release,
                                              raise_flags_to_schooltype=iattc_raise_flags_to_schooltype,
                                              dimension_to_use_if_no_raising_flags_to_schooltype=iattc_dimension_to_use_if_no_raising_flags_to_schooltype)
@@ -113,12 +113,12 @@ if (include_IATTC=="TRUE"){
   # fill metadata elements
   contact_originator<-paste0(contact_originator,";nvogel@iattc.org")
   lineage<-c(lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
-  cat("Retrieving IATTC georeferenced catch from Sardara database OK\n")
+  cat("Retrieving IATTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
 ## ICCAT
 if (include_ICCAT=="TRUE"){
-  cat("Retrieving ICCAT georeferenced catch from Sardara database...\n")
+  cat("Retrieving ICCAT georeferenced catch from the Tuna atlas database...\n")
   rfmo_catch<-rtunaatlas::iccat_catch_level0(datasets_year_release,
                                              include_type_of_school=iccat_include_type_of_school)
   catch<-rbind(catch,rfmo_catch)
@@ -126,7 +126,7 @@ if (include_ICCAT=="TRUE"){
   # fill metadata elements
   contact_originator<-paste0(contact_originator,";carlos.palma@iccat.int")
   lineage<-c(lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
-  cat("Retrieving ICCAT georeferenced catch from Sardara database OK\n")
+  cat("Retrieving ICCAT georeferenced catch from the Tuna atlas database OK\n")
 }
 
 georef_dataset<-catch
@@ -137,9 +137,9 @@ if (raising_georef_to_nominal=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"retrieve_nominal_catch.R"))
 }
 
-cat("Retrieving primary datasets from Sardara DB OK\n")
+cat("Retrieving primary datasets from the Tuna atlas DB OK\n")
 
-# fill metadata elements
+# fill some metadata elements
 if (include_ICCAT=="TRUE"){
   if(iccat_include_type_of_school=="TRUE"){
     lineage_iccat="Both datasets were combined to produce a dataset that covers the whole time period, with fishing mode information (Fad | free school)."

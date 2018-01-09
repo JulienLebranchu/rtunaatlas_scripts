@@ -65,7 +65,7 @@ for (k in 1:nrow(table_metadata_mappings)){
   } else { file_remote=FALSE }
   
   # Read code list
-  df_to_load<-read.csv(df_metadata$source_dataset_path_dataset,stringsAsFactors = FALSE )
+  df_to_load<-read.csv(df_metadata$source_dataset_path_dataset,stringsAsFactors = FALSE,colClasses="character" )
   
   # harmonize metadata
   df_metadata<-rtunaatlas::generate_metadata(df_metadata,"mapping")

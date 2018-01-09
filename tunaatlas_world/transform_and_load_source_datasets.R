@@ -14,7 +14,7 @@ path_to_table_metadata_raw_datasets<-"https://raw.githubusercontent.com/ptaconet
 db_name="tunaatlas"
 host="db-tuna.d4science.org"
 db_admin_name="tunaatlas_u"
-admin_password="****"
+admin_password="21c0551e7ed2911"
 
 
 
