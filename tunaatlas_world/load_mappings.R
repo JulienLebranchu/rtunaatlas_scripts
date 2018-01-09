@@ -64,7 +64,8 @@ for (k in 1:nrow(table_metadata_mappings)){
     cat(paste0("END downloading the file locally\n"))
   } else { file_remote=FALSE }
   
-  # Read code list
+  # Read code list mapping
+  cat(paste0("Reading the file...\n"))
   df_to_load<-read.csv(df_metadata$source_dataset_path_dataset,stringsAsFactors = FALSE,colClasses="character" )
   
   # harmonize metadata

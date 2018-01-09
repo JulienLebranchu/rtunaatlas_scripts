@@ -65,6 +65,7 @@ for (k in 1:nrow(table_metadata_codelists)){
   } else { file_remote=FALSE }
   
   # Read code list. All the columns are read as characters
+  cat(paste0("Reading the file...\n"))
   df_to_load<-read.csv(df_metadata$source_dataset_path_dataset,stringsAsFactors = FALSE,colClasses=c("code"="character"))
 
   # harmonize metadata
