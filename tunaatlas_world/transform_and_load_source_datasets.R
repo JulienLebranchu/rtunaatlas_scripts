@@ -87,7 +87,10 @@ for (df_to_harmonize in 1:nrow(table_metadata_raw_datasets)){
   #### 2) Load dataset and metadata in the database
   cat(paste0("Start load in the database of ",table_metadata_raw_datasets$persistent_identifier[df_to_harmonize],"...\n"))
   
-  df_codelists <- data.frame(lapply(df_codelists, as.character), stringsAsFactors=FALSE)
+  ### Get datasets of code lists to load the dataset in the DB
+  df_codelists<-read.csv(df_metadata$source_dataset_path_csv_codelists)
+  df_codelists<-data.frame(lapply(df_codelists, as.character), stringsAsFactors=FALSE)
+  
   # Load the dataset in database
   rtunaatlas::load_raw_dataset_in_db(con=con,
                                   df_to_load=dataset,

@@ -31,9 +31,6 @@ dimensions<-substring(dimensions, 2)
 
 df_metadata$subject<-paste0("DIMENSIONS =",dimensions," ; ",df_metadata$subject)
 
-### Get datasets of code lists to load the dataset in the DB
-df_codelists<-read.csv(df_metadata$source_dataset_path_csv_codelists)
-
 # generate metadata file
 df_metadata<-rtunaatlas::generate_metadata(df_metadata,"raw_dataset")
 
