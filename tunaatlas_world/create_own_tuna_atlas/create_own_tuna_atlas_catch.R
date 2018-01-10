@@ -85,7 +85,7 @@ if (include_WCPFC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,";PeterW@spc.int")
+  contact_originator<-paste(contact_originator,"PeterW@spc.int",sep=";")
   lineage<-c(lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving WCPFC georeferenced catch from the Tuna atlas database OK\n")
 }
@@ -97,7 +97,7 @@ if (include_CCSBT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,";CMillar@ccsbt.org")
+  contact_originator<-paste(contact_originator,"CMillar@ccsbt.org",sep=";")
   lineage<-c(lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving CCSBT georeferenced catch from the Tuna atlas database OK\n")
 }
@@ -111,7 +111,7 @@ if (include_IATTC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,";nvogel@iattc.org")
+  contact_originator<-paste(contact_originator,"nvogel@iattc.org",sep=";")
   lineage<-c(lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IATTC georeferenced catch from the Tuna atlas database OK\n")
 }
@@ -124,7 +124,7 @@ if (include_ICCAT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,";carlos.palma@iccat.int")
+  contact_originator<-paste(contact_originator,"carlos.palma@iccat.int",sep=";")
   lineage<-c(lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving ICCAT georeferenced catch from the Tuna atlas database OK\n")
 }
