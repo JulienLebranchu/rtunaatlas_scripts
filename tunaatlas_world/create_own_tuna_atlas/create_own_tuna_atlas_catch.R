@@ -51,8 +51,8 @@ require(data.table)
 
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/"
 
-# connect to Sardara DB. TO DECOMMENT WHEN tunaatlas_inv IS SET
-# con<-rtunaatlas::db_connection_tunaatlas_world()
+# connect to Tuna atlas database
+con<-rtunaatlas::db_connection_tunaatlas_world()
 
 # initialize metadata elements
 contact_originator<-NULL
@@ -258,13 +258,37 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 
 
 
-output_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
+dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
 
-# dbDisconnect(con).   TO DECOMMENT WHEN tunaatlas_inv IS SET
+dbDisconnect(con)
 
 ## fill some metadata elements
 description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
 supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+
+
+## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
+if (include_IOTC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/VHFWeVBqQ3FIeDZZdFBua3lVbFNXSjNuMHJuamFNWWxHbWJQNStIS0N6Yz0"
+}
+if (include_ICCAT=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/TGl6Szh0MDRSaUtZdFBua3lVbFNXTlV6NHEyVFIzd2ZHbWJQNStIS0N6Yz0"
+}
+if (include_IATTC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/MForaHVJTUtEbCtZdFBua3lVbFNXSmVmMjdMSk9yVFhHbWJQNStIS0N6Yz0"
+}
+if (include_WCPFC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/akxZK2QvNFNTTm1ZdFBua3lVbFNXTW1TaHNva3ZnTytHbWJQNStIS0N6Yz0"
+}
+if (include_CCSBT=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/VE96amI2MFFYaENZdFBua3lVbFNXTk4zNmxTUjFZcU5HbWJQNStIS0N6Yz0"
+}
+if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="https://goo.gl/2hA1sq"){
+  path_csv_codelists<-"http://data.d4science.org/TWh6VXpKdG85cHVZdFBua3lVbFNXTWVseVI5V0NyZGVHbWJQNStIS0N6Yz0"
+}
+
+df_codelists <- data.frame(lapply(read.csv(path_csv_codelists), as.character), stringsAsFactors=FALSE)
+
 
 
 #### END
