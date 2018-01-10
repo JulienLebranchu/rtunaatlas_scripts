@@ -263,7 +263,7 @@ output_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dat
 # dbDisconnect(con).   TO DECOMMENT WHEN tunaatlas_inv IS SET
 
 ## fill some metadata elements
-description<-paste0(description," More details on the processes are provided in the supplemental information and in the lineage section.")
+description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
 supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
 
 
