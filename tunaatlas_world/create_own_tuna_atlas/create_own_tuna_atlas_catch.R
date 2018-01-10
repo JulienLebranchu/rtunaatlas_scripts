@@ -51,8 +51,8 @@ require(data.table)
 
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/"
 
-# connect to Sardara DB
-con<-rtunaatlas::db_connection_tunaatlas_world()
+# connect to Sardara DB. TO DECOMMENT WHEN tunaatlas_inv IS SET
+# con<-rtunaatlas::db_connection_tunaatlas_world()
 
 # initialize metadata elements
 contact_originator<-NULL
@@ -260,11 +260,12 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 
 output_dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
 
-dbDisconnect(con)
+# dbDisconnect(con).   TO DECOMMENT WHEN tunaatlas_inv IS SET
 
-# fill metadata elements
+## fill some metadata elements
 description<-paste0(description," More details on the processes are provided in the supplemental information and in the lineage section.")
 supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+
 
 #### END
 cat("End: Your tuna atlas dataset has been created! Your output data.frame is called 'output_dataset' \n")
