@@ -17,7 +17,8 @@ CREATE TABLE "time"."time"
   year integer,
   decade integer,
   month_name character varying(20),
-  CONSTRAINT time_pkey PRIMARY KEY (id_time)
+  CONSTRAINT time_pkey PRIMARY KEY (id_time),
+  CONSTRAINT time_unique_time_start_time_end UNIQUE (time_start, time_end)
 );
 
 
