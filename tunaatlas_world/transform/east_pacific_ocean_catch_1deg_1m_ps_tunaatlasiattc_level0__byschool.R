@@ -40,13 +40,13 @@ require(rtunaatlas)
   
   
   
-  ### Compute metadata
-  if (path_to_metadata_file!="NULL"){
-    source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/compute_metadata.R")
-  } else {
-    df_metadata<-NULL
-    df_codelists<-NULL
-  }
+### Compute metadata
+#if (path_to_metadata_file!="NULL"){
+#  source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/compute_metadata.R")
+#} else {
+#  df_metadata<-NULL
+#  df_codelists<-NULL
+#}
   
   
   ## To check the outputs:
