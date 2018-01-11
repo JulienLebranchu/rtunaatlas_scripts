@@ -3,7 +3,7 @@ CREATE SCHEMA %dimension_name%
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA %dimension_name% TO %db_admin%;
-GRANT USAGE ON SHEMA %dimension_name% TO %db_read%;
+GRANT USAGE ON SCHEMA %dimension_name% TO %db_read%;
 ALTER DEFAULT PRIVILEGES IN SCHEMA %dimension_name% GRANT SELECT ON TABLES TO %db_read%;
 
 

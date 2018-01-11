@@ -2,7 +2,7 @@ CREATE SCHEMA sizeclass
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA sizeclass TO %db_admin%;
-GRANT USAGE ON SHEMA sizeclass TO %db_read%;
+GRANT USAGE ON SCHEMA sizeclass TO %db_read%;
 ALTER DEFAULT PRIVILEGES IN SCHEMA sizeclass GRANT SELECT ON TABLES TO %db_read%;
 
 

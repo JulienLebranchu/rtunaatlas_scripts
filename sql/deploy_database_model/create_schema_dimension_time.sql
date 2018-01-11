@@ -3,7 +3,7 @@ CREATE SCHEMA "time"
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA "time" TO %db_admin%;
-GRANT USAGE ON SHEMA "time" TO %db_read%;
+GRANT USAGE ON SCHEMA "time" TO %db_read%;
 ALTER DEFAULT PRIVILEGES IN SCHEMA "time" GRANT SELECT ON TABLES TO %db_read%;
 
 CREATE TABLE "time"."time"

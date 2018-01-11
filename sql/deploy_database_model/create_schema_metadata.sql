@@ -3,7 +3,7 @@ CREATE SCHEMA metadata
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA metadata TO %db_admin%;
-GRANT USAGE ON SHEMA metadata TO %db_read%;
+GRANT USAGE ON SCHEMA metadata TO %db_read%;
 ALTER DEFAULT PRIVILEGES IN SCHEMA metadata GRANT SELECT ON TABLES TO %db_read%;
 
 
