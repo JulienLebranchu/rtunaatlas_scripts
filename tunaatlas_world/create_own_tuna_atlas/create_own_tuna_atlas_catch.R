@@ -265,6 +265,14 @@ dbDisconnect(con)
 ## fill some metadata elements
 description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
 supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+contact_originator<-unique(strsplit(contact_originator, ";")[[1]])
+contact_originator<-paste(contact_originator,collapse = ";")
+lineage<-unique(lineage)
+lineage_metadata_format<-NULL
+for (i in 1:length(lineage)){
+  lineage_metadata_format<-paste(lineage_metadata_format,lineage[i],sep=paste0(" step",i,": "))
+}
+lineage<-lineage_metadata_format
 
 
 ## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
