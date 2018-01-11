@@ -64,6 +64,8 @@ CREATE SCHEMA fact_tables
   AUTHORIZATION %db_admin%;
 
 GRANT ALL ON SCHEMA fact_tables TO %db_admin%;
+GRANT USAGE ON SCHEMA fact_tables TO %db_read%;
+ALTER DEFAULT PRIVILEGES IN SCHEMA fact_tables GRANT SELECT ON TABLES TO %db_read%;
 
   
 --CREATE TABLE metadata.codelists_codes_labels_column_names
