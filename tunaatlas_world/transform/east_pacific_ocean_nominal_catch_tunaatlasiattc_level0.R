@@ -24,6 +24,10 @@ if(!require(rtunaatlas)){
 }
 require(rtunaatlas)
   
+if(!require(dplyr)){
+  install.packages("dplyr")
+}
+
   # Input data sample:
   # AnoYear BanderaFlag ArteGear EspeciesSpecies    t
   #    1918         OTR       LP             SKJ 1361
