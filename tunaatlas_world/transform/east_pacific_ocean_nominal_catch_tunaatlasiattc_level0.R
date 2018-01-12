@@ -27,6 +27,7 @@ require(rtunaatlas)
 if(!require(dplyr)){
   install.packages("dplyr")
 }
+require(dplyr)
 
   # Input data sample:
   # AnoYear BanderaFlag ArteGear EspeciesSpecies    t
