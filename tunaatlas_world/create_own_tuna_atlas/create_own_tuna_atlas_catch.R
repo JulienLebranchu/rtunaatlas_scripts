@@ -76,8 +76,8 @@ if (include_IOTC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  metadata$contact_originator<-paste0(contact_originator,"fabio.fiorellato@iotc.org")
-  metadata$lineage<-c(lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste0(metadata$contact_originator,"fabio.fiorellato@iotc.org")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IOTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -88,8 +88,8 @@ if (include_WCPFC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  metadata$contact_originator<-paste(contact_originator,"PeterW@spc.int",sep=";")
-  metadata$lineage<-c(lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(metadata$contact_originator,"PeterW@spc.int",sep=";")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving WCPFC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -100,8 +100,8 @@ if (include_CCSBT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  metadata$contact_originator<-paste(contact_originator,"CMillar@ccsbt.org",sep=";")
-  metadata$lineage<-c(lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(metadata$contact_originator,"CMillar@ccsbt.org",sep=";")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving CCSBT georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -114,8 +114,8 @@ if (include_IATTC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  metadata$contact_originator<-paste(contact_originator,"nvogel@iattc.org",sep=";")
-  metadata$lineage<-c(lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(metadata$contact_originator,"nvogel@iattc.org",sep=";")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IATTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -127,8 +127,8 @@ if (include_ICCAT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  metadata$contact_originator<-paste(contact_originator,"carlos.palma@iccat.int",sep=";")
-  metadata$lineage<-c(lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(metadata$contact_originator,"carlos.palma@iccat.int",sep=";")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving ICCAT georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -149,7 +149,7 @@ if (include_ICCAT=="TRUE"){
   } else {
     lineage_iccat="Only the dataset without the type of school was used. Hence, the output dataset does not have the information on fishing mode for ICCAT Purse seine data."
   }
-  metadata$lineage<-c(lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
+  metadata$lineage<-c(metadata$lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
 }
 
 if (include_IATTC=="TRUE"){
