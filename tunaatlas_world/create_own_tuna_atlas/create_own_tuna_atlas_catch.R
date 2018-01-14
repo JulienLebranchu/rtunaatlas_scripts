@@ -55,10 +55,11 @@ url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/r
 con<-rtunaatlas::db_connection_tunaatlas_world()
 
 # initialize metadata elements
-contact_originator<-NULL
-lineage<-NULL
-description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
-supplemental_information<-NULL
+metadata<-NULL
+metadata$contact_originator<-NULL
+metadata$lineage<-NULL
+metadata$description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
+metadata$supplemental_information<-NULL
 
 #### 1) Retrieve tuna RFMOs data from Tuna atlas DB at level 0. Level 0 is the merging of the tRFMOs primary datasets, with the more complete possible value of georef_dataset per stratum (i.e. duplicated or splitted strata among the datasets are dealt specifically -> this is the case for ICCAT and IATTC)  ####
 cat("Begin: Retrieving primary datasets from Tuna atlas DB... \n")
@@ -75,8 +76,8 @@ if (include_IOTC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste0(contact_originator,"fabio.fiorellato@iotc.org")
-  lineage<-c(lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste0(contact_originator,"fabio.fiorellato@iotc.org")
+  metadata$lineage<-c(lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IOTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -87,8 +88,8 @@ if (include_WCPFC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste(contact_originator,"PeterW@spc.int",sep=";")
-  lineage<-c(lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(contact_originator,"PeterW@spc.int",sep=";")
+  metadata$lineage<-c(lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving WCPFC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -99,8 +100,8 @@ if (include_CCSBT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste(contact_originator,"CMillar@ccsbt.org",sep=";")
-  lineage<-c(lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(contact_originator,"CMillar@ccsbt.org",sep=";")
+  metadata$lineage<-c(lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving CCSBT georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -113,8 +114,8 @@ if (include_IATTC=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste(contact_originator,"nvogel@iattc.org",sep=";")
-  lineage<-c(lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(contact_originator,"nvogel@iattc.org",sep=";")
+  metadata$lineage<-c(lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IATTC georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -126,8 +127,8 @@ if (include_ICCAT=="TRUE"){
   catch<-rbind(catch,rfmo_catch)
   rm(rfmo_catch)
   # fill metadata elements
-  contact_originator<-paste(contact_originator,"carlos.palma@iccat.int",sep=";")
-  lineage<-c(lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$contact_originator<-paste(contact_originator,"carlos.palma@iccat.int",sep=";")
+  metadata$lineage<-c(lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving ICCAT georeferenced catch from the Tuna atlas database OK\n")
 }
 
@@ -148,13 +149,13 @@ if (include_ICCAT=="TRUE"){
   } else {
     lineage_iccat="Only the dataset without the type of school was used. Hence, the output dataset does not have the information on fishing mode for ICCAT Purse seine data."
   }
-lineage<-c(lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
+  metadata$lineage<-c(lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
 }
 
 if (include_IATTC=="TRUE"){
   if (iattc_raise_flags_to_schooltype=="TRUE"){
     lineage_iattc<-"For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum."
-    supplemental_information<-paste0(supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum.\n")
+    metadata$supplemental_information<-paste0(supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum.\n")
     } else {
     if (iattc_dimension_to_use_if_no_raising_flags_to_schooltype=="flag"){
       lineage_iattc<-"Only the dataset with the information on the fishing country was used. Hence, the output dataset does not have the information on fishing mode for IATTC Purse seine data."
@@ -163,13 +164,13 @@ if (include_IATTC=="TRUE"){
     }
   }
   
-lineage<-c(lineage,paste0("Concerns IATTC purse seine datasets: For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for the eastern Pacific Ocean purse seine datasets. ",lineage_iattc))  
+  metadata$lineage<-c(lineage,paste0("Concerns IATTC purse seine datasets: For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for the eastern Pacific Ocean purse seine datasets. ",lineage_iattc))  
 }
 
 
-lineage<-c(lineage,"All the datasets were merged")
+metadata$lineage<-c(metadata$lineage,"All the datasets were merged")
 
-description<-paste0(description,"- Catch-and-effort data are disseminated in such way that redundancy may exist between the various datasets released, or that dimensions may be split over the datasets for some strata. To cope with these issues and get one single and more complete possible value of catch per stratum (i.e. with all the available dimensions), these datasets had to be merged in specific ways - i.e. not simply merging them but removing the duplicated strata or reassembling the strata with all the available dimensions split over the datasets.\n")
+metadata$description<-paste0(description,"- Catch-and-effort data are disseminated in such way that redundancy may exist between the various datasets released, or that dimensions may be split over the datasets for some strata. To cope with these issues and get one single and more complete possible value of catch per stratum (i.e. with all the available dimensions), these datasets had to be merged in specific ways - i.e. not simply merging them but removing the duplicated strata or reassembling the strata with all the available dimensions split over the datasets.\n")
 
 
 
@@ -259,6 +260,8 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 }
 
 
+dataset$time_start<-substr(as.character(dataset$time_start), 1, 10)
+dataset$time_end<-substr(as.character(dataset$time_end), 1, 10)
 
 dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
 dataset<-data.frame(dataset)
@@ -266,16 +269,16 @@ dataset<-data.frame(dataset)
 dbDisconnect(con)
 
 ## fill some metadata elements
-description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
-supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
-contact_originator<-unique(strsplit(contact_originator, ";")[[1]])
-contact_originator<-paste(contact_originator,collapse = ";")
-lineage<-unique(lineage)
+metadata$description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
+metadata$supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+metadata$contact_originator<-unique(strsplit(contact_originator, ";")[[1]])
+metadata$contact_originator<-paste(contact_originator,collapse = ";")
+metadata$lineage<-unique(lineage)
 lineage_metadata_format<-NULL
 for (i in 1:length(lineage)){
   lineage_metadata_format<-paste(lineage_metadata_format,lineage[i],sep=paste0(" step",i,": "))
 }
-lineage<-lineage_metadata_format
+metadata$lineage<-lineage_metadata_format
 
 
 ## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)

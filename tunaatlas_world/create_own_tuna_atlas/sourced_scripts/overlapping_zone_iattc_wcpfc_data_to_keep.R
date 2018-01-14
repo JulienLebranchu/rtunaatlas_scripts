@@ -32,7 +32,7 @@ if (overlapping_zone_iattc_wcpfc_data_to_keep=="IATTC"){
 }
 
 # fill metadata elements
-lineage<-c(lineage,paste0("Concerns IATTC and WCPFC data. IATTC and WCPFC have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone. In the overlapping area, only data from ",overlapping_zone_iattc_wcpfc_data_to_keep," were kept.	Information regarding the data in the IATTC / WCPFC overlapping area: after the eventual other corrections applied, e.g. raisings, catch units conversions, etc., the ratio between the catches from IATTC and those from WCPFC was of: ratio_iattc_wcpf_mt for the catches expressed in weight and ratio_iattc_wcpf_no for the catches expressed in number."))
-description<-paste0(description,"- In the IATTC/WCPFC overlapping area of competence, only data from ",overlapping_zone_iattc_wcpfc_data_to_keep," were kept\n")
+metadata$lineage<-c(metadata$lineage,paste0("Concerns IATTC and WCPFC data. IATTC and WCPFC have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone. In the overlapping area, only data from ",overlapping_zone_iattc_wcpfc_data_to_keep," were kept.	Information regarding the data in the IATTC / WCPFC overlapping area: after the eventual other corrections applied, e.g. raisings, catch units conversions, etc., the ratio between the catches from IATTC and those from WCPFC was of: ratio_iattc_wcpf_mt for the catches expressed in weight and ratio_iattc_wcpf_no for the catches expressed in number."))
+metadata$description<-paste0(metadata$description,"- In the IATTC/WCPFC overlapping area of competence, only data from ",overlapping_zone_iattc_wcpfc_data_to_keep," were kept\n")
 
 cat(paste0("Keeping only data from ",overlapping_zone_iattc_wcpfc_data_to_keep," in the IATTC/WCPFC overlapping zone OK\n"))

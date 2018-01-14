@@ -21,8 +21,8 @@ for (i in 1:length(include_rfmo)){
     nominal_catch_datasets_permanent_identifiers_to_keep<-paste0(nominal_catch_datasets_permanent_identifiers_to_keep,",'",nominal_catch_datasets_permanent_identifiers[i],"'")
     
     # fill metadata elements
-    contact_originator<-paste(contact_originator,nominal_catch_contact_originators[i],sep=";")
-    lineage<-c(lineage,paste0("Public domain datasets from ",rfmo[i]," were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
+    metadata$contact_originator<-paste(metadata$contact_originator,nominal_catch_contact_originators[i],sep=";")
+    metadata$lineage<-c(metadata$lineage,paste0("Public domain datasets from ",rfmo[i]," were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
     }
 }
 nominal_catch_datasets_permanent_identifiers_to_keep<-substring(nominal_catch_datasets_permanent_identifiers_to_keep, 2)
@@ -38,8 +38,8 @@ if (include_ICCAT=="TRUE"){
   nominal_catch<-rtunaatlas::map_codelist(nominal_catch,df_mapping,"flag")$df 
   
   # fill metadata elements
-  contact_originator<-paste(contact_originator,"carlos.palma@iccat.int",sep=";")
-  lineage<-c(lineage,paste0("Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
+  metadata$contact_originator<-paste(metadata$contact_originator,"carlos.palma@iccat.int",sep=";")
+  metadata$lineage<-c(metadata$lineage,paste0("Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
   
 }
 
