@@ -267,14 +267,14 @@ dataset<-data.frame(dataset)
 dbDisconnect(con)
 
 ## fill some metadata elements
-metadata$description<-paste0(description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
-metadata$supplemental_information<-paste0(supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
-metadata$contact_originator<-unique(strsplit(contact_originator, ";")[[1]])
-metadata$contact_originator<-paste(contact_originator,collapse = ";")
-metadata$lineage<-unique(lineage)
+metadata$description<-paste0(metadata$description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
+metadata$supplemental_information<-paste0(metadata$supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+metadata$contact_originator<-unique(strsplit(metadata$contact_originator, ";")[[1]])
+metadata$contact_originator<-paste(metadata$contact_originator,collapse = ";")
+metadata$lineage<-unique(metadata$lineage)
 lineage_metadata_format<-NULL
-for (i in 1:length(lineage)){
-  lineage_metadata_format<-paste(lineage_metadata_format,lineage[i],sep=paste0(" step",i,": "))
+for (i in 1:length(metadata$lineage)){
+  lineage_metadata_format<-paste(lineage_metadata_format,metadata$lineage[i],sep=paste0(" step",i,": "))
 }
 metadata$lineage<-lineage_metadata_format
 
