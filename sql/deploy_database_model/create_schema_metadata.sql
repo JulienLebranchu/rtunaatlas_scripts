@@ -29,9 +29,7 @@ supplemental_information text,
 dataset_type text,
 sql_query_dataset_extraction text,
 database_table_name text,
-database_view_name text,
-dataset_time_start date,
-dataset_time_end date,
+database_view_name text
   CONSTRAINT metadata_pkey PRIMARY KEY (id_metadata),
   CONSTRAINT unique_identifier UNIQUE (identifier)
 );
