@@ -43,18 +43,21 @@ url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/r
 con<-rtunaatlas::db_connection_tunaaltas_world()
 
 # initialize metadata elements
-contact_originator<-NULL
-lineage<-NULL
-description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
-supplemental_information<-NULL
+metadata<-NULL
+metadata$contact_originator<-NULL
+metadata$lineage<-NULL
+metadata$description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
+metadata$supplemental_information<-NULL
+
+datasets_year_release<-as.numeric(datasets_year_release)
 
 #### 1) Retrieve tuna RFMOs data from Sardara DB at level 0. 
 cat("Begin: Retrieving primary datasets from Sardara DB... \n")
   source(paste0(url_scripts_create_own_tuna_atlas,"retrieve_nominal_catch.R"))
 cat("Retrieving primary datasets from Sardara DB OK\n")
 
-description<-paste0(description,"- The primary nominal (also called total) catch datasets released by the tuna RFMOs were merged.\n")
-lineage<-c(lineage,"All the datasets were merged")
+metadata$description<-paste0(metadata$description,"- The primary nominal (also called total) catch datasets released by the tuna RFMOs were merged.\n")
+metadata$lineage<-c(metadata$lineage,"All the datasets were merged")
 
 
 #### 2) Map code lists 
@@ -78,14 +81,55 @@ if (SBF_data_rfmo_to_keep!="NULL"){
 
 
 
-output_dataset<-nominal_catch %>% group_by_(.dots = setdiff(colnames(nominal_catch),"value")) %>% summarize(value=sum(value))
-
-# fill metadata elements
-description<-paste0(description," More details on the processes are provided in the supplemental information and in the lineage section.")
-supplemental_information<-paste0(supplemental_information,"- Catches in the Pacific ocean are over-estimated. In fact, IATTC and WCPFC, who report the data respectively for the Eastern Pacific and Western Pacific oceans, have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone.
-- Geographical stratification in this dataset is : major FAO fishing area for the Indian ocean (IOTC), sampling areas for the Atlantic ocean (ICCAT), whole areas of competence of the respective RFMOs for the Pacific ocean (IATTC and WCPFC), area of competence of the CCSBT for the Southern Bluefin tuna.")
+dataset<-nominal_catch %>% group_by_(.dots = setdiff(colnames(nominal_catch),"value")) %>% summarize(value=sum(value))
+dataset$time_start<-substr(as.character(dataset$time_start), 1, 10)
+dataset$time_end<-substr(as.character(dataset$time_end), 1, 10)
+dataset<-data.frame(dataset)
 
 dbDisconnect(con)
+
+
+## fill some metadata elements
+metadata$supplemental_information<-paste0(metadata$supplemental_information,"- Catches in the Pacific ocean are over-estimated. In fact, IATTC and WCPFC, who report the data respectively for the Eastern Pacific and Western Pacific oceans, have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone.
+- Geographical stratification in this dataset is : major FAO fishing area for the Indian ocean (IOTC), sampling areas for the Atlantic ocean (ICCAT), whole areas of competence of the respective RFMOs for the Pacific ocean (IATTC and WCPFC), area of competence of the CCSBT for the Southern Bluefin tuna.")
+metadata$description<-paste0(metadata$description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
+metadata$contact_originator<-unique(strsplit(metadata$contact_originator, ";")[[1]])
+metadata$contact_originator<-paste(metadata$contact_originator,collapse = ";")
+metadata$lineage<-unique(metadata$lineage)
+lineage_metadata_format<-NULL
+for (i in 1:length(metadata$lineage)){
+  lineage_metadata_format<-paste(lineage_metadata_format,metadata$lineage[i],sep=paste0(" step",i,": "))
+}
+metadata$lineage<-lineage_metadata_format
+
+
+## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
+if (include_IOTC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/NUNrRTdxZ1FWS1dZdFBua3lVbFNXRUhWdHJGeFAxMytHbWJQNStIS0N6Yz0"
+}
+if (include_ICCAT=="TRUE"){
+  if (iccat_nominal_catch_spatial_stratification=="sampling_area"){
+  path_csv_codelists<-"http://data.d4science.org/Zk4xaEFCODRrQ2FZdFBua3lVbFNXRVZOdFBoS0lYZVBHbWJQNStIS0N6Yz0"
+  } else if (iccat_nominal_catch_spatial_stratification=="stock_area"){
+  path_csv_codelists<-"http://data.d4science.org/UnIzaXdVZzk0T2VZdFBua3lVbFNXRThqMklFMVNUNVFHbWJQNStIS0N6Yz0"
+  }
+}
+if (include_IATTC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/NkxDaEZpdXgzcUtZdFBua3lVbFNXSEcza1MvU2JETG5HbWJQNStIS0N6Yz0"
+}
+if (include_WCPFC=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/cEdsNVZrTU9yNHVZdFBua3lVbFNXTEcwZ2M5WDdxM0tHbWJQNStIS0N6Yz0"
+}
+if (include_CCSBT=="TRUE"){
+  path_csv_codelists<-"http://data.d4science.org/NXh0RTlVYVBSUldZdFBua3lVbFNXSHltUUcwSTM3U3NHbWJQNStIS0N6Yz0"
+}
+if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="https://goo.gl/2hA1sq"){
+  path_csv_codelists<-"http://data.d4science.org/NVE2azRLbzhTQ3VZdFBua3lVbFNXRVlUVE95THl6WlJHbWJQNStIS0N6Yz0"
+}
+
+df_codelists <- data.frame(lapply(read.csv(path_csv_codelists), as.character), stringsAsFactors=FALSE)
+
+
 
 #### END
 cat("End: Your tuna atlas dataset has been created! Your output data.frame is called 'output_dataset' \n")
