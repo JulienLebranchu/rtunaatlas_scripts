@@ -1,23 +1,23 @@
 
 
 
-year_tuna_atlas="2017"
-load_codelists=TRUE
-load_codelists_mappings=TRUE
-transform_and_load_primary_datasets=TRUE
-generate_and_load_global_tuna_atlas_datasets=TRUE
-metadata_and_parameterization_csv_codelists<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
-metadata_and_parameterization_csv_mappings<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
-metadata_and_parameterization_csv_primary_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
-metadata_and_parameterization_ird_tuna_atlas_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_2017.csv"
-repository_R_scripts<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl"
-virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
-vre_username="paultaconet"
-vre_token="4b744102-6598-4edc-8f55-934bea9e1867-843339462"
-db_name="tunaatlas"
-host="db-tuna.d4science.org"
-db_admin_name="tunaatlas_u"
-admin_password="21c0551e7ed2911"
+#year_tuna_atlas="2017"
+#load_codelists=TRUE
+#load_codelists_mappings=TRUE
+#transform_and_load_primary_datasets=TRUE
+#generate_and_load_global_tuna_atlas_datasets=TRUE
+#metadata_and_parameterization_csv_codelists<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
+#metadata_and_parameterization_csv_mappings<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
+#metadata_and_parameterization_csv_primary_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
+#metadata_and_parameterization_ird_tuna_atlas_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_2017.csv"
+#repository_R_scripts<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl"
+#virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
+#vre_username="paultaconet"
+#vre_token="****"
+#db_name="tunaatlas"
+#host="db-tuna.d4science.org"
+#db_admin_name="tunaatlas_u"
+#admin_password="****"
 
 if(!require(RPostgreSQL)){
   install.packages("RPostgreSQL")
