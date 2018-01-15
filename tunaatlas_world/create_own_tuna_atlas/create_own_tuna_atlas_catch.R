@@ -155,7 +155,7 @@ if (include_ICCAT=="TRUE"){
 if (include_IATTC=="TRUE"){
   if (iattc_raise_flags_to_schooltype=="TRUE"){
     lineage_iattc<-"For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum."
-    metadata$supplemental_information<-paste0(supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum.\n")
+    metadata$supplemental_information<-paste0(metadata$supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the catch from the flag-detailed dataset was raised to the catch from the school type-detailed dataset to get an estimation of the catches by flag and school type in each stratum.\n")
     } else {
     if (iattc_dimension_to_use_if_no_raising_flags_to_schooltype=="flag"){
       lineage_iattc<-"Only the dataset with the information on the fishing country was used. Hence, the output dataset does not have the information on fishing mode for IATTC Purse seine data."
@@ -164,7 +164,7 @@ if (include_IATTC=="TRUE"){
     }
   }
   
-  metadata$lineage<-c(lineage,paste0("Concerns IATTC purse seine datasets: For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for the eastern Pacific Ocean purse seine datasets. ",lineage_iattc))  
+  metadata$lineage<-c(metadata$lineage,paste0("Concerns IATTC purse seine datasets: For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for the eastern Pacific Ocean purse seine datasets. ",lineage_iattc))  
 }
 
 
