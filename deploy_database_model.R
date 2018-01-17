@@ -3,20 +3,18 @@
 ######################################################################
 # wps.des: id = deploy_database_model, title = Deploy a database on a PostgreSQL+PostGIS server, abstract = Customize the deployement of a database on a server. Prerequisites: A PostgreSQL + PostGIS model must be installed on a server. There must be an admin user and a user with select privileges. ;
 # wps.in: id = db_name, type = string, title = Name of the database. , value = "tunaatlas";
-# wps.in: id = host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
+# wps.in: id = db_host, type = string, title = Host server for the database. , value = "db-tuna.d4science.org";
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
 # wps.in: id = db_read_name, type = string, title = Name of the user role with select privileges. , value = "invsardara";
-# wps.in: id = admin_password, type = string, title = Password for administrator role of the database. , value = "****";
-# wps.in: id = dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
-# wps.in: id = variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
+# wps.in: id = db_admin_password, type = string, title = Password for administrator role of the database. , value = "****";
+# wps.in: id = db_dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
+# wps.in: id = db_variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
+# wps.in: id = repository_sql_scripts_database_deployement, type = string, title = Folder where the scripts to deploy database are available , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/";
 
-db_name="tunaatlas"
-host="db-tuna.d4science.org"
-db_admin_name="tunaatlas_u"
-db_read_name="tunaatlas_inv"
-admin_password="21c0551e7ed2911"
-dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
-variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
+
+deploy_database_model<-function(db_name,db_host,db_admin_name,db_read_name,db_admin_password,db_dimensions,db_variables_and_associated_dimensions,repository_sql_scripts_database_deployement){
+
+cat("Starting deployement of the database!\n")
 
 
 if(!require(RPostgreSQL)){
@@ -24,12 +22,10 @@ if(!require(RPostgreSQL)){
 }
 require(RPostgreSQL)
 
-# Provide the path to the codes containing the SQL queries to execute to deploy the db model
-path_to_sql_codes_folder<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
 
 # Connect to db with admin rights
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=admin_password, host=host)
+con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
 
 # Preliminary step: grant select on all objects of the DB to the user with select privileges
 dbSendQuery(con,paste0("alter default privileges grant select on tables to ",db_read_name))
@@ -38,7 +34,7 @@ dbSendQuery(con,paste0("alter default privileges grant select on tables to ",db_
 
 cat(paste0("Deploying schema metadata and tables...\n"))
 # Read SQL query
-fileName <- paste0(path_to_sql_codes_folder,"create_schema_metadata.sql")
+fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_metadata.sql",sep="/")
 sql_deploy_metadata<-paste(readLines(fileName), collapse=" ")
 sql_deploy_metadata<-gsub("%db_admin%",db_admin_name,sql_deploy_metadata)
 sql_deploy_metadata<-gsub("%db_read%",db_read_name,sql_deploy_metadata)
@@ -50,18 +46,18 @@ cat(paste0("END deploying schema metadata and tables\n"))
 ## 2) Deploy dimensions
 
 # Create vector of dimensions to deploy
-dimensions<-strsplit(dimensions, ",")[[1]]
+dimensions<-strsplit(db_dimensions, ",")[[1]]
 
 # One by one, create the dimensions
 for (i in 1:length(dimensions)){
   cat(paste0("Deploying dimension ",dimensions[i],"...\n"))
   
   if (dimensions[i]=="time"){
-    fileName <- paste0(path_to_sql_codes_folder,"create_schema_dimension_time.sql")
+    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension_time.sql",sep="/")
   } else if (dimensions[i]=="sizeclass"){
-    fileName <- paste0(path_to_sql_codes_folder,"create_schema_dimension_sizeclass.sql")
+    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension_sizeclass.sql",sep="/")
   } else {
-    fileName <- paste0(path_to_sql_codes_folder,"create_schema_dimension.sql")
+    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension.sql",sep="/")
   }
   
   sql_deploy_dimension<-paste(readLines(fileName), collapse=" ")
@@ -73,12 +69,12 @@ for (i in 1:length(dimensions)){
   
   if (dimensions[i]=="area"){
     # Create table area.area_wkt
-    sql_deploy_table_area_wkt<-paste(readLines(paste0(path_to_sql_codes_folder,"create_table_area_wkt.sql")), collapse=" ")
+    sql_deploy_table_area_wkt<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_table_area_wkt.sql",sep="/")), collapse=" ")
     sql_deploy_table_area_wkt<-gsub("%db_admin%",db_admin_name,sql_deploy_table_area_wkt)
     dbSendQuery(con,sql_deploy_table_area_wkt)
     
     # Update view area.area_labels
-    sql_deploy_view_area_labels<-paste(readLines(paste0(path_to_sql_codes_folder,"create_view_area_labels.sql")), collapse=" ")
+    sql_deploy_view_area_labels<-paste(readLines(paste0(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse=" ")
     sql_deploy_view_area_labels<-gsub("%db_admin%",db_admin_name,sql_deploy_view_area_labels)
     dbSendQuery(con,sql_deploy_view_area_labels)
     
@@ -91,7 +87,7 @@ for (i in 1:length(dimensions)){
 
 ## 3) Deploy variable tables
 
-facts<-strsplit(variables_and_associated_dimensions, "@")[[1]]
+facts<-strsplit(db_variables_and_associated_dimensions, "@")[[1]]
 
 for (i in 1:length(facts)){
   
@@ -126,3 +122,8 @@ CREATE INDEX id_metadata_",fact_name,"_idx
 }
   
 
+dbDisconnect(con)
+
+cat("The database has been deployed!\n")
+
+}
