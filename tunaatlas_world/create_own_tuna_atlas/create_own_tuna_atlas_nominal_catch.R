@@ -40,7 +40,7 @@ require(data.table)
 url_scripts_create_own_tuna_atlas<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/"
 
 # connect to Sardara DB
-con<-rtunaatlas::db_connection_tunaaltas_world()
+con<-rtunaatlas::db_connection_tunaatlas_world()
 
 # initialize metadata elements
 metadata<-NULL
