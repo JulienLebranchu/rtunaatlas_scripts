@@ -1,23 +1,72 @@
+######################################################################
+##### 52North WPS annotations ##########
+######################################################################
+# wps.des: id = workflow_setup_update_tuna_atlas, title = Setup or update the tuna atlas database , abstract = This script enable to setup or update the tuna atlas database;
+# wps.in: id = year_tuna_atlas, type = string, title = Year of the Tuna atlas , value = "2017";
+# wps.in: id = deploy_database_model, type = boolean, title = MANDATORY. Deploy the database model on the empty PostgreSQL+PostGIS database ? , value = TRUE;
+# wps.in: id = load_codelists, type = boolean, title = MANDATORY. Load code lists in the database ? , value = TRUE;
+# wps.in: id = load_codelists_mappings, type = boolean, title = MANDATORY. Load code list mappings in the database ? , value = TRUE;
+# wps.in: id = transform_and_load_primary_datasets, type = boolean, title = MANDATORY. Harmonize structure and load primary tuna RFMOs datasets in the database ? , value = TRUE;
+# wps.in: id = generate_and_load_global_tuna_atlas_datasets, type = boolean, title = MANDATORY. Generate and load global tuna atlas datasets in the database ? , value = TRUE;
+# wps.in: id = virtual_repository_with_R_files, type = string, title = MANDATORY. Repository where the R scripts of data generation will be loaded. , value = "/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation";
+# wps.in: id = vre_username, type = string, title = MANDATORY. VRE user name , value = "paultaconet";
+# wps.in: id = vre_token, type = string, title = MANDATORY. VRE token , value = "***";
+# wps.in: id = db_host, type = string, title = MANDATORY. Host of the database , value = "db-tuna.d4science.org";
+# wps.in: id = db_name, type = string, title = MANDATORY. Name of the database , value = "tunaatlas";
+# wps.in: id = db_admin_name, type = string, title = MANDATORY. User name of the database (admin) , value = "tunaatlas_u";
+# wps.in: id = db_admin_password, type = string, title = MANDATORY. Password of the admin of the database , value = "***";
+# wps.in: id = db_read_name, type = string, title = OPTIONAL unless deploy_database_model==TRUE. User name of the database (select privileges) , value = "tunaatlas_inv";
+# wps.in: id = db_dimensions, type = string, title = OPTIONAL unless deploy_database_model==TRUE. Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
+# wps.in: id = db_variables_and_associated_dimensions, type = string, title = OPTIONAL unless deploy_database_model==TRUE. Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
+# wps.in: id = metadata_and_parameterization_csv_codelists, type = string, title = OPTIONAL unless load_codelists==TRUE. Path to the table containing the metadata and parameters for the code lists to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv";
+# wps.in: id = metadata_and_parameterization_csv_mappings, type = string, title = OPTIONAL unless load_codelists_mappings==TRUE. Path to the table containing the metadata and parameters for the code lists mappings to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv";
+# wps.in: id = metadata_and_parameterization_csv_primary_datasets, type = string, title = OPTIONAL unless transform_and_load_primary_datasets==TRUE. Path to the table containing the metadata and parameters for the primary tuna RFMOs to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv";
+# wps.in: id = metadata_and_parameterization_ird_tuna_atlas_catch_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global georeferenced catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_catch_datasets_2017.csv";
+# wps.in: id = metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global nominal catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv";
+# wps.out: id = , type = , title = Database deployed (in case deploy_database_model==TRUE) and loaded with the datasets; 
+
+rm(list=ls(all=TRUE))
+
+### MANDATORY PARAMETERS
+year_tuna_atlas="2017"
+deploy_database_model=TRUE
+load_codelists=TRUE
+load_codelists_mappings=TRUE
+transform_and_load_primary_datasets=TRUE
+generate_and_load_global_tuna_atlas_datasets=TRUE
+virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
+vre_username="paultaconet"
+vre_token="4b744102-6598-4edc-8f55-934bea9e1867-843339462"
+db_host="db-tuna.d4science.org"
+db_name="tunaatlas"
+db_admin_name="tunaatlas_u"
+db_admin_password="21c0551e7ed2911"
+
+### OPTIONAL PARAMETERS depending on the values set in the mandatory parameters
+## db_read_name,dimensions,variables_and_associated_dimensions : fill-in only if deploy_database_model==TRUE
+db_read_name="tunaatlas_inv"
+db_dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
+db_variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
+
+## metadata_and_parameterization_csv_codelists : fill-in only if load_codelists==TRUE
+metadata_and_parameterization_csv_codelists<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
+
+## metadata_and_parameterization_csv_mappings : fill-in only if load_codelists_mappings==TRUE
+metadata_and_parameterization_csv_mappings<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
+
+## metadata_and_parameterization_csv_primary_datasets : fill-in only if transform_and_load_primary_datasets==TRUE
+metadata_and_parameterization_csv_primary_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
+
+## metadata_and_parameterization_ird_tuna_atlas_catch_datasets,metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets : fill-in only if generate_and_load_global_tuna_atlas_datasets==TRUE
+metadata_and_parameterization_ird_tuna_atlas_catch_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_catch_datasets_2017.csv"
+metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
 
 
 
-#year_tuna_atlas="2017"
-#load_codelists=TRUE
-#load_codelists_mappings=TRUE
-#transform_and_load_primary_datasets=TRUE
-#generate_and_load_global_tuna_atlas_datasets=TRUE
-#metadata_and_parameterization_csv_codelists<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
-#metadata_and_parameterization_csv_mappings<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
-#metadata_and_parameterization_csv_primary_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
-#metadata_and_parameterization_ird_tuna_atlas_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_2017.csv"
-#repository_R_scripts<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl"
-#virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
-#vre_username="paultaconet"
-#vre_token="****"
-#db_name="tunaatlas"
-#host="db-tuna.d4science.org"
-#db_admin_name="tunaatlas_u"
-#admin_password="****"
+
+repository_R_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl/scripts"  ## Repository where the scripts are stored
+repository_sql_scripts<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
+
 
 if(!require(RPostgreSQL)){
   install.packages("RPostgreSQL")
@@ -37,9 +86,10 @@ require(rtunaatlas)
 
 # Connect to db with admin rights
 drv <- dbDriver("PostgreSQL")
-con_admin <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=admin_password, host=host)
+con_admin <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
 
 # Source scripts
+source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/deploy_database_model.R") ## function to deploy the DB model
 source(paste(repository_R_scripts,"open_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"generate_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"get_data_frame_code_lists.R",sep="/"))
@@ -51,47 +101,67 @@ source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_generate_and_l
 
 ## Main
 
-if (load_codelists==TRUE){ ## Load the code lists
-# Open csv metadata of code lists
-table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_codelists,stringsAsFactors = F,colClasses = "character")
-# One by one, load the code lists  
-for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
-metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
- }
+
+if (deploy_database_model==TRUE){ ## Deploy the database model
+  deploy_database_model(db_name,db_host,db_admin_name,db_read_name,admin_password,db_dimensions,db_variables_and_associated_dimensions,"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model")
+}
+
+if (load_codelists==TRUE){ 
+  cat("Start loading the code lists and related metadata in the database...\n")
+  # Open csv metadata of code lists
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_codelists,stringsAsFactors = F,colClasses = "character")
+  # One by one, load the code lists  
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
+  }
+  cat("End loading the code lists and related metadata in the database\n")
 }
 
 
 if (load_codelists_mappings==TRUE){  ## Load the code lists mapping
-# Open csv metadata of code list mappings
-table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_mappings,stringsAsFactors = F,colClasses = "character")
-# One by one, load the code lists mappings
-for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
-metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
-
- }
+  cat("Start loading the code lists mappings and related metadata in the database...\n")
+  # Open csv metadata of code list mappings
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_mappings,stringsAsFactors = F,colClasses = "character")
+  # One by one, load the code lists mappings
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
+    cat("End loading the code lists mappings and related metadata in the database\n")
+  }
 }
 
 
 if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the primary datasets
-# Open csv metadata of primary datasets and related parameterization
-table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_primary_datasets,stringsAsFactors = F,colClasses = "character")
-# One by one, load the primary datasets
-for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
-metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
- }
+  cat("Start harmonizing and loading the tRFMOs primary datasets and related metadata in the database...\n")
+  # Open csv metadata of primary datasets and related parameterization
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_primary_datasets,stringsAsFactors = F,colClasses = "character")
+  # One by one, load the primary datasets
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+  }
+  cat("End harmonizing and loading the tRFMOs primary datasets and related metadata in the database\n")
 }
 
 
 if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load the global tuna atlas datasets
-# Open csv metadata of ird tuna atlas datasets and related parameterization
-table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_ird_tuna_atlas_datasets,stringsAsFactors = F,colClasses = "character")
-# One by one, generate and load the ird tuna atlas datasets
-for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
-metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
- }
+  cat("Start generating and loading the global tuna atlas datasets and related metadata in the database...\n")
+  # Open csv metadata of ird tuna atlas catch datasets and related parameterization
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_ird_tuna_atlas_catch_datasets,stringsAsFactors = F,colClasses = "character")
+  # One by one, generate and load the ird tuna atlas datasets
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+  }
+  
+  # Open csv metadata of ird tuna atlas nomînal catch datasets and related parameterization
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets,stringsAsFactors = F,colClasses = "character")
+  # One by one, generate and load the ird tuna atlas datasets
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+  }
+  cat("End generating and loading the global nominal catch tuna atlas datasets and related metadata in the database\n")
 }
 
