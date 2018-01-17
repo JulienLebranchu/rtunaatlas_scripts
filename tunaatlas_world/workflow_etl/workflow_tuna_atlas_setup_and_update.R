@@ -2,10 +2,10 @@
 ##### 52North WPS annotations ##########
 ######################################################################
 # wps.des: id = workflow_setup_update_tuna_atlas, title = Setup or update the tuna atlas database , abstract = This script enable to setup or update the tuna atlas database;
-# wps.in: id = year_tuna_atlas, type = string, title = Year of the Tuna atlas , value = "2017";
 # wps.in: id = deploy_database_model, type = boolean, title = MANDATORY. Deploy the database model on the empty PostgreSQL+PostGIS database ? , value = TRUE;
 # wps.in: id = load_codelists, type = boolean, title = MANDATORY. Load code lists in the database ? , value = TRUE;
 # wps.in: id = load_codelists_mappings, type = boolean, title = MANDATORY. Load code list mappings in the database ? , value = TRUE;
+# wps.in: id = year_tuna_atlas, type = string, title = Year of the Tuna atlas to setup/update (i.e. year the datasets to load were released by the tuna RFMOs) , value = "2017";
 # wps.in: id = transform_and_load_primary_datasets, type = boolean, title = MANDATORY. Harmonize structure and load primary tuna RFMOs datasets in the database ? , value = TRUE;
 # wps.in: id = generate_and_load_global_tuna_atlas_datasets, type = boolean, title = MANDATORY. Generate and load global tuna atlas datasets in the database ? , value = TRUE;
 # wps.in: id = virtual_repository_with_R_files, type = string, title = MANDATORY. Repository where the R scripts of data generation will be loaded. , value = "/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation";
