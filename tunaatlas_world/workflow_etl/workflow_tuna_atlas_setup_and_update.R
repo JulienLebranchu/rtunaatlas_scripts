@@ -49,23 +49,23 @@ db_dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,ti
 db_variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
 
 ## metadata_and_parameterization_csv_codelists : fill-in only if load_codelists==TRUE
-metadata_and_parameterization_csv_codelists<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
+metadata_and_parameterization_csv_codelists="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
 
 ## metadata_and_parameterization_csv_mappings : fill-in only if load_codelists_mappings==TRUE
-metadata_and_parameterization_csv_mappings<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
+metadata_and_parameterization_csv_mappings="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
 
 ## metadata_and_parameterization_csv_primary_datasets : fill-in only if transform_and_load_primary_datasets==TRUE
-metadata_and_parameterization_csv_primary_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
+metadata_and_parameterization_csv_primary_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
 
 ## metadata_and_parameterization_ird_tuna_atlas_catch_datasets,metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets : fill-in only if generate_and_load_global_tuna_atlas_datasets==TRUE
-metadata_and_parameterization_ird_tuna_atlas_catch_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_catch_datasets_2017.csv"
-metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
+metadata_and_parameterization_ird_tuna_atlas_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_catch_datasets_2017.csv"
+metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
 
 
 
 
 repository_R_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl/scripts"  ## Repository where the scripts are stored
-repository_sql_scripts<-"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
+repository_sql_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
 
 
 if(!require(RPostgreSQL)){
