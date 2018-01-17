@@ -53,11 +53,11 @@ for (i in 1:length(dimensions)){
   cat(paste0("Deploying dimension ",dimensions[i],"...\n"))
   
   if (dimensions[i]=="time"){
-    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension_time.sql",sep="/")
+    fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_dimension_time.sql",sep="/")
   } else if (dimensions[i]=="sizeclass"){
-    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension_sizeclass.sql",sep="/")
+    fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_dimension_sizeclass.sql",sep="/")
   } else {
-    fileName <- paste0(repository_sql_scripts_database_deployement,"create_schema_dimension.sql",sep="/")
+    fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_dimension.sql",sep="/")
   }
   
   sql_deploy_dimension<-paste(readLines(fileName), collapse=" ")
@@ -74,7 +74,7 @@ for (i in 1:length(dimensions)){
     dbSendQuery(con,sql_deploy_table_area_wkt)
     
     # Update view area.area_labels
-    sql_deploy_view_area_labels<-paste(readLines(paste0(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse=" ")
+    sql_deploy_view_area_labels<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse=" ")
     sql_deploy_view_area_labels<-gsub("%db_admin%",db_admin_name,sql_deploy_view_area_labels)
     dbSendQuery(con,sql_deploy_view_area_labels)
     
