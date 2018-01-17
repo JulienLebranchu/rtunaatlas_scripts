@@ -55,3 +55,31 @@ CREATE VIEW %dimension_name%.%dimension_name%_labels AS
     'Unknown'::character varying AS source_label,
     'Inconnu'::character varying AS source_french_label,
     'Desconocido'::character varying AS source_spanish_label;
+    
+
+CREATE VIEW %dimension_name%.%dimension_name%_mapping_view AS 
+SELECT 
+sub1.db_idsource,
+sub2.db_idtarget,
+sub1.codesource as src_code,
+sub2.codetarget as trg_code,
+sub1.db_tablesource as src_codingsystem,
+sub2.db_tabletarget as trg_codingsystem,
+sub2.relation_type
+FROM
+( SELECT %dimension_name%.id_%dimension_name% AS db_idsource,
+%dimension_name%.codesource_%dimension_name% AS codesource,
+%dimension_name%.tablesource_%dimension_name% AS db_tablesource
+FROM %dimension_name%.%dimension_name%
+JOIN metadata.metadata ON metadata.id_metadata = %dimension_name%.id_metadata
+) sub1
+LEFT JOIN ( SELECT %dimension_name%_mapping.%dimension_name%_mapping_id_from as db_idsource,
+ %dimension_name%_mapping.%dimension_name%_mapping_id_to AS db_idtarget,
+%dimension_name%_mapping.%dimension_name%_mapping_relation_type as relation_type, 
+%dimension_name%.codesource_%dimension_name% AS codetarget,
+%dimension_name%.tablesource_%dimension_name% AS db_tabletarget
+FROM %dimension_name%.%dimension_name%_mapping
+JOIN %dimension_name%.%dimension_name% ON %dimension_name%.id_%dimension_name% = %dimension_name%_mapping.%dimension_name%_mapping_id_to
+JOIN metadata.metadata ON metadata.id_metadata = %dimension_name%.id_metadata
+) sub2 ON sub1.db_idsource = sub2.db_idsource
+ORDER BY sub1.db_tablesource,sub1.codesource,sub2.db_tabletarget
