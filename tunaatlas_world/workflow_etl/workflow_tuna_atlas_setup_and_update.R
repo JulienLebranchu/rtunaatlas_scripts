@@ -36,11 +36,11 @@ transform_and_load_primary_datasets=TRUE
 generate_and_load_global_tuna_atlas_datasets=TRUE
 virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
 vre_username="paultaconet"
-vre_token="4b744102-6598-4edc-8f55-934bea9e1867-843339462"
+vre_token="***"
 db_host="db-tuna.d4science.org"
 db_name="tunaatlas"
 db_admin_name="tunaatlas_u"
-db_admin_password="21c0551e7ed2911"
+db_admin_password="***"
 
 ### OPTIONAL PARAMETERS depending on the values set in the mandatory parameters
 ## db_read_name,dimensions,variables_and_associated_dimensions : fill-in only if deploy_database_model==TRUE
