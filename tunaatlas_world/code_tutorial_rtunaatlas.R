@@ -21,7 +21,7 @@
   require(data.table)
   
 ## 1) Connect to global tuna fisheries database
-  con<-rtunaatlas::db_connection_sardara_world()
+  con<-rtunaatlas::db_connection_tunaatlas_world()
   
 ## 2) List the datasets available in the database (output is a data.frame providing the metadata):
   # 2.1 List all the datasets
@@ -36,7 +36,7 @@
 ## 3) Extract a dataset from the database (output is a data.frame providing the data):
 # To extract a dataset, you may put on the argument "dataset_name" the name of a dataset (column 'dataset_name' of the data.frame output of the function list_metadata_datasets)
 # Extract the Global catch of tuna, tuna like, etc.. . 
-  metadata_global_catch<-rtunaatlas::list_metadata_datasets(con,dataset_name="global_catch_1950_01_01_2016_01_01_tunaatlasIRD_level2")
+  metadata_global_catch<-rtunaatlas::list_metadata_datasets(con,dataset_name="global_catch_1950_01_01_2016_01_01_tunaatlasird_2017_level2")
   global_catch_tunaatlasIRD_level2<-rtunaatlas::extract_dataset(con,metadata_global_catch) # (takes time, approx. 2 min in my computer. I suggest to save the file in the computer once extracted, so as to re-use it without having to query Sardara each time this code is ran)
   head(global_catch_tunaatlasIRD_level2)
   # To get more information on this dataset (metadata) execute the following line: rtunaatlas::list_metadata_datasets(con,dataset_name="global_catch_1950_01_01_2016_01_01_tunaatlasIRD_level2")
@@ -58,26 +58,26 @@
   
 ## 6) Visualize the data. 
 
-  # 6.1 Pie map of catches by 5° square and by gear between 2010 and 2015
+  # 6.1 Pie map of catches of YFT+BET+SKJ by 5° square and by gear between 2010 and 2015
   rtunaatlas::pie_map(con,
-                      df_input=global_catch_5deg_tunaatlasIRD_level2 %>% filter (time_start>="2010-01-01" & time_end<="2016-01-01" & unit=="MT" & species_group %in% c("TUNTROP","TUNTEMP","BILLFIS")),
-                      dimension_group_by="gear_group",
+                      df_input=global_catch_5deg_tunaatlasIRD_level2 %>% filter (time_start>="2010-01-01" & time_end<="2016-01-01" & unit=="MT" & species %in% c("YFT","BET","SKJ")),
+                      dimension_group_by="gear",
                       df_spatial_code_list_name="areas_tuna_rfmos_task2",
                       number_of_classes=4 
                       )
     
-  # 6.2 Pie map of catches by 5° square and by species between 2010 and 2015
+  # 6.2 Pie map of catches of YFT+BET+SKJ by 5° square and by species between 2010 and 2015
   rtunaatlas::pie_map(con,
-                      df_input=global_catch_5deg_tunaatlasIRD_level2 %>% filter (time_start>="2010-01-01" & time_end<="2016-01-01" & unit=="MT" & species_group %in% c("TUNTROP","TUNTEMP","BILLFIS")),
+                      df_input=global_catch_5deg_tunaatlasIRD_level2 %>% filter (time_start>="2010-01-01" & time_end<="2016-01-01" & unit=="MT" & species %in% c("YFT","BET","SKJ")),
                       dimension_group_by="species",
                       df_spatial_code_list_name="areas_tuna_rfmos_task2",
                       number_of_classes=4
                       )
   
   
-  # 6.3 Yearly evolution of the catches of spanish purse seiners by fishing mode
+  # 6.3 Yearly evolution of the catches of YFT+BET+SKJ by purse seiners by fishing mode
   rtunaatlas::time_series_plot(
-           df_input=global_catch_tunaatlasIRD_level2 %>% filter ( gear_group=="PS" & unit=="MT" & species_group %in% c("TUNTROP","TUNTEMP","BILLFIS")),
+           df_input=global_catch_tunaatlasIRD_level2 %>% filter ( gear=="01.1" & unit=="MT" & species %in% c("YFT","BET","SKJ")),
            time_resolution="year",
            dimension_group_by="schooltype",
            number_of_classes=5
