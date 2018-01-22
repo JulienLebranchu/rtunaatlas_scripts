@@ -20,8 +20,8 @@
 # wps.in: id = unit_conversion_codelist_geoidentifiers_conversion_factors, type = string, title = Use only if parameter unit_conversion_convert is set to TRUE. If units are converted, name of the coding system of the spatial dimension used in the conversion factor dataset (i.e. table name in Tuna atlas database)., value = "NULL"
 # wps.in: id = raising_georef_to_nominal, type = string, title =  Geo-referenced catch data and associated effort can represent only part of the total catches. Raise georeferenced catches to nominal catches? Depending on the availability of the flag dimension (currently not available for the geo-referenced catch-and-effort dataset from the WCPFC and CCSBT) the dimensions used for the raising are either {Flag|Species|Year|Gear} or {Species|Year|Gear}. Some catches cannot be raised because the combination {Flag|Species|Year|Gear} (resp. {Species|Year|Gear}) does exist in the geo-referenced catches but the same combination does not exist in the total catches. In this case non-raised catch data are kept. TRUE : Raise georeferenced catches to total catches. FALSE : Do not raise., value = "TRUE";
 # wps.in: id = aggregate_on_5deg_data_with_resolution_inferior_to_5deg, type = string, title =  Aggregate data that are defined on quadrants or areas inferior to 5° quadrant resolution to corresponding 5° quadrant? TRUE : Aggregate. Data that are provided at spatial resolutions superior to 5° x 5°  will be aggregated to the corresponding 5° quadrant. FALSE : Do not aggregate. Data that are provided at spatial resolutions superior to 5° x 5° will be will be kept as so. , value = "FALSE";
-# wps.in: id = disaggregate_on_5deg_data_with_resolution_superior_to_5deg, type = string, title = Disaggregate data that are defined on quadrants or areas superior to 5° quadrant resolution to 5° quadrant? TRUE : Disaggregate. Data that are provided at spatial resolutions superior to 5° x 5°  will be disaggregated to the corresponding 5°  x 5°  quadrants by dividing the catch equally on the overlappings 5° x 5°  quadrants. FALSE : Do not disaggregrate. Data that are provided at spatial resolutions inferior to 5° x 5° will be kept as so., value = "FALSE";
-# wps.in: id = disaggregate_on_1deg_data_with_resolution_superior_to_1deg, type = string, title = Same as parameter disaggregate_on_5deg_data_with_resolution_superior_to_5deg but for 1° resolutions  , value = "FALSE";
+# wps.in: id = disaggregate_on_5deg_data_with_resolution_superior_to_5deg, type = string, title = What to do with data that are defined on quadrants or areas superior to 5° quadrant resolution to 5° quadrant? none: Do not do anything. Data that are provided at spatial resolutions inferior to 5° x 5° will be kept as so. disaggregate : data that are provided at spatial resolutions superior to 5° x 5°  will be disaggregated to the corresponding 5°  x 5°  quadrants by dividing the catch equally on the overlappings 5° x 5°  quadrants. remove : Data that are provided at spatial resolutions superior to 5° x 5°  will be removed from the dataset. , value = "none|disaggregate|remove";
+# wps.in: id = disaggregate_on_1deg_data_with_resolution_superior_to_1deg, type = string, title = Same as parameter disaggregate_on_5deg_data_with_resolution_superior_to_5deg but for 1° resolutions  , value = "none|disaggregate|remove";
 # wps.in: id = spatial_curation_data_mislocated, type = string, title = Some data might be mislocated: either located on land areas or without any area information. This parameter allows to control what to do with these data. reallocate : Reallocate the mislocated data (equally distributed on areas with same dimensions (month|gear|flag|species|schooltype). no_reallocation : do not reallocate mislocated data. The output dataset will keep these data with their original location (eg on land or with no area information). remove : remove the mislocated data., value = "reallocate|no_reallocation|remove";
 # wps.in: id = overlapping_zone_iattc_wcpfc_data_to_keep, type = string, title = Concerns IATTC and WCPFC data. IATTC and WCPFC have an overlapping area in their respective area of competence. Which data should be kept for this zone? IATTC : keep data from IATTC. WCPFC : keep data from WCPFC. NULL : Keep data from both tRFMOs. Caution: with the option NULL, data in the overlapping zone are likely to be redundant., value = "IATTC|WCPFC|NULL";
 # wps.in: id = SBF_data_rfmo_to_keep, type = string, title = Concerns Southern Bluefin Tuna (SBF) data. Use only if parameter include_CCSBT is set to TRUE. SBF tuna data do exist in both CCSBT data and the other tuna RFMOs data. Wich data should be kept? CCSBT : CCSBT data are kept for SBF. other_trfmos : data from the other TRFMOs are kept for SBF. NULL : Keep data from all the tRFMOs. Caution: with the option NULL, data in the overlapping zones are likely to be redundant., value = "CCSBT|other_trfmos|NULL";
@@ -221,13 +221,17 @@ if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE") {
 } 
 
 ## 6.2 Disggregate data on 5° resolution quadrants
-if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg=="TRUE") { 
-  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_5deg_data_with_resolution_superior_to_5deg.R"))
-} 
+if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg %in% c("disaggregate","remove")) {
+  resolution=5
+  action_to_do<-disaggregate_on_5deg_data_with_resolution_superior_to_5deg
+  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg.R"))
+}
 
 ## 6.3 Disggregate data on 1° resolution quadrants
-if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg=="TRUE") { 
-  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_1deg_data_with_resolution_superior_to_1deg.R"))
+if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggregate","remove")) { 
+  resolution=1
+  action_to_do<-disaggregate_on_1deg_data_with_resolution_superior_to_1deg
+  source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg.R"))
 } 
 
 
@@ -295,7 +299,7 @@ if (include_WCPFC=="TRUE"){
 if (include_CCSBT=="TRUE"){
   path_csv_codelists<-"http://data.d4science.org/VE96amI2MFFYaENZdFBua3lVbFNXTk4zNmxTUjFZcU5HbWJQNStIS0N6Yz0"
 }
-if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="https://goo.gl/2hA1sq"){
+if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="http://data.d4science.org/ZWFMa3JJUHBXWk9NTXVPdFZhbU5BUFEyQnhUeWd1d3lHbWJQNStIS0N6Yz0"){
   path_csv_codelists<-"http://data.d4science.org/TWh6VXpKdG85cHVZdFBua3lVbFNXTWVseVI5V0NyZGVHbWJQNStIS0N6Yz0"
 }
 

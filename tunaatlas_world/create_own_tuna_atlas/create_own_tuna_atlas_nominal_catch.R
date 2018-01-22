@@ -123,7 +123,7 @@ if (include_WCPFC=="TRUE"){
 if (include_CCSBT=="TRUE"){
   path_csv_codelists<-"http://data.d4science.org/NXh0RTlVYVBSUldZdFBua3lVbFNXSHltUUcwSTM3U3NHbWJQNStIS0N6Yz0"
 }
-if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="https://goo.gl/2hA1sq"){
+if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="http://data.d4science.org/ZWFMa3JJUHBXWk9NTXVPdFZhbU5BUFEyQnhUeWd1d3lHbWJQNStIS0N6Yz0"){
   path_csv_codelists<-"http://data.d4science.org/NVE2azRLbzhTQ3VZdFBua3lVbFNXRVlUVE95THl6WlJHbWJQNStIS0N6Yz0"
 }
 
