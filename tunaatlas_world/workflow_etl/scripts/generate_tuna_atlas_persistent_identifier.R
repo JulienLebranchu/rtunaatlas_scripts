@@ -7,28 +7,37 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   }
   
   ## spatialcoverage
-  spatialcoverage<-NULL
+  spatialcoverage_identifier<-NULL
+  spatialcoverage_view<-NULL
   if (include_IOTC=="TRUE") {
-    spatialcoverage=c(spatialcoverage,"indian")
+    spatialcoverage_identifier=c(spatialcoverage,"indian")
+    spatialcoverage_view=c(spatialcoverage_view,"ind")
   }
   if (include_ICCAT=="TRUE") {
-    spatialcoverage=c(spatialcoverage,"atlantic")
+    spatialcoverage_identifier=c(spatialcoverage_identifier,"atlantic")
+    spatialcoverage_view=c(spatialcoverage_view,"atl")
   }
   if (include_IATTC=="TRUE") {
-    spatialcoverage=c(spatialcoverage,"east_pacific")
+    spatialcoverage_identifier=c(spatialcoverage_identifier,"east_pacific")
+    spatialcoverage_view=c(spatialcoverage_view,"eop")
   }
   if (include_WCPFC=="TRUE") {
-    spatialcoverage=c(spatialcoverage,"west_pacific")
+    spatialcoverage_identifier=c(spatialcoverage_identifier,"west_pacific")
+    spatialcoverage_view=c(spatialcoverage_view,"wpo")
   }
   if (include_CCSBT=="TRUE") {
-    spatialcoverage=c(spatialcoverage,"southern_hemispheres")
+    spatialcoverage_identifier=c(spatialcoverage,"southern_hemispheres")
+    spatialcoverage_view=c(spatialcoverage_view,"soh")
   }
   
-  spatialcoverage<-paste(spatialcoverage,sep="",collapse="_")
-  spatialcoverage<-paste(spatialcoverage,"ocean",sep="_")
+  spatialcoverage_identifier<-paste(spatialcoverage_identifier,sep="",collapse="_")
+  spatialcoverage_identifier<-paste(spatialcoverage_identifier,"ocean",sep="_")
   
+  spatialcoverage_view<-paste(spatialcoverage_view,sep="",collapse="_")
+
   if (include_IOTC=="TRUE" && include_ICCAT=="TRUE" && include_IATTC=="TRUE" && include_WCPFC=="TRUE" && include_CCSBT=="TRUE"){
-    spatialcoverage="global"
+    spatialcoverage_identifier="global"
+    spatialcoverage_view="global"
   } 
   
   ## spatial resolution
@@ -57,8 +66,12 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
     level<-NULL
   }
   
-  ## generate persistent identifier 
-  persistent_identifier<-paste(spatialcoverage,fact,spatialresolution,temporalresolution,source,level,sep="_")
-  return(persistent_identifier)
+  ## generate persistent identifier and database view name
+  persistent_identifier<-paste(spatialcoverage_identifier,fact,spatialresolution,temporalresolution,source,level,sep="_")
+  
+  database_view_name<-paste(spatialcoverage_view,fact,spatialresolution,temporalresolution,source,level,sep="_")
+  database_view_name<-paste0("tunaatlas_",tolower(metadata_and_parameterization$source),".",database_view_name)
+  
+  return(list(persistent_identifier=persistent_identifier,database_view_name=database_view_name))
   
 }
