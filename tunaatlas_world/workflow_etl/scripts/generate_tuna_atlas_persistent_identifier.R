@@ -10,7 +10,7 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   spatialcoverage_identifier<-NULL
   spatialcoverage_view<-NULL
   if (include_IOTC=="TRUE") {
-    spatialcoverage_identifier=c(spatialcoverage,"indian")
+    spatialcoverage_identifier=c(spatialcoverage_identifier,"indian")
     spatialcoverage_view=c(spatialcoverage_view,"ind")
   }
   if (include_ICCAT=="TRUE") {
@@ -26,7 +26,7 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
     spatialcoverage_view=c(spatialcoverage_view,"wpo")
   }
   if (include_CCSBT=="TRUE") {
-    spatialcoverage_identifier=c(spatialcoverage,"southern_hemispheres")
+    spatialcoverage_identifier=c(spatialcoverage_identifier,"southern_hemispheres")
     spatialcoverage_view=c(spatialcoverage_view,"soh")
   }
   
