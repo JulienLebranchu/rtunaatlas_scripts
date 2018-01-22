@@ -245,7 +245,7 @@ if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
 
 #### 8) Overlapping zone (IATTC/WCPFC): keep data from IATTC or WCPFC?
 
-if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
+if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
   df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
   georef_dataset<-df
@@ -256,7 +256,7 @@ if (overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
 
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
-if (SBF_data_rfmo_to_keep!="NULL"){
+if (include_CCSBT=="TRUE" && SBF_data_rfmo_to_keep!="NULL"){
   df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
   georef_dataset<-df
