@@ -25,7 +25,7 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   }
   
   spatialcoverage<-paste(spatialcoverage,sep="",collapse="_")
-  spatialcoverage<-paste(spatialcoverage,"oceans",sep="_")
+  spatialcoverage<-paste(spatialcoverage,"ocean",sep="_")
   
   if (include_IOTC=="TRUE" && include_ICCAT=="TRUE" && include_IATTC=="TRUE" && include_WCPFC=="TRUE" && include_CCSBT=="TRUE"){
     spatialcoverage="global"
