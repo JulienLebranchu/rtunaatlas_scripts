@@ -12,8 +12,8 @@ CCSBT,effort,http://data.d4science.org/WENsL1FiZ1U1Y09NTXVPdFZhbU5BS1cxVFJCd2ZmV
 global,catch,http://data.d4science.org/Mld6b1hKSXVlUENNTXVPdFZhbU5BTWRwRXFGUmtKZUhHbWJQNStIS0N6Yz0
 global,effort,http://data.d4science.org/TTdjQ3M0Qy9kTEdNTXVPdFZhbU5BRHZGZDFDdS9hejFHbWJQNStIS0N6Yz0
 IOTC,nominal_catch,http://data.d4science.org/VWI5Y0pHM2ZHMkNNTXVPdFZhbU5BR2VkTjMzVDhKUk5HbWJQNStIS0N6Yz0
-ICCAT,nominal_catch_sampling_areas,http://data.d4science.org/ZnVyNmQ4ZmdBSXFNTXVPdFZhbU5BQkx4SVpzTTFDWHhHbWJQNStIS0N6Yz0
-ICCAT,nominal_catch_stock_areas,http://data.d4science.org/WXZGTk5pbGtPY0tNTXVPdFZhbU5BTEErNFNQTS9JeW1HbWJQNStIS0N6Yz0
+ICCAT,nominal_catch_sampling_area,http://data.d4science.org/ZnVyNmQ4ZmdBSXFNTXVPdFZhbU5BQkx4SVpzTTFDWHhHbWJQNStIS0N6Yz0
+ICCAT,nominal_catch_stock_area,http://data.d4science.org/WXZGTk5pbGtPY0tNTXVPdFZhbU5BTEErNFNQTS9JeW1HbWJQNStIS0N6Yz0
 IATTC,nominal_catch,http://data.d4science.org/TzVVZjFMZEd5T3FNTXVPdFZhbU5BT0diOUZNSDh5Y0FHbWJQNStIS0N6Yz0
 WCPFC,nominal_catch,http://data.d4science.org/WGxtU3BjVUJieWlNTXVPdFZhbU5BRyt1cFVieTR6Q0NHbWJQNStIS0N6Yz0
 CCSBT,nominal_catch,http://data.d4science.org/dVg4Wlh0aE45Yk9NTXVPdFZhbU5BUEFEQWhHOWxBY2hHbWJQNStIS0N6Yz0
