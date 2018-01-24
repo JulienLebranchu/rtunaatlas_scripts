@@ -105,27 +105,27 @@ metadata$lineage<-lineage_metadata_format
 
 ## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
 if (include_IOTC=="TRUE"){
-  path_csv_codelists<-"http://data.d4science.org/NUNrRTdxZ1FWS1dZdFBua3lVbFNXRUhWdHJGeFAxMytHbWJQNStIS0N6Yz0"
+  rfmo="IOTC"
 }
 if (include_ICCAT=="TRUE"){
-  if (iccat_nominal_catch_spatial_stratification=="sampling_area"){
-  path_csv_codelists<-"http://data.d4science.org/Zk4xaEFCODRrQ2FZdFBua3lVbFNXRVZOdFBoS0lYZVBHbWJQNStIS0N6Yz0"
-  } else if (iccat_nominal_catch_spatial_stratification=="stock_area"){
-  path_csv_codelists<-"http://data.d4science.org/UnIzaXdVZzk0T2VZdFBua3lVbFNXRThqMklFMVNUNVFHbWJQNStIS0N6Yz0"
-  }
+  rfmo="ICCAT"
+  fact<-paste(fact,iccat_nominal_catch_spatial_stratification,sep="_")
 }
 if (include_IATTC=="TRUE"){
-  path_csv_codelists<-"http://data.d4science.org/NkxDaEZpdXgzcUtZdFBua3lVbFNXSEcza1MvU2JETG5HbWJQNStIS0N6Yz0"
+  rfmo="IATTC"
 }
 if (include_WCPFC=="TRUE"){
-  path_csv_codelists<-"http://data.d4science.org/cEdsNVZrTU9yNHVZdFBua3lVbFNXTEcwZ2M5WDdxM0tHbWJQNStIS0N6Yz0"
+  rfmo="WCPFC"
 }
 if (include_CCSBT=="TRUE"){
-  path_csv_codelists<-"http://data.d4science.org/NXh0RTlVYVBSUldZdFBua3lVbFNXSHltUUcwSTM3U3NHbWJQNStIS0N6Yz0"
+  rfmo="CCSBT"
 }
 if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="http://data.d4science.org/ZWFMa3JJUHBXWk9NTXVPdFZhbU5BUFEyQnhUeWd1d3lHbWJQNStIS0N6Yz0"){
-  path_csv_codelists<-"http://data.d4science.org/NVE2azRLbzhTQ3VZdFBua3lVbFNXRVlUVE95THl6WlJHbWJQNStIS0N6Yz0"
+  rfmo="global"
 }
+
+table_urls_code_lists_to_use_to_load_datasets<-read.csv("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/table_urls_code_lists_to_use_to_load_datasets.csv",stringsAsFactors = F)
+path_csv_codelists <- table_urls_code_lists_to_use_to_load_datasets$url_df_codelist[which(table_urls_code_lists_to_use_to_load_datasets$rfmo==rfmo & table_urls_code_lists_to_use_to_load_datasets$fact==fact)]
 
 df_codelists <- data.frame(lapply(read.csv(path_csv_codelists), as.character), stringsAsFactors=FALSE)
 

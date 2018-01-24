@@ -36,7 +36,7 @@ if ( include_CCSBT==TRUE | include_WCPFC==TRUE ) {
     x_raising_dimensions=c("gear","year","source_authority","unit")
   }
   
-  cat(paste0("Raising georeferenced dataset of CCBST and WCPFC - if included in the Tuna Atlas - by ",x_raising_dimensions,"\n"))
+  cat(paste0("Raising georeferenced dataset of CCBST and WCPFC - if included in the Tuna Atlas - by ",paste(x_raising_dimensions,collapse = ","),"\n"))
   catch_WCPFC_CCSBT_raised<-function_raise_data(source_authority_filter = c("WCPFC","CCSBT"),
                                                 dataset_df = georef_dataset,
                                                 nominal_dataset_df = nominal_catch,
@@ -55,7 +55,7 @@ if ( include_IOTC==TRUE | include_ICCAT==TRUE | include_IATTC==TRUE ) {
     x_raising_dimensions=c("gear","flag","year","source_authority","unit")
   }
   
-  cat(paste0("Raising georeferenced dataset of IOTC, ICCAT and IATTC - if included in the Tuna Atlas - by ",x_raising_dimensions,"\n"))
+  cat(paste0("Raising georeferenced dataset of IOTC, ICCAT and IATTC - if included in the Tuna Atlas - by ",paste(x_raising_dimensions,collapse = ","),"\n"))
   catch_IOTC_ICCAT_IATTC_raised<-function_raise_data(source_authority_filter = c("IOTC","ICCAT","IATTC"),
                                                      dataset_df = georef_dataset,
                                                      nominal_dataset_df = nominal_catch,
