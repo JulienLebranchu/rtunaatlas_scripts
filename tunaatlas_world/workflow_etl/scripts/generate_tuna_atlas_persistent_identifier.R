@@ -43,9 +43,10 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   ## spatial resolution
   if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE" && disaggregate_on_5deg_data_with_resolution_superior_to_5deg %in% c("disaggregate","remove")){
     spatialresolution="5deg"
-  }
-  if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggregate","remove")){
+  } else if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggregate","remove")){
     spatialresolution="1deg"
+  } else {
+    spatialresolution<-NULL
   }
   
   
