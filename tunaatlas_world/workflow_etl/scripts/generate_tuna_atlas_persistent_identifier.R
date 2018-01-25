@@ -46,7 +46,7 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   } else if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggregate","remove")){
     spatialresolution="1deg"
   } else {
-    spatialresolution<-NULL
+    spatialresolution<-""
   }
   
   
@@ -69,9 +69,11 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   
   ## generate persistent identifier and database view name
   persistent_identifier<-paste(spatialcoverage_identifier,fact,spatialresolution,temporalresolution,source,level,sep="_")
+  persistent_identifier<-gsub("__","_",persistent_identifier)
   
   database_view_name<-paste(spatialcoverage_view,fact,spatialresolution,temporalresolution,source,level,sep="_")
   database_view_name<-paste0("tunaatlas_",tolower(metadata_and_parameterization$source),".",database_view_name)
+  database_view_name<-gsub("__","_",database_view_name)
   
   return(list(persistent_identifier=persistent_identifier,database_view_name=database_view_name))
   
