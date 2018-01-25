@@ -19,6 +19,8 @@ push_R_script_to_server<-function(metadata_and_parameterization,virtual_reposito
   close(fConn)
   
   ## Push R code in the VRE WS
+  username<-vre_username
+  token<-vre_token
   source("http://svn.research-infrastructures.eu/public/d4science/gcube/trunk/data-analysis/RConfiguration/RD4SFunctions/workspace_interaction.r")
   uploadWS(virtual_repository_with_R_files,RFileName,overwrite=T)
   RFileURL <- getPublicFileLinkWS(paste(virtual_repository_with_R_files,RFileName,sep="/"))
