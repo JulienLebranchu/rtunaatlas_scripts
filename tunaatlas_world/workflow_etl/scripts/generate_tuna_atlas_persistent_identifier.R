@@ -1,4 +1,4 @@
-generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterization,fact){
+generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterization){
   
   # Get input parameters names and values
   parameters_columns<-colnames(metadata_and_parameterization)[which(grepl("parameter_",colnames(metadata_and_parameterization)))]
