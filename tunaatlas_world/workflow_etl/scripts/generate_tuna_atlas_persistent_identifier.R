@@ -40,6 +40,7 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
     spatialcoverage_view="global"
   } 
   
+  if (fact!="nominal_catch"){
   ## spatial resolution
   if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE" && disaggregate_on_5deg_data_with_resolution_superior_to_5deg %in% c("disaggregate","remove")){
     spatialresolution="5deg"
@@ -49,12 +50,8 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
     spatialresolution<-""
   }
   
-  
   ## temporal resolution
   temporalresolution="1m"
-  
-  ## source
-  source<-paste0("tunaatlas",tolower(metadata_and_parameterization$source))
   
   ## level
   if (unit_conversion_convert=="FALSE" && spatial_curation_data_mislocated %in% c("no_reallocation","remove") && raising_georef_to_nominal=="FALSE") {
@@ -66,6 +63,17 @@ generate_tuna_atlas_persistent_identifier<-function(metadata_and_parameterizatio
   } else {
     level<-"other"
   }
+  
+  
+  } else {
+    spatialresolution<-""
+    temporalresolution=""
+    level<-"other"
+  }
+  
+  ## source
+  source<-paste0("tunaatlas",tolower(metadata_and_parameterization$source))
+  
   
   ## generate persistent identifier and database view name
   persistent_identifier<-paste(spatialcoverage_identifier,fact,spatialresolution,temporalresolution,source,level,sep="_")
