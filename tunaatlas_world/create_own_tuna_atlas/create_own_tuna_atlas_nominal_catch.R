@@ -91,7 +91,7 @@ dbDisconnect(con)
 
 ## fill some metadata elements
 metadata$supplemental_information<-paste0(metadata$supplemental_information,"- Catches in the Pacific ocean are over-estimated. In fact, IATTC and WCPFC, who report the data respectively for the Eastern Pacific and Western Pacific oceans, have an overlapping area in their respective area of competence. Data from both RFMOs may be redundant in this overlapping zone.
-- Geographical stratification in this dataset is : major FAO fishing area for the Indian ocean (IOTC), sampling areas for the Atlantic ocean (ICCAT), whole areas of competence of the respective RFMOs for the Pacific ocean (IATTC and WCPFC), area of competence of the CCSBT for the Southern Bluefin tuna.")
+- Geographical stratification in this dataset is : major FAO fishing area for the Indian ocean (IOTC), ",iccat_nominal_catch_spatial_stratification," for the Atlantic ocean (ICCAT), whole areas of competence of the respective RFMOs for the Pacific ocean (IATTC and WCPFC), area of competence of the CCSBT for the Southern Bluefin tuna.")
 metadata$description<-paste0(metadata$description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
 metadata$contact_originator<-unique(strsplit(metadata$contact_originator, ";")[[1]])
 metadata$contact_originator<-paste(metadata$contact_originator,collapse = ";")
