@@ -104,6 +104,7 @@ metadata$lineage<-lineage_metadata_format
 
 
 ## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
+fact<-"nominal_catch"
 if (include_IOTC=="TRUE"){
   rfmo="IOTC"
 }
