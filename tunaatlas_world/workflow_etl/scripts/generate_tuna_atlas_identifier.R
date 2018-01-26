@@ -7,7 +7,7 @@ dataset_time_end<-as.character(max(as.Date(dataset$time_end)))
 identifier<-metadata_and_parameterization$persistent_identifier
 identifier<-gsub("tunaatlas",paste(dataset_time_start,dataset_time_end,"tunaatlas",sep="_"),identifier)
 #identifier<-gsub("level",paste0(year_tuna_atlas,"_level"),identifier)
-identifier<-paste0(identifier,year_tuna_atlas,sep="__")
+identifier<-paste(identifier,year_tuna_atlas,sep="__")
 identifier<-gsub("-","_",identifier)
 
 return(identifier)
