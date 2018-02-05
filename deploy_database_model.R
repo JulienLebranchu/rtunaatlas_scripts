@@ -7,8 +7,8 @@
 # wps.in: id = db_admin_name, type = string, title = Name of the administrator role. , value = "tunaatlas_u";
 # wps.in: id = db_read_name, type = string, title = Name of the user role with select privileges. , value = "invsardara";
 # wps.in: id = db_admin_password, type = string, title = Password for administrator role of the database. , value = "****";
-# wps.in: id = db_dimensions, type = string, title = Name of the dimensions to deploy. Each dimension must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
-# wps.in: id = db_variables_and_associated_dimensions, type = string, title = Name of the variables to deploy. Each fact must be separated by a comma. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
+# wps.in: id = db_dimensions, type = string, title = Name of the dimensions to deploy. The dimensions must be separated by a comma. , value = "area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source";
+# wps.in: id = db_variables_and_associated_dimensions, type = string, title = Name of the variables to deploy and their associated dimensions. The format is: variable_name=list_of_dimensions_associated_separated_by_commas. The variables should be separated by the symbol '@'. , value = "catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source";
 # wps.in: id = repository_sql_scripts_database_deployement, type = string, title = Folder where the scripts to deploy database are available , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/";
 
 
