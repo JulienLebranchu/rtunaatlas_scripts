@@ -48,6 +48,9 @@ GRANT ALL ON TABLE %dimension_name%.%dimension_name%_mapping TO %db_admin%;
 
 INSERT INTO %dimension_name%.%dimension_name%(id_%dimension_name%,codesource_%dimension_name%) VALUES (0,'UNK');
 
+INSERT INTO %dimension_name%.%dimension_name%_mapping(%dimension_name%_mapping_id_from,%dimension_name%_mapping_id_to,%dimension_name%_mapping_relation_type) VALUES (0,0,NA);
+
+
 CREATE VIEW %dimension_name%.%dimension_name%_labels AS 
  SELECT 0 AS id_%dimension_name%,
     'UNK'::text AS codesource_%dimension_name%,
