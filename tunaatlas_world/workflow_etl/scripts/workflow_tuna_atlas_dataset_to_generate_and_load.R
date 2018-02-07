@@ -15,6 +15,9 @@
   # Push R script of dataset generation to the server
   metadata_and_parameterization<-push_R_script_to_server(metadata_and_parameterization,virtual_repository_with_R_files,vre_username,vre_token)
   
+  # In the metadata, add a link to the primary tRFMO dataset stored permanently
+  metadata_and_parameterization$relation_source_dataset_persistent_url<-metadata_and_parameterization$parameter_path_to_raw_dataset
+  
   # Generate metadata
   df_metadata<-rtunaatlas::generate_metadata(metadata_and_parameterization,dataset,additional_metadata)
   
