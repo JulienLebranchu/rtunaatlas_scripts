@@ -153,7 +153,7 @@ if (include_ICCAT=="TRUE"){
   } else {
     lineage_iccat="Only the dataset without the type of school was used. Hence, the output dataset does not have the information on fishing mode for ICCAT Purse seine data."
   }
-  metadata$lineage<-c(metadata$lineage,paste0("Concerns ICCAT purse seine datasets : ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
+  metadata$lineage<-c(metadata$lineage,paste0("Concerns ICCAT purse seine datasets. ICCAT delivers two catch-and-efforts datasets for purse seiners: one that gives the detail of the type of school (Fad|Free school) for purse seine fisheries and that starts in 1994 (called Task II catch|effort by operation mode Fad|Free school) and one that does not give the information of the type of school and that covers all the time period (from 1950) (called Task II catch|effort). These data are redundant (i.e. the data from the dataset Task II catch|effort by operation mode are also available in the dataset Task II catch|effort) but in the latter, the information on the type of school is not available. ",lineage_iccat))
 }
 
 if (include_IATTC=="TRUE"){
