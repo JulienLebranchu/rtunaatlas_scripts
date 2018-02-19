@@ -58,7 +58,7 @@ con<-rtunaatlas::db_connection_tunaatlas_world()
 metadata<-NULL
 metadata$contact_originator<-NULL
 metadata$lineage<-NULL
-metadata$description<-"The main processes applied to the primary datasets to generate this dataset are the followings:\n"
+metadata$description<-"The main processes applied to generate this dataset are the followings:\n"
 metadata$supplemental_information<-NULL
 
 #### 1) Retrieve tuna RFMOs data from Tuna atlas DB at level 0. Level 0 is the merging of the tRFMOs primary datasets, with the more complete possible value of georef_dataset per stratum (i.e. duplicated or splitted strata among the datasets are dealt specifically -> this is the case for ICCAT and IATTC)  ####
@@ -77,7 +77,7 @@ if (include_IOTC=="TRUE"){
   rm(rfmo_dataset)
   # fill metadata elements
   metadata$contact_originator<-paste0(metadata$contact_originator,"fabio.fiorellato@iotc.org")
-  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IOTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IOTC were collated through the RFMO website (www.iotc.org). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IOTC georeferenced dataset from the Tuna atlas database OK\n")
 }
 
@@ -89,7 +89,7 @@ if (include_WCPFC=="TRUE"){
   rm(rfmo_dataset)
   # fill metadata elements
   metadata$contact_originator<-paste(metadata$contact_originator,"PeterW@spc.int",sep=";")
-  metadata$lineage<-c(metadata$lineage,"Public domain datasets from WCPFC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from WCPFC were collated through the RFMO website (www.wcpfc.int). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving WCPFC georeferenced dataset from the Tuna atlas database OK\n")
 }
 
@@ -101,7 +101,7 @@ if (include_CCSBT=="TRUE"){
   rm(rfmo_dataset)
   # fill metadata elements
   metadata$contact_originator<-paste(metadata$contact_originator,"CMillar@ccsbt.org",sep=";")
-  metadata$lineage<-c(metadata$lineage,"Public domain datasets from CCSBT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from CCSBT were collated through the RFMO website (www.ccsbt.org). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving CCSBT georeferenced dataset from the Tuna atlas database OK\n")
 }
 
@@ -117,7 +117,7 @@ if (include_IATTC=="TRUE"){
   rm(rfmo_dataset)
   # fill metadata elements
   metadata$contact_originator<-paste(metadata$contact_originator,"nvogel@iattc.org",sep=";")
-  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IATTC were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from IATTC were collated through the RFMO website (www.iattc.org). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving IATTC georeferenced dataset from the Tuna atlas database OK\n")
 }
 
@@ -132,7 +132,7 @@ if (include_ICCAT=="TRUE"){
   rm(rfmo_dataset)
   # fill metadata elements
   metadata$contact_originator<-paste(metadata$contact_originator,"carlos.palma@iccat.int",sep=";")
-  metadata$lineage<-c(metadata$lineage,"Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
+  metadata$lineage<-c(metadata$lineage,"Public domain datasets from ICCAT were collated through the RFMO website (www.iccat.int). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database.")
   cat("Retrieving ICCAT georeferenced dataset from the Tuna atlas database OK\n")
 }
 
@@ -159,7 +159,7 @@ if (include_ICCAT=="TRUE"){
 if (include_IATTC=="TRUE"){
   if (iattc_raise_flags_to_schooltype=="TRUE"){
     lineage_iattc<-paste0("For each stratum, the ",fact," coming from the flag-detailed dataset was raised to the ",fact," coming from the school type-detailed dataset to get an estimation of the ",fact," by flag and school type in each stratum.")
-    metadata$supplemental_information<-paste0(metadata$supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced ",fact," is available in separate files for East Pacific Ocean (IATTC) Purse seine datasets. For each stratum, the ",fact," from the flag-detailed dataset was raised to the ",fact," from the school type-detailed dataset to get an estimation of the ",fact," by flag and school type in each stratum.\n")
+    metadata$supplemental_information<-paste0(metadata$supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced ",fact," is available in separate files for East Pacific Ocean Purse seine datasets collated from the IATTC. For each stratum, the ",fact," from the flag-detailed dataset was raised to the ",fact," from the school type-detailed dataset to get an estimation of the ",fact," by flag and school type in each stratum.\n")
     } else {
     if (iattc_dimension_to_use_if_no_raising_flags_to_schooltype=="flag"){
       lineage_iattc<-"Only the dataset with the information on the fishing country was used. Hence, the output dataset does not have the information on fishing mode for IATTC Purse seine data."
@@ -174,7 +174,8 @@ if (include_IATTC=="TRUE"){
 
 metadata$lineage<-c(metadata$lineage,"All the datasets were merged")
 
-metadata$description<-paste0(metadata$description,"- Catch-and-effort data are disseminated in such way that redundancy may exist between the various datasets released, or that dimensions may be split over the datasets for some strata. To cope with these issues and get one single and more complete possible value of ",fact," per stratum (i.e. with all the available dimensions), these datasets had to be merged in specific ways - i.e. not simply merging them but removing the duplicated strata or reassembling the strata with all the available dimensions split over the datasets.\n")
+#metadata$description<-paste0(metadata$description,"- Catch-and-effort data are disseminated in such way that redundancy may exist between the various datasets released, or that dimensions may be split over the datasets for some strata. To cope with these issues and get one single and more complete possible value of ",fact," per stratum (i.e. with all the available dimensions), these datasets had to be merged in specific ways - i.e. not simply merging them but removing the duplicated strata or reassembling the strata with all the available dimensions split over the datasets.\n")
+metadata$description<-paste0(metadata$description,"- Strata described by all the dimensions of interest (i.e. species, flag, gear, school association, year, month, area) were re-assembled from multiple data sets of aggregated ",fact,"\n")
 
 
 
@@ -276,7 +277,7 @@ dbDisconnect(con)
 
 ## fill some metadata elements
 metadata$description<-paste0(metadata$description,"\n More details on the processes are provided in the supplemental information and in the lineage section.")
-metadata$supplemental_information<-paste0(metadata$supplemental_information,"- Some data can be expressed at temporal resolutions greater than 1 month.\n")
+metadata$supplemental_information<-paste0(metadata$supplemental_information,"- Note that some data can be expressed at temporal resolutions greater than 1 month.\n")
 metadata$contact_originator<-unique(strsplit(metadata$contact_originator, ";")[[1]])
 metadata$contact_originator<-paste(metadata$contact_originator,collapse = ";")
 metadata$lineage<-unique(metadata$lineage)

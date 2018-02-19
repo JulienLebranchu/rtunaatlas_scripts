@@ -22,7 +22,7 @@ for (i in 1:length(include_rfmo)){
     
     # fill metadata elements
     metadata$contact_originator<-paste(metadata$contact_originator,nominal_catch_contact_originators[i],sep=";")
-    metadata$lineage<-c(metadata$lineage,paste0("Public domain datasets from ",rfmo[i]," were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
+    metadata$lineage<-c(metadata$lineage,paste0("Public domain datasets from ",rfmo[i]," were collated through the RFMO website. Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
     }
 }
 nominal_catch_datasets_permanent_identifiers_to_keep<-substring(nominal_catch_datasets_permanent_identifiers_to_keep, 2)
