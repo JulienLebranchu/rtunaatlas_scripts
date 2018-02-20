@@ -7,7 +7,7 @@
   # Generate dataset
   dataset_and_metadata<-generate_dataset(metadata_and_parameterization)
   dataset<-dataset_and_metadata$dataset
-  additional_metadata<-dataset_and_metadata$metadata
+  additional_metadata<-dataset_and_metadata$additional_metadata
   
   # Generate tuna atlas identifier
   metadata_and_parameterization$identifier<-generate_tuna_atlas_identifier(metadata_and_parameterization,dataset,year_tuna_atlas)
