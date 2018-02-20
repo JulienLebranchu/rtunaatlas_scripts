@@ -19,7 +19,7 @@
   metadata_and_parameterization$relation_source_dataset_persistent_url<-metadata_and_parameterization$parameter_path_to_raw_dataset
   
   # Generate metadata
-  df_metadata<-rtunaatlas::generate_metadata(metadata_and_parameterization,dataset,metadata=additional_metadata)
+  df_metadata<-rtunaatlas::generate_metadata(metadata_and_parameterization,dataset,additional_metadata=additional_metadata)
   
   # Open code list data frame. Either it is stored or it is generated in the dataset_and_metadata
   if (!is.na(metadata_and_parameterization$path_to_codelists_used_in_dataset)){

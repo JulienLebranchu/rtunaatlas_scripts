@@ -24,12 +24,12 @@ generate_dataset<-function(metadata_and_parameterization){
   
   cat("End generation of the dataset\n")
   
-  if(!(exists("metadata"))){
-    metadata<-NULL
+  if(!(exists("additional_metadata"))){
+    additional_metadata<-NULL
   }
   if(!(exists("df_codelists"))){
     df_codelists<-NULL
   }
   
-  return(list(dataset=dataset,metadata=metadata,df_codelists=df_codelists))
+  return(list(dataset=dataset,additional_metadata=additional_metadata,df_codelists=df_codelists))
 }
