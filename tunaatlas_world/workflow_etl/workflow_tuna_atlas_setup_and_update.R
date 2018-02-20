@@ -103,7 +103,7 @@ source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_generate_and_l
 
 
 if (deploy_database_model==TRUE){ ## Deploy the database model
-  deploy_database_model(db_name,db_host,db_admin_name,db_read_name,admin_password,db_dimensions,db_variables_and_associated_dimensions,"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model")
+  deploy_database_model_function(db_name,db_host,db_admin_name,db_read_name,admin_password,db_dimensions,db_variables_and_associated_dimensions,"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model")
 }
 
 if (load_codelists==TRUE){ 
