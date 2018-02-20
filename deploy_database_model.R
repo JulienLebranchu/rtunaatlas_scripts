@@ -12,7 +12,7 @@
 # wps.in: id = repository_sql_scripts_database_deployement, type = string, title = Folder where the scripts to deploy database are available , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/";
 
 
-deploy_database_model<-function(db_name,db_host,db_admin_name,db_read_name,db_admin_password,db_dimensions,db_variables_and_associated_dimensions,repository_sql_scripts_database_deployement){
+deploy_database_model_function<-function(db_name,db_host,db_admin_name,db_read_name,db_admin_password,db_dimensions,db_variables_and_associated_dimensions,repository_sql_scripts_database_deployement){
 
 cat("Starting deployement of the database!\n")
 
