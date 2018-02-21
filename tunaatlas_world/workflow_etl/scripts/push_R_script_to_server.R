@@ -11,7 +11,7 @@ push_R_script_to_server<-function(metadata_and_parameterization,virtual_reposito
   parameters_with_values<-NULL
   for (i in 1:length(parameters_columns)){
     if (nchar(metadata_and_parameterization[,parameters_columns[i]])>0){
-      parameters_with_values<-paste0(parameters_with_values,parameters_columns[i],"<-'",metadata_and_parameterization[,parameters_columns[i]],"'\n")
+      parameters_with_values<-paste0(parameters_with_values,gsub("parameter_","",parameters_columns[i]),"<-'",metadata_and_parameterization[,parameters_columns[i]],"'\n")
     }
   }
   writeLines(c(paste0("### Parameters \n",parameters_with_values,"\n"), Lines), con = fConn) 
