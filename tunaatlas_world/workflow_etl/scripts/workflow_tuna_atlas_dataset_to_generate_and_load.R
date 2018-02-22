@@ -18,6 +18,9 @@
   # In the metadata, add a link to the primary tRFMO dataset stored permanently
   metadata_and_parameterization$relation_source_dataset_persistent_url<-metadata_and_parameterization$parameter_path_to_raw_dataset
   
+  # In the metadata, add the date of generation of the dataset
+  metadata_and_parameterization$date<-paste0("publication=",Sys.Date(),";")
+  
   # Generate metadata
   df_metadata<-rtunaatlas::generate_metadata(metadata_and_parameterization,dataset,additional_metadata=additional_metadata)
   

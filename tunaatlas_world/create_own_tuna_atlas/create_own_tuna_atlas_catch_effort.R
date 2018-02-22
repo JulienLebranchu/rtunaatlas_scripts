@@ -283,7 +283,7 @@ metadata$contact_originator<-paste(metadata$contact_originator,collapse = ";")
 metadata$lineage<-unique(metadata$lineage)
 lineage_metadata_format<-NULL
 for (i in 1:length(metadata$lineage)){
-  lineage_metadata_format<-paste(lineage_metadata_format,metadata$lineage[i],sep=paste0(" step",i,": "," \n"))
+  lineage_metadata_format<-paste0(lineage_metadata_format,"step",i,": ",metadata$lineage[i],"\n")
 }
 metadata$lineage<-lineage_metadata_format
 
