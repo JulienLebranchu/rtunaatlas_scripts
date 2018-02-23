@@ -4,6 +4,7 @@
 # wps.des: id = atlantic_ocean_effort_tunaatlasiccat_level0__noschool, title = Harmonize data structure of ICCAT effort dataset, abstract = Harmonize the structure of ICCAT catch-and-effort datasets: (pid of output file = atlantic_ocean_effort_tunaatlasiccat_level0__noschool). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
 # wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize (Miscroft Access (.mdb)). The input database being voluminous, the execution of the function might take long time. Input file must be structured as follow: https://goo.gl/A6qVhb, value = "https://goo.gl/A6qVhb";
 # wps.in: id = path_to_metadata_file, type = String, title = NULL or path to the csv of metadata. The template file can be found here: https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/metadata_source_datasets_to_database_template.csv . If NULL, no metadata will be outputted., value = "NULL";
+# wps.in: id = keep_fleet_instead_of_flag, type = Boolean, title = By default the column "flag" is kept. By setting this argument to TRUE the column "fleet" will be kept (and "flag" will be removed), value = FALSE;
 # wps.out: id = zip_namefile, type = text/zip, title = Dataset with structure harmonized + File of metadata (for integration within the Tuna Atlas database) + File of code lists (for integration within the Tuna Atlas database) ; 
 
 #' @author Paul Taconet, IRD \email{paul.taconet@ird.fr}
@@ -12,6 +13,7 @@
 #'
 #' @seealso \code{\link{convertDSD_iccat_ce_task2_ByOperationMode}} to convert ICCAT task 2 "by operation mode", \code{\link{convertDSD_iccat_nc}} to convert ICCAT nominal catch data structure
 
+keep_fleet_instead_of_flag=FALSE
 
 if(!require(rtunaatlas)){
   if(!require(devtools)){
@@ -85,7 +87,13 @@ data_pivot_ICCAT<-left_join(t2ce,Flags,by="FleetID")  # equivalent to "select Fl
 
 ##Efforts
 
-# Reach the efforts pivot DSD using a function in ICCAT_functions.R
+## Reach the efforts pivot DSD using a function in ICCAT_functions.R
+
+## If we want in the output dataset the column 'FleetCode' instead of 'flag'
+if(keep_fleet_instead_of_flag==TRUE){
+  catches_pivot_ICCAT$Flag<-NULL
+  names(catches_pivot_ICCAT)[names(catches_pivot_ICCAT) == 'FleetCode'] <- 'Flag'
+}
 
 efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_without_schooltype(data_pivot_ICCAT,ICCAT_CE_species_colnames)
 
