@@ -159,13 +159,13 @@ if (include_ICCAT=="TRUE"){
 }
 
 if (include_IATTC=="TRUE"){
-  if (iattc_raise_flags_to_schooltype=="TRUE"){
+  if (iattc_ps_raise_flags_to_schooltype=="TRUE"){
     lineage_iattc<-paste0("For each stratum, the ",fact," coming from the flag-detailed dataset was raised to the ",fact," coming from the school type-detailed dataset to get an estimation of the ",fact," by flag and school type in each stratum.")
     metadata$supplemental_information<-paste0(metadata$supplemental_information,"- For confidentiality policies, information on flag and school type for the geo-referenced ",fact," is available in separate files for East Pacific Ocean Purse seine datasets collated from the IATTC. For each stratum, the ",fact," from the flag-detailed dataset was raised to the ",fact," from the school type-detailed dataset to get an estimation of the ",fact," by flag and school type in each stratum.\n")
     } else {
-    if (iattc_dimension_to_use_if_no_raising_flags_to_schooltype=="flag"){
+    if (iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype=="flag"){
       lineage_iattc<-"Only the dataset with the information on the fishing country was used. Hence, the output dataset does not have the information on fishing mode for IATTC Purse seine data."
-    } else if (iattc_dimension_to_use_if_no_raising_flags_to_schooltype=="schooltype"){
+    } else if (iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype=="schooltype"){
     lineage_iattc<-"Only the dataset with the information on the fishing mode was used. Hence, the output dataset does not have the information on fishing country for IATTC Purse seine data."
     }
   }
