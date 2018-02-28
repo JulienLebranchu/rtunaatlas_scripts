@@ -5,7 +5,11 @@ mapping_dataset<-read.csv(mapping_csv_mapping_datasets_url,stringsAsFactors = F,
 
 function_map_dataset_codelists<-function(dataset_to_map,mapping_dataset,mapping_keep_src_code){
   # Get the dimensions to map from the mapping_dataset
-  dimension_to_map<-unique(mapping_dataset$dimensions_to_map)
+  if (fact=="catch"){
+  dimension_to_map<-c("gear","species","flag","schooltype","catchtype")
+  } else if (fact=="effort"){
+    dimension_to_map<-c("gear","flag","schooltype","unit")
+  }
   # One by one, map the dimensions
   for (i in 1:length(dimension_to_map)){ # i takes the values of the dimensions to map
     if (dimension_to_map[i] %in% colnames(dataset_to_map)){
