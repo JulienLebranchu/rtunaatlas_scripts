@@ -26,7 +26,7 @@
 # wps.in: id = disaggregate_on_1deg_data_with_resolution_superior_to_1deg, type = string, title = Same as parameter disaggregate_on_5deg_data_with_resolution_superior_to_5deg but for 1° resolutions  , value = "none|disaggregate|remove";
 # wps.in: id = spatial_curation_data_mislocated, type = string, title = Some data might be mislocated: either located on land areas or without any area information. This parameter allows to control what to do with these data. reallocate : Reallocate the mislocated data (equally distributed on areas with same dimensions (month|gear|flag|species|schooltype). no_reallocation : do not reallocate mislocated data. The output dataset will keep these data with their original location (eg on land or with no area information). remove : remove the mislocated data., value = "remove|reallocate|no_reallocation";
 # wps.in: id = overlapping_zone_iattc_wcpfc_data_to_keep, type = string, title = Concerns IATTC and WCPFC data. IATTC and WCPFC have an overlapping area in their respective area of competence. Which data should be kept for this zone? IATTC : keep data from IATTC. WCPFC : keep data from WCPFC. NULL : Keep data from both tRFMOs. Caution: with the option NULL data in the overlapping zone are likely to be redundant., value = "IATTC|WCPFC|NULL";
-# wps.in: id = SBF_data_rfmo_to_keep, type = string, title = Concerns Southern Bluefin Tuna (SBF) data. Use only if parameter include_CCSBT is set to TRUE. SBF tuna data do exist in both CCSBT data and the other tuna RFMOs data. Wich data should be kept? CCSBT : CCSBT data are kept for SBF. other_trfmos : data from the other TRFMOs are kept for SBF. NULL : Keep data from all the tRFMOs. Caution: with the option NULL data in the overlapping zones are likely to be redundant., value = "CCSBT|other_trfmos|NULL";
+# wps.in: id = SBF_data_rfmo_to_keep, type = string, title = Concerns Southern Bluefin Tuna (SBF) data. Use only if parameter fact is set to 'catch' and parameter include_CCSBT is set to TRUE. SBF tuna data do exist in both CCSBT data and the other tuna RFMOs data. Wich data should be kept? CCSBT : CCSBT data are kept for SBF. other_trfmos : data from the other TRFMOs are kept for SBF. NULL : Keep data from all the tRFMOs. Caution: with the option NULL data in the overlapping zones are likely to be redundant., value = "CCSBT|other_trfmos|NULL";
 # wps.out: id = zip_namefile, type = text/zip, title = Outputs are 3 csv files: the dataset of georeferenced catches + a dataset of metadata (including informations on the computation, i.e. how the primary datasets were transformed by each correction) [TO DO] + a dataset providing the code lists used for each dimension (column) of the output dataset [TO DO]. All outputs and codes are compressed within a single zip file. ; 
 
 if(!require(rtunaatlas)){
@@ -168,10 +168,21 @@ if (include_IATTC=="TRUE"){
     } else if (iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype=="schooltype"){
     lineage_iattc<-"Only the dataset with the information on the fishing mode was used. Hence, the output dataset does not have the information on fishing country for IATTC Purse seine data."
     }
+
   }
   
   metadata$lineage<-c(metadata$lineage,paste0("Concerns IATTC purse seine datasets: For confidentiality policies, information on flag and school type for the geo-referenced catches is available in separate files for the eastern Pacific Ocean purse seine datasets. ",lineage_iattc))  
+
+  lineage_iattc<-"Concerns IATTC purse seine datasets: IATTC Purse seine catch-and-effort are available in 3 separate files according to the group of species: tuna, billfishes, sharks. This is due to the fact that PS data is collected from 2 sources: observer and fishing vessel logbooks. Observer records are used when available, and for unobserved trips logbooks are used. Both sources collect tuna data but only observers collect shark and billfish data. As an example, a strata may have observer effort and the number of sets from the observed trips would be counted for tuna and shark and billfish. But there may have also been logbook data for unobserved sets in the same strata so the tuna catch and number of sets for a cell would be added. This would make a higher total number of sets for tuna catch than shark or billfish. Efforts in the billfish and shark datasets might hence represent only a proportion of the total effort allocated in some strata since it is the observed effort, i.e. for which there was an observer onboard."
+  if (fact=="catch" && iattc_ps_catch_billfish_shark_raise_to_effort=="TRUE"){
+    metadata$lineage<-c(metadata$lineage,paste0(lineage_iattc," As a result, catch in the billfish and shark datasets might represent only a proportion of the total catch allocated in some strata. Hence, shark and billfish catch were raised to the fishing effort reported in the tuna dataset."))
+  }
+  
+  if (fact=="effort"){
+    metadata$lineage<-c(metadata$lineage,paste0(lineage_iattc," Only efforts from the Tuna dataset were kept."))
+  }
 }
+
 
 
 metadata$lineage<-c(metadata$lineage,"All the datasets were merged")
@@ -263,7 +274,7 @@ if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && overlapping_zone_iattc_wcp
 
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
-if (include_CCSBT=="TRUE" && SBF_data_rfmo_to_keep!="NULL"){
+if (fact=="catch" && include_CCSBT=="TRUE" && SBF_data_rfmo_to_keep!="NULL"){
   df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
   georef_dataset<-df
