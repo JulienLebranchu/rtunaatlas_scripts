@@ -4,6 +4,7 @@
 # wps.des: id = atlantic_ocean_catch_1deg_1m_ps_tunaatlasiccat_level0__byschool, title = Harmonize data structure of ICCAT by operation mode catch datasets, abstract = Harmonize the structure of ICCAT catch-and-effort datasets: 'by operation mode' (pid of output file = atlantic_ocean_catch_1deg_1m_ps_tunaatlasiccat_level0__bySchool). The only mandatory field is the first one. The metadata must be filled-in only if the dataset will be loaded in the Tuna atlas database. ;
 # wps.in: id = path_to_raw_dataset, type = String, title = Path to the input dataset to harmonize. Input file must be structured as follow: https://goo.gl/dDXf5D, value = "https://goo.gl/dDXf5D";
 # wps.in: id = path_to_metadata_file, type = String, title = NULL or path to the csv of metadata. The template file can be found here: https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sardara_world/transform_trfmos_data_structure/metadata_source_datasets_to_database/metadata_source_datasets_to_database_template.csv . If NULL, no metadata will be outputted., value = "NULL";
+# wps.in: id = keep_fleet_instead_of_flag, type = Boolean, title = By default the column "flag" is kept. By setting this argument to TRUE the column "fleet" will be kept (and "flag" will be removed), value = FALSE;
 # wps.out: id = zip_namefile, type = text/zip, title = Dataset with structure harmonized + File of metadata (for integration within the Tuna Atlas database) + File of code lists (for integration within the Tuna Atlas database) ; 
 
 #' @author Paul Taconet, IRD \email{paul.taconet@ird.fr}
@@ -11,6 +12,8 @@
 #' @keywords Internal Commission for the Conservation of Atlantic Tuna tuna RFMO Sardara Global database on tuna fishieries
 #'
 #' @seealso \code{\link{convertDSD_iccat_ce_task2}} to convert ICCAT task 2 , \code{\link{convertDSD_iccat_nc}} to convert ICCAT nominal catch data structure
+
+keep_fleet_instead_of_flag=FALSE
 
 if(!require(rtunaatlas)){
   if(!require(devtools)){
@@ -64,6 +67,13 @@ require(dplyr)
   #RFMO_CE<-read_excel(path_to_raw_dataset, sheet = "ds_t2cePSbySchool", col_names = TRUE, col_types = NULL,na = "", skip = 6)
   #RFMO_CE<-as.data.frame(RFMO_CE)
   RFMO_CE<-read.csv(path_to_raw_dataset,stringsAsFactors = F)
+  
+  ## If we want in the output dataset the column 'FleetCode' instead of 'flag'
+  if(keep_fleet_instead_of_flag==TRUE){
+    RFMO_CE$Flag<-NULL
+    names(RFMO_CE)[names(RFMO_CE) == 'FleetCode'] <- 'Flag'
+  }
+  
   
 ICCAT_CE_species_colnames<-c("YFTfd","ALBfd","BETfd","BLFfd","LTAfd","SKJfd","FRIfd","YFTfs","ALBfs","BETfs","BLFfs","LTAfs","SKJfs","FRIfs")
 
