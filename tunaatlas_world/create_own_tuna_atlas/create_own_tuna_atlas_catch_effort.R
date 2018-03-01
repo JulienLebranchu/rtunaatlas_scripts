@@ -197,14 +197,18 @@ metadata$description<-paste0(metadata$description,"- Strata described by all the
 if (mapping_map_code_lists=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
   
-  cat("Mapping code lists of georeferenced georef_dataset datasets...\n")
-  georef_dataset<-function_map_dataset_codelists(georef_dataset,mapping_dataset,mapping_keep_src_code)
-  cat("Mapping code lists of georeferenced georef_dataset datasets OK\n")
+  cat("Mapping code lists of georeferenced datasets...\n")
+  georef_dataset<-function_map_dataset_codelists(fact,mapping_csv_mapping_datasets_url,georef_dataset,mapping_keep_src_code)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  metadata$supplemental_information<-paste0(metadata$supplemental_information,georef_dataset$supplemental_information)
+  georef_dataset<-georef_dataset$dataset
+  cat("Mapping code lists of georeferenced datasets OK\n")
   
   if(raising_georef_to_nominal=="TRUE"){
-    cat("Mapping code lists of nominal georef_dataset datasets...\n")
-    nominal_catch<-function_map_dataset_codelists(nominal_catch,mapping_dataset,mapping_keep_src_code)
-    cat("Mapping code lists of nominal georef_dataset datasets OK\n")
+    cat("Mapping code lists of nominal catch datasets...\n")
+    nominal_catch<-function_map_code_lists(fact,mapping_csv_mapping_datasets_url,nominal_catch,mapping_keep_src_code)$dataset
+    cat("Mapping code lists of nominal catch datasets OK\n")
   }
 }
 
@@ -213,6 +217,9 @@ if (mapping_map_code_lists=="TRUE"){
 
 if (gear_filter!="NULL"){
   source(paste0(url_scripts_create_own_tuna_atlas,"gear_filter.R"))
+  georef_dataset<-function_gear_filter(gear_filter,georef_dataset)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
 }
 
 
@@ -220,13 +227,85 @@ if (gear_filter!="NULL"){
 
 if (unit_conversion_convert=="TRUE"){ 
   source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
+  georef_dataset<-function_unit_conversion_convert(con,unit_conversion_csv_conversion_factor_url,unit_conversion_codelist_geoidentifiers_conversion_factors,mapping_map_code_lists,georef_dataset)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  metadata$supplemental_information<-paste0(metadata$supplemental_information,georef_dataset$supplemental_information)
+  georef_dataset<-georef_dataset$dataset
 }
 
 
-#### 5) Raise georeferenced georef_dataset to total (nominal) georef_dataset
+#### 5) Raise georeferenced to total (nominal) dataset
 
 if (raising_georef_to_nominal=="TRUE") {   
   source(paste0(url_scripts_create_own_tuna_atlas,"raising_georef_to_nominal.R"))
+  
+  if (fact=="catch"){
+    dataset_to_compute_rf=georef_dataset
+    x_raising_dimensions=c("flag","gear","species","year","source_authority")
+  } else if (fact=="effort"){    ## If we raise the efforts, the RF is calculated using the georeferenced catch data. Hence, we need to retrieve the georeferenced catch data.
+    
+    cat("Retrieving georeferenced catch datasets from the Tuna atlas database...\n")
+    dataset_catch<-NULL
+    if (include_IOTC=="TRUE"){
+      rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("IOTC","catch",datasets_year_release)
+      dataset_catch<-rbind(dataset_catch,rfmo_dataset)
+      rm(rfmo_dataset)
+    }
+    if (include_WCPFC=="TRUE"){
+      rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("WCPFC","catch",datasets_year_release)
+      dataset_catch<-rbind(dataset_catch,rfmo_dataset)
+      rm(rfmo_dataset)
+    }
+    if (include_CCSBT=="TRUE"){
+      rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("CCSBT","catch",datasets_year_release)
+      dataset_catch<-rbind(dataset_catch,rfmo_dataset)
+      rm(rfmo_dataset)
+    }
+    if (include_IATTC=="TRUE"){
+      rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("IATTC",
+                                                          "catch",
+                                                          datasets_year_release,
+                                                          iattc_ps_raise_flags_to_schooltype=iattc_ps_raise_flags_to_schooltype,
+                                                          iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype=iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype,
+                                                          iattc_ps_catch_billfish_shark_raise_to_effort=iattc_ps_catch_billfish_shark_raise_to_effort)
+      dataset_catch<-rbind(dataset_catch,rfmo_dataset)
+      rm(rfmo_dataset)
+    }
+    if (include_ICCAT=="TRUE"){
+      rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("ICCAT",
+                                                          "catch",
+                                                          datasets_year_release,
+                                                          iccat_ps_include_type_of_school=iccat_ps_include_type_of_school)
+      dataset_catch<-rbind(dataset_catch,rfmo_dataset)
+      rm(rfmo_dataset)
+    }
+    
+    
+    if (mapping_map_code_lists=="TRUE"){
+      dataset_catch<-function_map_dataset_codelists("catch",dataset_catch,mapping_dataset,mapping_keep_src_code)$dataset
+    }
+    
+    if (gear_filter!="NULL"){
+      dataset_catch<-function_filter_gears(gear_filter,dataset_catch)$dataset
+    }
+    
+    if (unit_conversion_convert=="TRUE"){ 
+      # We use our conversion factors (IRD). This should be an input parameter of the script
+      dataset_catch<-function_conversion_unit(con,unit_conversion_csv_conversion_factor_url="http://data.d4science.org/Z3V2RmhPK3ZKVStNTXVPdFZhbU5BTTVaWnE3VFAzaElHbWJQNStIS0N6Yz0",unit_conversion_codelist_geoidentifiers_conversion_factors="areas_conversion_factors_numtoweigth_ird",mapping_map_code_lists,dataset_catch)$dataset
+    }
+    
+    dataset_to_compute_rf=dataset_catch
+    x_raising_dimensions=c("flag","gear","year","source_authority")
+  }
+    
+    georef_dataset<-function_raising_georef_to_nominal(fact,georef_dataset,dataset_to_compute_rf,nominal_catch,x_raising_dimensions)
+    rm(dataset_to_compute_rf)
+    metadata$description<-paste0(metadata$description,georef_dataset$description)
+    metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+    metadata$supplemental_information<-paste0(metadata$supplemental_information,georef_dataset$supplemental_information)
+    georef_dataset<-georef_dataset$dataset
+    
 } 
 
 
@@ -236,20 +315,28 @@ if (raising_georef_to_nominal=="TRUE") {
 ## 6.1 Aggregate data on 5° resolution quadrants
 if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE") { 
   source(paste0(url_scripts_create_own_tuna_atlas,"aggregate_on_5deg_data_with_resolution_inferior_to_5deg.R"))
+  georef_dataset<-function_aggregate_on_5deg_data_with_resolution_inferior_to_5deg(con,georef_dataset)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
 } 
 
 ## 6.2 Disggregate data on 5° resolution quadrants
 if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg %in% c("disaggregate","remove")) {
-  resolution=5
-  action_to_do<-disaggregate_on_5deg_data_with_resolution_superior_to_5deg
   source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg.R"))
+  georef_dataset<-function_disaggregate_on_5deg_data_with_resolution_superior_to_5deg(con,georef_dataset,5,disaggregate_on_5deg_data_with_resolution_superior_to_5deg)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
 }
 
 ## 6.3 Disggregate data on 1° resolution quadrants
 if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggregate","remove")) { 
-  resolution=1
-  action_to_do<-disaggregate_on_1deg_data_with_resolution_superior_to_1deg
   source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg.R"))
+  georef_dataset<-function_disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg(con,georef_dataset,1,disaggregate_on_1deg_data_with_resolution_superior_to_1deg)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
 } 
 
 
@@ -257,6 +344,10 @@ if (disaggregate_on_1deg_data_with_resolution_superior_to_1deg %in% c("disaggreg
 
 if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
   source(paste0(url_scripts_create_own_tuna_atlas,"spatial_curation_data_mislocated.R"))
+  georef_dataset<-function_spatial_curation_data_mislocated(con,georef_dataset,spatial_curation_data_mislocated)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
 }
 
 
@@ -264,22 +355,26 @@ if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
 #### 8) Overlapping zone (IATTC/WCPFC): keep data from IATTC or WCPFC?
 
 if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
-  df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
-  georef_dataset<-df
-  rm(df)
-}
+  georef_dataset<-function_overlapping_zone_iattc_wcpfc_data_to_keep(con,overlapping_zone_iattc_wcpfc_data_to_keep,georef_dataset)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
+  }
 
 
 
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
 if (fact=="catch" && include_CCSBT=="TRUE" && SBF_data_rfmo_to_keep!="NULL"){
-  df<-georef_dataset
   source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
-  georef_dataset<-df
-  rm(df)
-}
+  georef_dataset<-function_SBF_data_rfmo_to_keep(SBF_data_rfmo_to_keep,georef_dataset)
+  metadata$description<-paste0(metadata$description,georef_dataset$description)
+  metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
+  georef_dataset<-georef_dataset$dataset
+  }
+
+
 
 dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
 dataset$time_start<-substr(as.character(dataset$time_start), 1, 10)
