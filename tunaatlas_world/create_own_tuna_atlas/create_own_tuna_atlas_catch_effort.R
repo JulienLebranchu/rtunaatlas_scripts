@@ -198,7 +198,7 @@ if (mapping_map_code_lists=="TRUE"){
   source(paste0(url_scripts_create_own_tuna_atlas,"map_code_lists.R"))
   
   cat("Mapping code lists of georeferenced datasets...\n")
-  georef_dataset<-function_map_dataset_codelists(fact,mapping_csv_mapping_datasets_url,georef_dataset,mapping_keep_src_code)
+  georef_dataset<-function_map_code_lists(fact,mapping_csv_mapping_datasets_url,georef_dataset,mapping_keep_src_code)
   metadata$description<-paste0(metadata$description,georef_dataset$description)
   metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
   metadata$supplemental_information<-paste0(metadata$supplemental_information,georef_dataset$supplemental_information)
