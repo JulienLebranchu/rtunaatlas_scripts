@@ -150,7 +150,7 @@ cat("Retrieving primary datasets from the Tuna atlas DB OK\n")
 
 # fill some metadata elements
 if (include_ICCAT=="TRUE"){
-  if(iccat_include_type_of_school=="TRUE"){
+  if(iccat_ps_include_type_of_school=="TRUE"){
     lineage_iccat="Both datasets were combined to produce a dataset that covers the whole time period, with fishing mode information (Fad | free school)."
   } else {
     lineage_iccat="Only the dataset without the type of school was used. Hence, the output dataset does not have the information on fishing mode for ICCAT Purse seine data."
@@ -324,7 +324,7 @@ if (aggregate_on_5deg_data_with_resolution_inferior_to_5deg=="TRUE") {
 ## 6.2 Disggregate data on 5° resolution quadrants
 if (disaggregate_on_5deg_data_with_resolution_superior_to_5deg %in% c("disaggregate","remove")) {
   source(paste0(url_scripts_create_own_tuna_atlas,"disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg.R"))
-  georef_dataset<-function_disaggregate_on_5deg_data_with_resolution_superior_to_5deg(con,georef_dataset,5,disaggregate_on_5deg_data_with_resolution_superior_to_5deg)
+  georef_dataset<-function_disaggregate_on_resdeg_data_with_resolution_superior_to_resdeg(con,georef_dataset,5,disaggregate_on_5deg_data_with_resolution_superior_to_5deg)
   metadata$description<-paste0(metadata$description,georef_dataset$description)
   metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
   georef_dataset<-georef_dataset$dataset
