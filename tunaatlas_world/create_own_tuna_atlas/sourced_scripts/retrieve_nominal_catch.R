@@ -10,7 +10,7 @@ if (exists("iccat_nominal_catch_spatial_stratification")){
   } else if (iccat_nominal_catch_spatial_stratification=="stock_area"){
     iccat_nominal_catch_dataset_permanent_identifier<-"atlantic_ocean_nominal_catch_tunaatlasiccat_level0__bystockarea"
   }
-} else { iccat_nominal_catch_dataset_permanent_identifier<-"atlantic_ocean_nominal_catch_tunaatlasiccat_level0__bySamplingArea" }
+} else { iccat_nominal_catch_dataset_permanent_identifier<-"atlantic_ocean_nominal_catch_tunaatlasiccat_level0__bysamplingarea" }
 
 rfmo<-c("IOTC","IATTC","WCPFC","CCSBT","ICCAT")
 nominal_catch_datasets_permanent_identifiers<-c("indian_ocean_nominal_catch_tunaatlasiotc_level0","east_pacific_ocean_nominal_catch_tunaatlasiattc_level0","west_pacific_ocean_nominal_catch_tunaatlaswcpfc_level0","southern_hemisphere_oceans_nominal_catch_tunaatlasccsbt_level0__bygear",iccat_nominal_catch_dataset_permanent_identifier)
