@@ -57,6 +57,9 @@ RFMO_CE$Flag<-RFMO_CE$COUNTRY_CODE
 
 #Gear
 RFMO_CE$Gear<-RFMO_CE$GEAR_CODE
+# replace PS by Purse Seine and BB by Pole and Line
+RFMO_CE$Gear[RFMO_CE$Gear == "PS"] <- "Purse Seine"
+RFMO_CE$Gear[RFMO_CE$Gear == "BB"] <- "Pole and Line"
 
 #Year and period
 RFMO_CE<-harmo_time_2(RFMO_CE, "YEAR", "MONTH")

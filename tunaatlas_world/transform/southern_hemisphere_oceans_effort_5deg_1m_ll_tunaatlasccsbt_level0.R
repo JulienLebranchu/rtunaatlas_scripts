@@ -59,7 +59,7 @@ RFMO_CE$NUMBER_OF_SBT_RETAINED<-as.numeric(RFMO_CE$NUMBER_OF_SBT_RETAINED)
 RFMO_CE$Flag<-RFMO_CE$COUNTRY_CODE
 
 #Gear
-RFMO_CE$Gear<-"LL"
+RFMO_CE$Gear<-"Longline"
 
 #Year and period
 RFMO_CE<-harmo_time_2(RFMO_CE, "YEAR", "MONTH")
