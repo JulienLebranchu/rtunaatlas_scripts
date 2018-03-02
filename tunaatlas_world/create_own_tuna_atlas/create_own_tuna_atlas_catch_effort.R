@@ -207,7 +207,7 @@ if (mapping_map_code_lists=="TRUE"){
   
   if(raising_georef_to_nominal=="TRUE"){
     cat("Mapping code lists of nominal catch datasets...\n")
-    nominal_catch<-function_map_code_lists(fact,mapping_csv_mapping_datasets_url,nominal_catch,mapping_keep_src_code)$dataset
+    nominal_catch<-function_map_code_lists("catch",mapping_csv_mapping_datasets_url,nominal_catch,mapping_keep_src_code)$dataset
     cat("Mapping code lists of nominal catch datasets OK\n")
   }
 }
@@ -283,16 +283,16 @@ if (raising_georef_to_nominal=="TRUE") {
     
     
     if (mapping_map_code_lists=="TRUE"){
-      dataset_catch<-function_map_dataset_codelists("catch",dataset_catch,mapping_dataset,mapping_keep_src_code)$dataset
+      dataset_catch<-function_map_code_lists("catch",dataset_catch,mapping_dataset,mapping_keep_src_code)$dataset
     }
     
     if (gear_filter!="NULL"){
-      dataset_catch<-function_filter_gears(gear_filter,dataset_catch)$dataset
+      dataset_catch<-function_gear_filter(gear_filter,dataset_catch)$dataset
     }
     
     if (unit_conversion_convert=="TRUE"){ 
       # We use our conversion factors (IRD). This should be an input parameter of the script
-      dataset_catch<-function_conversion_unit(con,unit_conversion_csv_conversion_factor_url="http://data.d4science.org/Z3V2RmhPK3ZKVStNTXVPdFZhbU5BTTVaWnE3VFAzaElHbWJQNStIS0N6Yz0",unit_conversion_codelist_geoidentifiers_conversion_factors="areas_conversion_factors_numtoweigth_ird",mapping_map_code_lists,dataset_catch)$dataset
+      dataset_catch<-function_unit_conversion_convert(con,unit_conversion_csv_conversion_factor_url="http://data.d4science.org/Z3V2RmhPK3ZKVStNTXVPdFZhbU5BTTVaWnE3VFAzaElHbWJQNStIS0N6Yz0",unit_conversion_codelist_geoidentifiers_conversion_factors="areas_conversion_factors_numtoweigth_ird",mapping_map_code_lists,dataset_catch)$dataset
     }
     
     dataset_to_compute_rf=dataset_catch
