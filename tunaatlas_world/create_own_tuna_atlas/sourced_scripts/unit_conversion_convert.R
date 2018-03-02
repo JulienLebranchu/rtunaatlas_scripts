@@ -19,10 +19,6 @@ if (mapping_map_code_lists=="FALSE"){
   }
   #georef_dataset with source coding system for gears mapped with isscfg codes:
   georef_dataset<-rtunaatlas::map_codelist(georef_dataset,df_mapping_final_this_dimension,"gear",TRUE)$df
-  # change column names before the conversion of units
-  colnames(georef_dataset)[colnames(georef_dataset) == 'gear'] <- 'gear_original_codes'
-  colnames(georef_dataset)[colnames(georef_dataset) == 'gear_mapping'] <- 'gear'
-  
 }
 
 ## Convert MTNO to MT and remove NOMT (we do not keep the data that were expressed in number with corresponding value in weight)
@@ -44,7 +40,7 @@ georef_dataset<-georef_dataset$df
 if (mapping_map_code_lists=="FALSE"){
   # resetting gear coding system to primary gear coding system
   georef_dataset$gear<-NULL
-  colnames(georef_dataset)[colnames(georef_dataset) == 'gear_original_codes'] <- 'gear'
+  colnames(georef_dataset)[colnames(georef_dataset) == 'gear_src_code'] <- 'gear'
 }
 
 # fill metadata elements
