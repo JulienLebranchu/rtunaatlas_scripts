@@ -21,8 +21,8 @@
 # wps.in: id = metadata_and_parameterization_csv_codelists, type = string, title = OPTIONAL unless load_codelists==TRUE. Path to the table containing the metadata and parameters for the code lists to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv";
 # wps.in: id = metadata_and_parameterization_csv_mappings, type = string, title = OPTIONAL unless load_codelists_mappings==TRUE. Path to the table containing the metadata and parameters for the code lists mappings to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv";
 # wps.in: id = metadata_and_parameterization_csv_primary_datasets, type = string, title = OPTIONAL unless transform_and_load_primary_datasets==TRUE. Path to the table containing the metadata and parameters for the primary tuna RFMOs to load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv";
-# wps.in: id = metadata_and_parameterization_ird_tuna_atlas_catch_effort_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global georeferenced catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_ird_2017.csv";
-# wps.in: id = metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global nominal catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv";
+# wps.in: id = metadata_and_parameterization_tuna_atlas_catch_effort_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global georeferenced catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_ird_2017.csv";
+# wps.in: id = metadata_and_parameterization_tuna_atlas_nominal_catch_datasets, type = string, title = OPTIONAL unless generate_and_load_global_tuna_atlas_datasets==TRUE. Path to the table containing the metadata and parameters for the global nominal catch tuna atlas datasets to generate and load in the DB. See documentation to understand how this table must be filled. , value = "https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv";
 # wps.out: id = , type = , title = Database deployed (in case deploy_database_model==TRUE) and loaded with the datasets; 
 
 rm(list=ls(all=TRUE))
@@ -57,9 +57,9 @@ metadata_and_parameterization_csv_mappings="https://raw.githubusercontent.com/pt
 ## metadata_and_parameterization_csv_primary_datasets : fill-in only if transform_and_load_primary_datasets==TRUE
 metadata_and_parameterization_csv_primary_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
 
-## metadata_and_parameterization_ird_tuna_atlas_catch_datasets,metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets : fill-in only if generate_and_load_global_tuna_atlas_datasets==TRUE
-metadata_and_parameterization_ird_tuna_atlas_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_catch_datasets_2017.csv"
-metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
+## metadata_and_parameterization_tuna_atlas_catch_datasets,metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets : fill-in only if generate_and_load_global_tuna_atlas_datasets==TRUE
+metadata_and_parameterization_tuna_atlas_catch_effort_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_ird_2017.csv"
+metadata_and_parameterization_tuna_atlas_nominal_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
 
 
 
@@ -148,7 +148,7 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
 if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load the global tuna atlas datasets
   cat("Start generating and loading the global tuna atlas datasets and related metadata in the database...\n")
   # Open csv metadata of ird tuna atlas catch datasets and related parameterization
-  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_ird_tuna_atlas_catch_effort_datasets,stringsAsFactors = F,colClasses = "character")
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_tuna_atlas_catch_effort_datasets,stringsAsFactors = F,colClasses = "character")
   # One by one, generate and load the ird tuna atlas datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
@@ -156,7 +156,7 @@ if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load t
   }
   
   # Open csv metadata of ird tuna atlas nomînal catch datasets and related parameterization
-  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets,stringsAsFactors = F,colClasses = "character")
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_tuna_atlas_nominal_catch_datasets,stringsAsFactors = F,colClasses = "character")
   # One by one, generate and load the ird tuna atlas datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
