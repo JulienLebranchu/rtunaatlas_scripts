@@ -35,8 +35,13 @@ if (include_ICCAT=="TRUE"){
   # extract mapping
   df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,dataset_name="codelist_mapping_flag_iccat_from_ncandcas_flag_iccat"))
   df_mapping$source_authority<-"ICCAT"
-  nominal_catch<-rtunaatlas::map_codelist(nominal_catch,df_mapping,"flag")$df 
   
+  nominal_catch_iccat<-nominal_catch %>% filter (source_authority=="ICCAT")
+  nominal_catch_other_rfmos<-nominal_catch %>% filter (source_authority!="ICCAT")
+  
+  nominal_catch_iccat<-rtunaatlas::map_codelist(nominal_catch_iccat,df_mapping,"flag")$df 
+  
+  nominal_catch<-rbind(nominal_catch_other_rfmos,nominal_catch_iccat)
   # fill metadata elements
   metadata$contact_originator<-paste(metadata$contact_originator,"carlos.palma@iccat.int",sep=";")
   metadata$lineage<-c(metadata$lineage,paste0("Public domain datasets from ICCAT were collated (through the RFMO website). Their structure (i.e. column organization and names) was harmonized and they were loaded in the Tuna atlas database."))
