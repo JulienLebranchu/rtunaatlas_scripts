@@ -25,6 +25,10 @@ if(!require(data.table)){
   install.packages("data.table")
 }
 
+if(!require(data.table)){
+  install.packages("ggplot2")
+}
+
 require(rtunaatlas)
 require(dplyr)
 require(data.table)
