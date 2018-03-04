@@ -35,7 +35,7 @@ dbSendQuery(con,paste0("alter default privileges grant select on tables to ",db_
 cat(paste0("Deploying schema metadata and tables...\n"))
 # Read SQL query
 fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_metadata.sql",sep="/")
-sql_deploy_metadata<-paste(readLines(fileName), collapse=" ")
+sql_deploy_metadata<-paste(readLines(fileName), collapse="\n")
 sql_deploy_metadata<-gsub("%db_admin%",db_admin_name,sql_deploy_metadata)
 sql_deploy_metadata<-gsub("%db_read%",db_read_name,sql_deploy_metadata)
 
@@ -60,7 +60,7 @@ for (i in 1:length(dimensions)){
     fileName <- paste(repository_sql_scripts_database_deployement,"create_schema_dimension.sql",sep="/")
   }
   
-  sql_deploy_dimension<-paste(readLines(fileName), collapse=" ")
+  sql_deploy_dimension<-paste(readLines(fileName), collapse="\n")
   sql_deploy_dimension<-gsub("%db_admin%",db_admin_name,sql_deploy_dimension)
   sql_deploy_dimension<-gsub("%dimension_name%",dimensions[i],sql_deploy_dimension)
   sql_deploy_dimension<-gsub("%db_read%",db_read_name,sql_deploy_dimension)
@@ -69,12 +69,12 @@ for (i in 1:length(dimensions)){
   
   if (dimensions[i]=="area"){
     # Create table area.area_wkt
-    sql_deploy_table_area_wkt<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_table_area_wkt.sql",sep="/")), collapse=" ")
+    sql_deploy_table_area_wkt<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_table_area_wkt.sql",sep="/")), collapse="\n")
     sql_deploy_table_area_wkt<-gsub("%db_admin%",db_admin_name,sql_deploy_table_area_wkt)
     dbSendQuery(con,sql_deploy_table_area_wkt)
     
     # Update view area.area_labels
-    sql_deploy_view_area_labels<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse=" ")
+    sql_deploy_view_area_labels<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse="\n")
     sql_deploy_view_area_labels<-gsub("%db_admin%",db_admin_name,sql_deploy_view_area_labels)
     dbSendQuery(con,sql_deploy_view_area_labels)
     
