@@ -35,7 +35,7 @@ WITH efforts_without_schooltype AS (
                     gear,
                     gear_label,
                     flag,
-                    string_agg(unit, ',') AS effortunit_list  
+                    string_agg(unit, ',') AS unit  
                     FROM 
                     efforts_without_schooltype
                     GROUP BY 
@@ -76,7 +76,7 @@ WITH efforts_without_schooltype AS (
                     gear,
                     gear_label,
                     flag,
-                    effortunit_list,
+                    unit,
                     sum_catch
                     FROM efforts 
                     FULL JOIN catches USING (source_authority,
