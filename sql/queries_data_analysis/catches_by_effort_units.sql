@@ -10,6 +10,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag,
                     unit  
@@ -20,6 +21,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag,
                     unit
@@ -30,6 +32,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag,
                     string_agg(unit, ',') AS effortunit_list  
@@ -40,6 +43,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag
 ),
@@ -49,6 +53,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag,
                     sum(value) as sum_catch
@@ -59,6 +64,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag
                     )
@@ -67,6 +73,7 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag,
                     effortunit_list,
@@ -76,5 +83,6 @@ WITH efforts_without_schooltype AS (
                     time_start,
                     time_end,
                     geographic_identifier,
+                    gear,
                     gear_label,
                     flag)
