@@ -18,7 +18,7 @@ function_map_code_lists<-function(fact,mapping_csv_mapping_datasets_url,dataset_
       mapping_dataset_this_dimension<-mapping_dataset %>% filter (dimensions_to_map == dimension_to_map[i])  
       df_mapping_final_this_dimension<-NULL
       for (j in 1:nrow(mapping_dataset_this_dimension)){ # With this loop, we extract one by one, for 1 given dimension, the code list mapping datasets from the DB. The last line of the loop binds all the code list mappings datasets for this given dimension.
-        df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,dataset_name=mapping_dataset_this_dimension$db_mapping_dataset_name[j]))  # Extract the code list mapping dataset from the DB
+        df_mapping<-rtunaatlas::extract_dataset(con,list_metadata_datasets(con,identifier=mapping_dataset_this_dimension$db_mapping_dataset_name[j]))  # Extract the code list mapping dataset from the DB
         df_mapping$source_authority<-mapping_dataset_this_dimension$source_authority[j]  # Add the dimension "source_authority" to the mapping dataset. That dimension is not included in the code list mapping datasets. However, it is necessary to map the code list.
         df_mapping_final_this_dimension<-rbind(df_mapping_final_this_dimension,df_mapping)
       }
