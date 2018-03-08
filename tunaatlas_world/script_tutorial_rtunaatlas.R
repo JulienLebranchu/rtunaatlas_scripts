@@ -34,13 +34,13 @@
   
 
 ## 3) Extract a dataset from the database (output is a data.frame providing the data):
-# To extract a dataset, you may put on the argument "dataset_name" the name of a dataset (column 'dataset_name' of the data.frame output of the function list_metadata_datasets)
+# To extract a dataset, you may put on the argument "identifier" the name of a dataset (column 'identifier' of the data.frame output of the function list_metadata_datasets)
 # Extract the Global catch of tuna, tuna like, etc.. . 
-  metadata_global_catch<-rtunaatlas::list_metadata_datasets(con,dataset_name="global_catch_1950_01_01_2016_01_01_tunaatlasird_level2__2017")
+  metadata_global_catch<-rtunaatlas::list_metadata_datasets(con,identifier="global_catch_1950_01_01_2016_01_01_tunaatlasird_level2__2017")
   global_catch_tunaatlasIRD_level2<-rtunaatlas::extract_dataset(con,metadata_global_catch) # (takes time, approx. 2 min in my computer. I suggest to save the file in the computer once extracted, so as to re-use it without having to query Sardara each time this code is ran)
   # To include the labels in the dataset: add argument labels=TRUE in the function extract_dataset
   head(global_catch_tunaatlasIRD_level2)
-  # To get more information on this dataset (i.e. metadata): rtunaatlas::list_metadata_datasets(con,dataset_name="global_catch_1950_01_01_2016_01_01_tunaatlasIRD_level2")
+  # To get more information on this dataset (i.e. metadata): rtunaatlas::list_metadata_datasets(con,identifier="global_catch_1950_01_01_2016_01_01_tunaatlasIRD_level2")
   
 ## 4) Gear codes used in the dataset might not be explicit. Extract the gear coding system associated to this dataset
   gear_coding_system_metadata<-rtunaatlas::get_codelist_of_dimension(con,
