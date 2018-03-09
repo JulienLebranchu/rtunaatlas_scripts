@@ -76,7 +76,7 @@ if (mapping_map_code_lists=="TRUE"){
 
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
-if (SBF_data_rfmo_to_keep!="NULL"){
+if (!is.null(SBF_data_rfmo_to_keep)){
   source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
   nominal_catch<-function_SBF_data_rfmo_to_keep(SBF_data_rfmo_to_keep,nominal_catch)
   metadata$description<-paste0(metadata$description,nominal_catch$description)

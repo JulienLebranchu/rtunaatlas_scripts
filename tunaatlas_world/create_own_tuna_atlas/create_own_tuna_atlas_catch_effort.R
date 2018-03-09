@@ -215,7 +215,7 @@ if (mapping_map_code_lists=="TRUE"){
 
 #### 3) Filter data by groups of gears
 
-if (gear_filter!="NULL"){
+if (!is.null(gear_filter)){
   source(paste0(url_scripts_create_own_tuna_atlas,"gear_filter.R"))
   georef_dataset<-function_gear_filter(gear_filter,georef_dataset)
   metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
@@ -286,7 +286,7 @@ if (raising_georef_to_nominal=="TRUE") {
       dataset_catch<-function_map_code_lists("catch",dataset_catch,mapping_dataset,mapping_keep_src_code)$dataset
     }
     
-    if (gear_filter!="NULL"){
+    if (!is.null(gear_filter)){
       dataset_catch<-function_gear_filter(gear_filter,dataset_catch)$dataset
     }
     
@@ -354,7 +354,7 @@ if (spatial_curation_data_mislocated %in% c("reallocate","remove")){
 
 #### 8) Overlapping zone (IATTC/WCPFC): keep data from IATTC or WCPFC?
 
-if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && overlapping_zone_iattc_wcpfc_data_to_keep!="NULL"){
+if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && !is.null(overlapping_zone_iattc_wcpfc_data_to_keep)){
   source(paste0(url_scripts_create_own_tuna_atlas,"overlapping_zone_iattc_wcpfc_data_to_keep.R"))
   georef_dataset<-function_overlapping_zone_iattc_wcpfc_data_to_keep(con,overlapping_zone_iattc_wcpfc_data_to_keep,georef_dataset)
   metadata$description<-paste0(metadata$description,georef_dataset$description)
@@ -366,7 +366,7 @@ if (include_IATTC=="TRUE" && include_WCPFC=="TRUE" && overlapping_zone_iattc_wcp
 
 #### 9) Southern Bluefin Tuna (SBF): SBF data: keep data from CCSBT or data from the other tuna RFMOs?
 
-if (fact=="catch" && include_CCSBT=="TRUE" && SBF_data_rfmo_to_keep!="NULL"){
+if (fact=="catch" && include_CCSBT=="TRUE" && !is.null(SBF_data_rfmo_to_keep)){
   source(paste0(url_scripts_create_own_tuna_atlas,"SBF_data_rfmo_to_keep.R"))
   georef_dataset<-function_SBF_data_rfmo_to_keep(SBF_data_rfmo_to_keep,georef_dataset)
   metadata$description<-paste0(metadata$description,georef_dataset$description)
