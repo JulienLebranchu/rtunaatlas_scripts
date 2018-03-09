@@ -14,7 +14,12 @@ generate_dataset<-function(metadata_and_parameterization){
   # Get input parameters for the script
   parameters_columns<-colnames(metadata_and_parameterization)[which(grepl("parameter_",colnames(metadata_and_parameterization)))]
   for (i in 1:length(parameters_columns)){
-    assign(gsub("parameter_","",parameters_columns[i]), metadata_and_parameterization[,parameters_columns[i]],envir=.GlobalEnv)
+    parameter_name=gsub("parameter_","",parameters_columns[i])
+    assign(parameter_name, metadata_and_parameterization[,parameters_columns[i]],envir=.GlobalEnv)
+    # Change "NULL" by NULL
+    if (get(parameter_name)=="NULL"){
+      assign(parameter_name, NULL,envir=.GlobalEnv)
+    }
   }
   
   ## Source script to generate the dataset, with above parameterization
