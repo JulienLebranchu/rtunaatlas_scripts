@@ -18,10 +18,16 @@
 if(!require(dplyr)){
   install.packages("dplyr")
 }
-
+if(!require(rtunaatlas)){
+  if(!require(devtools)){
+    install.packages("devtools")
+  }
+  require(devtools)
+  install_github("ptaconet/rtunaatlas")
+}
 
 require(dplyr)
-
+require(rtunaatlas)
 
   
   # Input data sample:
