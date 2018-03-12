@@ -85,4 +85,8 @@ FROM %dimension_name%.%dimension_name%_mapping
 JOIN %dimension_name%.%dimension_name% ON %dimension_name%.id_%dimension_name% = %dimension_name%_mapping.%dimension_name%_mapping_id_to
 JOIN metadata.metadata ON metadata.id_metadata = %dimension_name%.id_metadata
 ) sub2 ON sub1.db_idsource = sub2.db_idsource
-ORDER BY sub1.db_tablesource,sub1.codesource,sub2.db_tabletarget
+ORDER BY sub1.db_tablesource,sub1.codesource,sub2.db_tabletarget;
+
+COMMENT ON SCHEMA %dimension_name% IS 'Schema containing the %dimension_name% code lists (i.e. reference data) used in the datasets';
+COMMENT ON VIEW %dimension_name%.%dimension_name%_mapping_view IS 'View gathering all the mappings (i.e. corresondances) between code lists available for the dimension %dimension_name%';
+COMMENT ON VIEW %dimension_name%.%dimension_name%_labels IS 'View gathering the codes and labels of all the code lists available under the schema %dimension_name%';

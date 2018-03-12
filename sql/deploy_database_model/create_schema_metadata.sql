@@ -65,16 +65,8 @@ GRANT ALL ON SCHEMA fact_tables TO %db_admin%;
 GRANT USAGE ON SCHEMA fact_tables TO %db_read%;
 ALTER DEFAULT PRIVILEGES IN SCHEMA fact_tables GRANT SELECT ON TABLES TO %db_read%;
 
-  
---CREATE TABLE metadata.codelists_codes_labels_column_names
---(
---  database_table_name text NOT NULL,
---  code_column character varying(30) NOT NULL,
---  label_column character varying(30),
---  CONSTRAINT codelists_codes_labels_column_names_pkey PRIMARY KEY (database_table_name, code_column)
---);
-
---ALTER TABLE metadata.codelists_codes_labels_column_names
---  OWNER TO %db_admin%;
---GRANT ALL ON TABLE metadata.codelists_codes_labels_column_names TO %db_admin%;
+COMMENT ON SCHEMA fact_tables IS 'Schema containing the time series datasets stored as integer values';
+COMMENT ON SCHEMA metadata IS 'Schema containing the metadata on all the datasets available in the database';
+COMMENT ON TABLE metadata.metadata IS 'Table containing the metadata on all the datasets available in the database';
+COMMENT ON TABLE metadata.metadata_mapping IS 'Table containing the genealogy of the datasets, i.e. the list of datasets used as input of each dataset available in the database';
 

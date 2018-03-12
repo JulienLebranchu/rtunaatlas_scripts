@@ -37,3 +37,6 @@ area.codesource_area=tab.code::text WHERE area.tablesource_area='area_wkt'::text
 ALTER TABLE area.area_labels
   OWNER TO %db_admin%;
 GRANT ALL ON TABLE area.area_labels TO %db_admin%;
+
+
+COMMENT ON VIEW area_labels IS 'View gathering all the codes and labels of the code lists available for the dimension area (spatial code lists)';
