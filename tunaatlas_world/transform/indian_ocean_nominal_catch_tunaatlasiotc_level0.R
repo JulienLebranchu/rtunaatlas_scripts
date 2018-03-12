@@ -15,16 +15,12 @@
 #'
 
 
-if(!require(rtunaatlas)){
-  if(!require(devtools)){
-    install.packages("devtools")
-  }
-  require(devtools)
-  install_github("ptaconet/rtunaatlas")
+if(!require(dplyr)){
+  install.packages("dplyr")
 }
 
 
-require(rtunaatlas)
+require(dplyr)
 
 
   
