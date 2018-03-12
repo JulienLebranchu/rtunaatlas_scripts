@@ -376,7 +376,7 @@ if (fact=="catch" && include_CCSBT=="TRUE" && !is.null(SBF_data_rfmo_to_keep)){
 
 
 
-dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% summarise(value=sum(value))
+dataset<-georef_dataset %>% group_by_(.dots = setdiff(colnames(georef_dataset),"value")) %>% dplyr::summarise(value=sum(value))
 dataset$time_start<-substr(as.character(dataset$time_start), 1, 10)
 dataset$time_end<-substr(as.character(dataset$time_end), 1, 10)
 dataset<-data.frame(dataset)
