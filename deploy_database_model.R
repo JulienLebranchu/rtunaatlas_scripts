@@ -72,6 +72,7 @@ for (i in 1:length(dimensions)){
     sql_deploy_table_area_wkt<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_table_area_wkt.sql",sep="/")), collapse="\n")
     sql_deploy_table_area_wkt<-gsub("%db_admin%",db_admin_name,sql_deploy_table_area_wkt)
     dbSendQuery(con,sql_deploy_table_area_wkt)
+    dbSendQuery(con,"COMMENT ON SCHEMA area IS 'Schema containing the spatial code lists (i.e. reference data) (including the PostGIS geometries) used in the datasets'")
     
     # Update view area.area_labels
     sql_deploy_view_area_labels<-paste(readLines(paste(repository_sql_scripts_database_deployement,"create_view_area_labels.sql",sep="/")), collapse="\n")
