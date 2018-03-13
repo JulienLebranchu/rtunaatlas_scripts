@@ -139,6 +139,7 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
   # One by one, load the primary datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    metadata_and_parameterization$relation_source_dataset_persistent_url<-metadata_and_parameterization$parameter_path_to_raw_dataset
     workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
   cat("End harmonizing and loading the tRFMOs primary datasets and related metadata in the database\n")
