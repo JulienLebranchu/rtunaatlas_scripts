@@ -19,8 +19,8 @@ db_admin_password="***"
 ### OPTIONAL PARAMETERS depending on the values set in the mandatory parameters
 ## db_read_name,dimensions,variables_and_associated_dimensions : fill-in only if deploy_database_model==TRUE
 db_read_name="tunaatlas_inv"
-db_dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source,fadclass"
-db_variables_and_associated_dimensions="fad=@catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
+db_dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source,fadclass,program,settype,sizetype,ocean,vessel"
+db_variables_and_associated_dimensions="fad=fadclass,time,area,unit@catch=schooltype,species,time,area,gear,flag,catchtype,unit,ocean,program,vessel@effort=schooltype,time,area,gear,flag,unit,ocean,program,vessel,settype@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,program,sizetype,ocean,vessel"
 
 ## metadata_and_parameterization_csv_codelists : fill-in only if load_codelists==TRUE
 metadata_and_parameterization_csv_codelists="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_france/metadata_and_parameterization_files/metadata_codelists_2017.csv"
