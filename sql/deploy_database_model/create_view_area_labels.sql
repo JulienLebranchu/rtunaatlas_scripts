@@ -39,4 +39,4 @@ ALTER TABLE area.area_labels
 GRANT ALL ON TABLE area.area_labels TO %db_admin%;
 
 
-COMMENT ON VIEW area_labels IS 'View gathering all the codes and labels of the code lists available for the dimension area (spatial code lists)';
+COMMENT ON VIEW area.area_labels IS 'View gathering all the codes and labels of the code lists available for the dimension area (spatial code lists)';
