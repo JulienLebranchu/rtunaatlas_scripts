@@ -4,7 +4,12 @@ push_R_script_to_server<-function(metadata_and_parameterization,virtual_reposito
 
   ## Save the R code with the parameterization for the current dataset
   RFileName<-paste0(metadata_and_parameterization$identifier,".R")
-  download.file(metadata_and_parameterization$path_to_script_dataset_generation,paste0(getwd(),"/",RFileName))
+  if(substr(metadata_and_parameterization$path_to_script_dataset_generation,1,4)=="http"){
+    download.file(metadata_and_parameterization$path_to_script_dataset_generation,paste0(getwd(),"/",RFileName))
+  } else {
+    file.copy(from=metadata_and_parameterization$path_to_script_dataset_generation, to=paste0(getwd(),"/",RFileName))
+  }
+  
   fConn <- file(paste0(getwd(),"/",RFileName), 'r+')
   Lines <- readLines(fConn)
   parameters_columns<-colnames(metadata_and_parameterization)[which(grepl("parameter_",colnames(metadata_and_parameterization)))]
