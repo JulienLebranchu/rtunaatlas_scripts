@@ -48,4 +48,7 @@ if (include_ICCAT=="TRUE"){
   
 }
 
+nominal_catch$time_start<-substr(as.character(nominal_catch$time_start), 1, 10)
+nominal_catch$time_end<-substr(as.character(nominal_catch$time_end), 1, 10)
+
 cat("Retrieving RFMOs nominal catch OK\n")
