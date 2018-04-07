@@ -74,8 +74,24 @@ if(keep_fleet_instead_of_flag==TRUE){
 
 ##Efforts
 
-efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_with_schooltype(RFMO_CE,22)
-efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_keep_all_efforts(efforts_pivot_ICCAT,c("Eff1","Eff2","Eff3","Eff4","Eff5"),c("Eff1Type","Eff2Type","Eff3Type","Eff4Type","Eff5Type"))
+last_column_not_catch_value=22
+#efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_with_schooltype(RFMO_CE,last_column_not_catch_value)
+RFMO_CE<-RFMO_CE[,-(last_column_not_catch_value:ncol(RFMO_CE))] 
+
+efforts_pivot_ICCAT<-FUN_efforts_ICCAT_CE_keep_all_efforts(RFMO_CE,c("Eff1","Eff2","Eff3","Eff4","Eff5"),c("Eff1Type","Eff2Type","Eff3Type","Eff4Type","Eff5Type"))
+
+# School
+# when the unit of effort is Hours.FAD: then schooltype=fd
+# when the unit of effort is Hours.FSC: then schooltype=fs
+# when the units of efforts are different that Hours.FAD or Hours.FSC: then schooltype=ALL. 
+
+index_school_fs<-which(efforts_pivot_ICCAT$EffortUnits == "Hours.FSC")
+index_school_fd<-which(efforts_pivot_ICCAT$EffortUnits == "Hours.FAD")
+index_school_all<-which(efforts_pivot_ICCAT$EffortUnits %in% setdiff(unique(efforts_pivot_ICCAT$EffortUnits),c("Hours.FAD","Hours.FSC")))
+
+efforts_pivot_ICCAT$School<-"ALL"
+efforts_pivot_ICCAT$School[index_school_fs]<-"fs"
+efforts_pivot_ICCAT$School[index_school_fd]<-"fd"
 
 
 colToKeep_efforts <- c("Flag","Gear","time_start","time_end","AreaName","School","EffortUnits","Effort")
