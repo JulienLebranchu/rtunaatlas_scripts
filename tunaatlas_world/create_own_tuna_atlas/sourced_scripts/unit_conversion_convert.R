@@ -1,4 +1,4 @@
-function_unit_conversion_convert<-function(con,unit_conversion_csv_conversion_factor_url,unit_conversion_codelist_geoidentifiers_conversion_factors,mapping_map_code_lists,georef_dataset){
+function_unit_conversion_convert<-function(con,fact,unit_conversion_csv_conversion_factor_url,unit_conversion_codelist_geoidentifiers_conversion_factors,mapping_map_code_lists,georef_dataset){
   
 cat("Converting units of georef_dataset...\n")
 

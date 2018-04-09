@@ -23,6 +23,7 @@ function_raise_data<-function(fact,source_authority_filter,dataset_to_raise,data
     raising_dimensions=c(x_raising_dimensions,"unit")
   } else if (fact=="effort"){
     raising_dimensions=x_raising_dimensions
+    df_rf$unit=NULL
   }
   
   # raise dataset
