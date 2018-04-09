@@ -21,10 +21,56 @@ if (mapping_map_code_lists=="FALSE"){
   georef_dataset<-rtunaatlas::map_codelist(georef_dataset,df_mapping_final_this_dimension,"gear",TRUE)$df
 }
 
-## Convert MTNO to MT and remove NOMT (we do not keep the data that were expressed in number with corresponding value in weight)
+## For catches: Convert MTNO to MT and remove NOMT (we do not keep the data that were expressed in number with corresponding value in weight)
+if (fact=="catch"){
 georef_dataset$unit[which(georef_dataset$unit == "MTNO")]<-"MT"
 georef_dataset<-georef_dataset[!(georef_dataset$unit=="NOMT"),]
+} else if (fact=="effort"){
+## For efforts: 
+# Les strates sont potentiellement exprimées avec plusieurs unités par strates. 
+# Si les states sont exprimées dans au moins une des unités standard, on isole l'unité standard et on supprime les autres unités.
+# Si les strantes ne sont exprimées dans aucune des unités standard:
+# - s'il existe un facteur de conversion pour au moins une des unités, on conserve cette unité et on supprime les autres.
+# - sinon on conserve toutes les unités disponibles 
+  
+vector_standard_effortunits<-c("HOOKS","FDAYS")
 
+# get the units available in each stratum, separated by commas
+df_units_available_in_strata<-aggregate(unit ~., georef_dataset[,setdiff(colnames(georef_dataset),c("value","schooltype"))], toString)
+
+colnames(df_units_available_in_strata)[which(names(df_units_available_in_strata) == "unit")] <- "units_available"
+
+# Check for each strata if it is expressed in at least 1 of the standard unit
+df_units_available_in_strata$standard_unit_available_in_strata <- grepl(paste(vector_standard_effortunits,collapse="|"),df_units_available_in_strata$units_available)
+
+# Merge with dataset
+georef_dataset<-left_join(georef_dataset,df_units_available_in_strata)
+
+# Check if there is a conversion factor available for the strata
+df_conversion_factor$conversion_factor_available_in_line<-TRUE
+georef_dataset<-left_join(georef_dataset,df_conversion_factor)
+df_conversion_factor$conversion_factor_available_in_line<-NULL
+
+strata_with_conv_factor_available<-georef_dataset[which(georef_dataset$conversion_factor_available_in_line==TRUE & georef_dataset$standard_unit_available_in_strata==FALSE),c("source_authority","flag","gear","schooltype","time_start","time_end","geographic_identifier","conversion_factor_available_in_line")]
+colnames(strata_with_conv_factor_available)[which(names(strata_with_conv_factor_available) == "conversion_factor_available_in_line")] <- "conversion_factor_available_in_strata"
+
+georef_dataset<-left_join(georef_dataset,strata_with_conv_factor_available)
+
+georef_dataset$conversion_factor_available_in_line[which(is.na(georef_dataset$conversion_factor_available_in_line))]=FALSE
+georef_dataset$conversion_factor_available_in_strata[which(is.na(georef_dataset$conversion_factor_available_in_strata))]=FALSE
+
+# Remove the unrelevant lines
+# 1) lignes dont les strates équivalentes existent dans une des unités standard et dont la ligne n'est pas exprimée dans une unité standard
+index_to_remove_1<-which(!(georef_dataset$unit %in% vector_standard_effortunits) & georef_dataset$standard_unit_available_in_strata==TRUE)
+# 2) ignes dont les strates équivalentes existent dans aucune des unités standard mais pour lesquelles il existe un facteur de conversion, et dont la ligne n'est pas exprimée dans l'unité correspondant au facteur de conversion
+index_to_remove_2<-which(!(georef_dataset$unit %in% vector_standard_effortunits) & georef_dataset$standard_unit_available_in_strata==FALSE & georef_dataset$conversion_factor_available_in_strata==TRUE & georef_dataset$conversion_factor_available_in_line==FALSE)
+
+georef_dataset<-georef_dataset[-c(index_to_remove_1,index_to_remove_2),] 
+
+# Remove the columns added during data processing
+georef_dataset <- georef_dataset[c("source_authority","flag","gear","schooltype","time_start","time_end","geographic_identifier","unit","value")]
+}
+                                                                                         
 georef_dataset<-rtunaatlas::convert_units(con = con,
                                  df_input = georef_dataset,
                                  df_conversion_factor = df_conversion_factor,
@@ -48,8 +94,12 @@ if (unit_conversion_csv_conversion_factor_url=="http://data.d4science.org/Z3V2Rm
   lineage<-paste0("The units used to express catches may vary between tRFMOs datasets. Catches are expressed in weight, or in number of fishes, or in both weights and numbers in the same stratum. Values expressed in weight were kept and numbers were converted into weight using simple conversion matrices (A. Fonteneau, pers. com). These conversion factors depend on the species, the gear, the year and the main geographical area (equatorial or tropical). They were computed from the Japanese and Taiwanese size-frequency data as well as from the Japanese total catches and catch-and-effort data. The factors of conversion are available here: ",unit_conversion_csv_conversion_factor_url," and the methodology to compute these factors is available here: http://data.d4science.org/ZWFMa3JJUHBXWk9NTXVPdFZhbU5BUFEyQnhUeWd1d3lHbWJQNStIS0N6Yz0. Some data might not be converted at all because no conversion factor exists for the stratum: these data were kept in number. Information regarding the conversions of catch units for this dataset: ratio_converted_number % of the the catches that were originally expressed in number have been converted into weight through the conversion factors. The catches that were originally expressed in number and that have been converted into weight represent ratio_converted_weight % of the whole catches in the resulting dataset.")
   description<-"- Values of catch were expressed in weight converting numbers using matrices of average weights varying with species, fishing gear, year and large geographical areas, i.e. equatorial or tropical (A. Fonteneau, pers.com). Average weights were computed from the Japanese and Taiwanese size-frequency data as well as from the Japanese total catches and catch-and-effort data. Some data might not be converted at all because no conversion factor exists for the stratum: those data were kept and the unit of catch was set to Number of fishes harvested.\n"
   supplemental_information<-"- Data provided in number of fishes harvested for the Southern Bluefin tuna (SBF) were not converted into weight of fishes, because no factors of conversion are available for this species. This might represent a great amount of the data for SBF.\n"
-} else {
-  lineage<-paste0("The units used to express the measure may vary between tRFMOs datasets. The measures were harmonized through unit conversion factors located here: ",unit_conversion_csv_conversion_factor_url,". Information regarding the conversions of catch units for this dataset: ratio_converted_number % of the the catches that were originally expressed in number have been converted into weight through the conversion factors. The catches that were originally expressed in number and that have been converted into weight represent ratio_converted_weight % of the whole catches in the resulting dataset.")
+} else if (unit_conversion_csv_conversion_factor_url=="http://data.d4science.org/a0dmK1hxNGdNemp3YjQ5TkhSblNHdlBSL1c3UEpmQjhHbWJQNStIS0N6Yz0"){
+  lineage<-paste0("The units used to express efforts may vary between tRFMOs datasets. Values were harmonized at best using conversion factors. These conversion factors depend on the tRFMO and the gears. The factors of conversion are available here: ",unit_conversion_csv_conversion_factor_url,". Some data might not be converted at all because no conversion factor exists for the stratum: these data were kept in the unit they are originally expressed.")
+  description<-"- Values of efforts were harmonized using conversion factors. Efforts were converted into number of hooks for longliners and number of fishing days for the other gears. Some data might not be converted at all because no conversion factor exists for the stratum: those data were kept in the unit they are originally expressed.\n"
+  supplemental_information<-NULL
+  } else {
+  lineage<-paste0("The units used to express the measure may vary between tRFMOs datasets. The measures were harmonized through unit conversion factors located here: ",unit_conversion_csv_conversion_factor_url,". Information regarding the conversions of units for this dataset: ratio_converted_number % of the the catches that were originally expressed in number have been converted into weight through the conversion factors. The catches that were originally expressed in number and that have been converted into weight represent ratio_converted_weight % of the whole catches in the resulting dataset.")
   description<-"- Units for the measures were harmonized.\n"
   supplemental_information<-NULL
 }

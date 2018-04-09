@@ -247,8 +247,7 @@ if (raising_georef_to_nominal=="TRUE") {
     dataset_to_compute_rf=georef_dataset
     x_raising_dimensions=c("flag","gear","species","year","source_authority")
   } else if (fact=="effort"){    ## If we raise the efforts, the RF is calculated using the georeferenced catch data. Hence, we need to retrieve the georeferenced catch data.
-    
-    cat("Retrieving georeferenced catch datasets from the Tuna atlas database...\n")
+    cat("Catch datasets must be retrieved in order to raise efforts. \nRetrieving georeferenced catch datasets from the Tuna atlas database...\n")
     dataset_catch<-NULL
     if (include_IOTC=="TRUE"){
       rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("IOTC","catch",datasets_year_release)
@@ -271,7 +270,7 @@ if (raising_georef_to_nominal=="TRUE") {
                                                           datasets_year_release,
                                                           iattc_ps_raise_flags_to_schooltype=iattc_ps_raise_flags_to_schooltype,
                                                           iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype=iattc_ps_dimension_to_use_if_no_raising_flags_to_schooltype,
-                                                          iattc_ps_catch_billfish_shark_raise_to_effort=iattc_ps_catch_billfish_shark_raise_to_effort)
+                                                          iattc_ps_catch_billfish_shark_raise_to_effort=TRUE)
       dataset_catch<-rbind(dataset_catch,rfmo_dataset)
       rm(rfmo_dataset)
     }
@@ -286,7 +285,7 @@ if (raising_georef_to_nominal=="TRUE") {
     
     
     if (mapping_map_code_lists=="TRUE"){
-      dataset_catch<-function_map_code_lists("catch",dataset_catch,mapping_dataset,mapping_keep_src_code)$dataset
+      dataset_catch<-function_map_code_lists("catch",mapping_csv_mapping_datasets_url,dataset_catch,mapping_keep_src_code)$dataset
     }
     
     if (!is.null(gear_filter)){
