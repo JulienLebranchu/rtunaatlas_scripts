@@ -230,7 +230,7 @@ if (!is.null(gear_filter)){
 
 if (unit_conversion_convert=="TRUE"){ 
   source(paste0(url_scripts_create_own_tuna_atlas,"unit_conversion_convert.R"))
-  georef_dataset<-function_unit_conversion_convert(con,unit_conversion_csv_conversion_factor_url,unit_conversion_codelist_geoidentifiers_conversion_factors,mapping_map_code_lists,georef_dataset)
+  georef_dataset<-function_unit_conversion_convert(con,fact,unit_conversion_csv_conversion_factor_url,unit_conversion_codelist_geoidentifiers_conversion_factors,mapping_map_code_lists,georef_dataset)
   metadata$description<-paste0(metadata$description,georef_dataset$description)
   metadata$lineage<-c(metadata$lineage,georef_dataset$lineage)
   metadata$supplemental_information<-paste0(metadata$supplemental_information,georef_dataset$supplemental_information)
@@ -247,7 +247,7 @@ if (raising_georef_to_nominal=="TRUE") {
     dataset_to_compute_rf=georef_dataset
     x_raising_dimensions=c("flag","gear","species","year","source_authority")
   } else if (fact=="effort"){    ## If we raise the efforts, the RF is calculated using the georeferenced catch data. Hence, we need to retrieve the georeferenced catch data.
-    cat("Catch datasets must be retrieved in order to raise efforts. \nRetrieving georeferenced catch datasets from the Tuna atlas database...\n")
+    cat("Catch datasets must be retrieved and processed in order to raise efforts. \nRetrieving georeferenced catch datasets from the Tuna atlas database...\n")
     dataset_catch<-NULL
     if (include_IOTC=="TRUE"){
       rfmo_dataset<-rtunaatlas::get_rfmos_datasets_level0("IOTC","catch",datasets_year_release)
@@ -291,13 +291,15 @@ if (raising_georef_to_nominal=="TRUE") {
     if (!is.null(gear_filter)){
       dataset_catch<-function_gear_filter(gear_filter,dataset_catch)$dataset
     }
-    
+    dataset_catch$time_start<-substr(as.character(dataset_catch$time_start), 1, 10)
+    dataset_catch$time_end<-substr(as.character(dataset_catch$time_end), 1, 10)
     if (unit_conversion_convert=="TRUE"){ 
       # We use our conversion factors (IRD). This should be an input parameter of the script
-      dataset_catch<-function_unit_conversion_convert(con,unit_conversion_csv_conversion_factor_url="http://data.d4science.org/Z3V2RmhPK3ZKVStNTXVPdFZhbU5BTTVaWnE3VFAzaElHbWJQNStIS0N6Yz0",unit_conversion_codelist_geoidentifiers_conversion_factors="areas_conversion_factors_numtoweigth_ird",mapping_map_code_lists,dataset_catch)$dataset
+      dataset_catch<-function_unit_conversion_convert(con,fact="catch",unit_conversion_csv_conversion_factor_url="http://data.d4science.org/Z3V2RmhPK3ZKVStNTXVPdFZhbU5BTTVaWnE3VFAzaElHbWJQNStIS0N6Yz0",unit_conversion_codelist_geoidentifiers_conversion_factors="areas_conversion_factors_numtoweigth_ird",mapping_map_code_lists,dataset_catch)$dataset
     }
     
     dataset_to_compute_rf=dataset_catch
+    rm(dataset_catch)
     x_raising_dimensions=c("flag","gear","year","source_authority")
   }
     
