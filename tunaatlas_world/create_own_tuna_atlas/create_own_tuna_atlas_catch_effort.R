@@ -421,6 +421,12 @@ if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="http://
 table_urls_code_lists_to_use_to_load_datasets<-read.csv("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/table_urls_code_lists_to_use_to_load_datasets.csv",stringsAsFactors = F)
 path_csv_codelists <- table_urls_code_lists_to_use_to_load_datasets$url_df_codelist[which(table_urls_code_lists_to_use_to_load_datasets$rfmo==rfmo & table_urls_code_lists_to_use_to_load_datasets$fact==fact)]
 df_codelists <- data.frame(lapply(read.csv(path_csv_codelists), as.character), stringsAsFactors=FALSE)
+
+if (fact=="effort" & mapping_map_code_lists=="FALSE" & unit_conversion_convert=="TRUE"){
+  # Levels 1 and 2 of non-global datasets should be expressed with tRFMOs code lists. However, for the effort unit code list and in those cases, we take the tuna atlas effort unit codes although this is not perfect. but going back to tRFMOs codes is too complicated 
+  df_codelists$code_list_identifier[which(df_codelists$dimension=="unit")]<-"effortunit_rfmos"
+}
+
 additional_metadata<-metadata
 
 
