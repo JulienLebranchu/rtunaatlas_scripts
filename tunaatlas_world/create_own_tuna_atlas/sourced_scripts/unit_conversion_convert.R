@@ -82,7 +82,11 @@ index_to_remove_1<-which(!(georef_dataset$unit %in% vector_standard_effortunits)
 # 2) ignes dont les strates équivalentes existent dans aucune des unités standard mais pour lesquelles il existe un facteur de conversion, et dont la ligne n'est pas exprimée dans l'unité correspondant au facteur de conversion
 index_to_remove_2<-which(!(georef_dataset$unit %in% vector_standard_effortunits) & georef_dataset$standard_unit_available_in_strata==FALSE & georef_dataset$conversion_factor_available_in_strata==TRUE & georef_dataset$conversion_factor_available_in_line==FALSE)
 
-georef_dataset<-georef_dataset[-c(index_to_remove_1,index_to_remove_2),] 
+index_rows_to_remove<-c(index_to_remove_1,index_to_remove_2)
+
+if (length(index_rows_to_remove)>0){
+georef_dataset<-georef_dataset[-index_rows_to_remove,] 
+}
 
 # Remove the columns added during data processing
 georef_dataset <- georef_dataset[column_names_df_input]
