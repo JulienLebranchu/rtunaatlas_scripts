@@ -115,6 +115,8 @@ dbDisconnect(con)
 # Treatments
 ######################### ######################### ######################### 
 
+cat("Creating sp SpatialPolygon to aggregate data...\n")
+
 ## Create aggregation layer
 if (intersection_layer_type=="shapefile"){
   ### If not a grid, prepare data for integration within the aggregation function. Input is a shp that needs to be converted to SpatialPolygonDataFrame
@@ -139,6 +141,8 @@ if (intersection_layer_type=="shapefile"){
   intersection_layer <- rtunaatlas::create_grid(latmin,latmax,lonmin,lonmax,grid_spatial_resolution,crs=data_crs,centred=centred_grid)
 }
 
+cat("Creating sp SpatialPolygon to aggregate data OK\n")
+
 cat("\n Creation of temporal calendar ... ")
 
 ### create calendar
@@ -160,6 +164,8 @@ dataset<-dataset[,colnames(dataset) %in% c(unlist(strsplit(columns_to_keep, spli
 # filter the dataset before executing the aggregation function
 dataset<-dataset %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
 
+cat("Aggregating the data spatio-temporally...\n")
+
 ## noms de colonne obligatoire : time, lat, lon
 dataset<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
                                   intersection_layer=intersection_layer,
@@ -169,6 +175,7 @@ dataset<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
                                   spatial_association_method=spatial_association_method,
                                   buffer=buffer_size)
 
+cat("Aggregating the data spatio-temporally OK \n")
 
 
 # Keep select column as value and remove the others (sd_value, min_value, etc.)
@@ -179,6 +186,8 @@ dataset<-dataset[ , !(grepl("_value",colnames(dataset)))==TRUE]
 # ######################### ######################### ######################### 
 # # Metadata
 # ######################### ######################### ######################### 
+cat("Generating metadata... \n")
+
 additional_metadata<-NULL
 additional_metadata$supplemental_information<-paste0("The following query was executed on the ",database_name," database on the ",Sys.Date()," to extract the data :\n",sql_query)
 
@@ -198,3 +207,5 @@ additional_metadata$lineage <- paste0("step1: The following query was executed o
                    step3: Data were aggregated on ",lineage_intersection_layer_type," and ",temporal_resolution," ",temporal_resolution_unit," timeframe by the following dimensions: ",columns_to_keep,". ",lineage_asso," 
                    step4: Data were uploaded in the French tropical tuna atlas database.")
 
+cat("Generating metadata OK \n")
+cat("The dataset has been created \n")
