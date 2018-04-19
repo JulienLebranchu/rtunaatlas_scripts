@@ -62,9 +62,6 @@ require(rtunaatlas)
 require(dplyr)
 require(rgdal)
 
-tic.clear()
-tic()
-
 
 ######################### ######################### ######################### 
 # Initialisation
