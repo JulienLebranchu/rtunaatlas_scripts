@@ -4,14 +4,23 @@
   
   cat(paste0("Start processing dataset ",metadata_and_parameterization$persistent_identifier,"\n"))
   
-  # Generate dataset
+  # Generate dataset(s)
   dataset_and_metadata<-generate_dataset(metadata_and_parameterization)
-  dataset<-dataset_and_metadata$dataset
-  additional_metadata<-dataset_and_metadata$additional_metadata
   
-  # Complete persistent identifier
-  metadata_and_parameterization$persistent_identifier<-generate_persistent_identifier(metadata_and_parameterization,additional_metadata)
+  # in the case there is only 1 dataset in output of the script
+  if (!is.list(dataset_and_metadata$dataset)){
+    dataset_and_metadata$dataset<-list(dataset_and_metadata$dataset)
+    dataset_and_metadata$additional_metadata<-list(dataset_and_metadata$additional_metadata)
+  }
   
+  # One by one load the datasets with their metadata
+  for (n_dataset_to_load in 1:length(dataset_and_metadata$dataset)){
+  dataset<-dataset_and_metadata$dataset[[n_dataset_to_load]]
+  additional_metadata<-dataset_and_metadata$additional_metadata[[n_dataset_to_load]]
+  
+  # Complete metadata with values available in additional_metadata
+  metadata_and_parameterization<-fill_missing_metadata(metadata_and_parameterization,additional_metadata)
+
   # Generate tuna atlas identifier
   metadata_and_parameterization$identifier<-generate_tuna_atlas_identifier(metadata_and_parameterization,dataset,year_tuna_atlas)
   
@@ -41,3 +50,4 @@
   
   }
   
+}
