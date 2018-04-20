@@ -9,6 +9,9 @@
   dataset<-dataset_and_metadata$dataset
   additional_metadata<-dataset_and_metadata$additional_metadata
   
+  # Complete persistent identifier
+  metadata_and_parameterization$persistent_identifier<-generate_persistent_identifier(metadata_and_parameterization,additional_metadata)
+  
   # Generate tuna atlas identifier
   metadata_and_parameterization$identifier<-generate_tuna_atlas_identifier(metadata_and_parameterization,dataset,year_tuna_atlas)
   
