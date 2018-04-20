@@ -78,6 +78,7 @@ source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/dep
 source(paste(repository_R_scripts,"open_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"generate_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"get_data_frame_code_lists.R",sep="/"))
+source(paste(repository_R_scripts,"generate_persistent_identifier.R",sep="/"))
 source(paste(repository_R_scripts,"generate_tuna_atlas_identifier.R",sep="/"))
 source(paste(repository_R_scripts,"push_R_script_to_server.R",sep="/"))
 source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_load.R",sep="/"))

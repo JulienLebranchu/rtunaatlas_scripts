@@ -167,7 +167,7 @@ dataset<-dataset %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=l
 cat("Aggregating the data spatio-temporally...\n")
 
 ## noms de colonne obligatoire : time, lat, lon
-dataset<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
+dataset_processed<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
                                   intersection_layer=intersection_layer,
                                   calendar=calendar,
                                   data_crs=data_crs,
@@ -176,20 +176,25 @@ dataset<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
                                   buffer=buffer_size)
 
 cat("Aggregating the data spatio-temporally OK \n")
+rm(dataset)
+dataset<-list()
+additional_metadata<-list()
+metric_to_keep<-unlist(strsplit(metric_to_keep, split=","))
 
-
+cat("Generating metadata... \n")
+for (i in 1:length(metric_to_keep)){
 # Keep select column as value and remove the others (sd_value, min_value, etc.)
-dataset$value<-dataset[,paste0(metric_to_keep,"_value")]
-dataset<-dataset[ , !(grepl("_value",colnames(dataset)))==TRUE]
+dataset_processed$value<-dataset_processed[,paste0(metric_to_keep[i],"_value")]
+dataset[[i]]<-dataset_processed[ , !(grepl("_value",colnames(dataset_processed)))==TRUE]
 
 
 # ######################### ######################### ######################### 
 # # Metadata
 # ######################### ######################### ######################### 
-cat("Generating metadata... \n")
 
-additional_metadata<-NULL
-additional_metadata$supplemental_information<-paste0("The following query was executed on the ",database_name," database on the ",Sys.Date()," to extract the data :\n",sql_query)
+
+additional_metadata_this_df<-NULL
+additional_metadata_this_df$supplemental_information<-paste0("The following query was executed on the ",database_name," database on the ",Sys.Date()," to extract the data :\n",sql_query)
 
 switch(spatial_association_method,
 "cwp" = {lineage_asso = "Data whose spatial location (point) fell on a border of the grid were attributed to a cell following the Coordinating Working Party on Fishery Statistics (CWP) rules, i.e. they were assigned to the cell closest to the point of latitude = 0 and longitude = 0 (see http://www.fao.org/fishery/cwp/en for additional information)."}, 
@@ -202,10 +207,34 @@ if (intersection_layer_type=="grid"){
 } else if (intersection_layer_type=="shapefile"){
   lineage_intersection_layer_type<-"the geospatial areas"
 }
-additional_metadata$lineage <- paste0("step1: The following query was executed on the ",database_name," database on the ",Sys.Date(),":\n",sql_query,".
+additional_metadata_this_df$lineage <- paste0("step1: The following query was executed on the ",database_name," database on the ",Sys.Date(),":\n",sql_query,".
                    step2: Data were spatially and temporally filtred as follow: spatial extent {latmin,latmax,lonmin,lonmax}:{",latmin,",",latmax,",",lonmin,",",lonmax,"} and temporal extent {first_date,final_date}:{",first_date,",",final_date,"}
                    step3: Data were aggregated on ",lineage_intersection_layer_type," and ",temporal_resolution," ",temporal_resolution_unit," timeframe by the following dimensions: ",columns_to_keep,". ",lineage_asso," 
                    step4: Data were uploaded in the French tropical tuna atlas database.")
 
+additional_metadata_this_df$metric<-metric_to_keep[i]
+
+switch(metric_to_keep[i],
+       "n" = {additional_metadata_this_df$metric_label = "number"}, 
+       "sum" = {additional_metadata_this_df$metric_label  =  "sum"},
+       "mean" = {additional_metadata_this_df$metric_label  =  "average"}
+       "sd" = {additional_metadata_this_df$metric_label  =  "standard deviation"}
+       "min" = {additional_metadata_this_df$metric_label  =  "minumum"}
+       "max" = {additional_metadata_this_df$metric_label  =  "maximum"}
+       "distance" = {additional_metadata_this_df$metric_label  =  "Distance"}
+       "surface" = {additional_metadata_this_df$metric_label  =  "Surface"}
+       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance"}
+       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface"}
+       
+)
+
+additional_metadata[[i]]<-additional_metadata_this_df
+
+}
 cat("Generating metadata OK \n")
 cat("The dataset has been created \n")
+
+
+
+
+
