@@ -25,7 +25,7 @@ generate_dataset<-function(metadata_and_parameterization){
   ## Source script to generate the dataset, with above parameterization
   cat("Starting generation of the dataset...\n")
   source(metadata_and_parameterization$path_to_script_dataset_generation)
-  dataset<-data.frame(dataset)
+  #dataset<-data.frame(dataset)
   
   cat("End generation of the dataset\n")
   
