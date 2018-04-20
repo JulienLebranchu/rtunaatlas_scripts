@@ -217,16 +217,18 @@ additional_metadata_this_df$metric<-metric_to_keep[i]
 switch(metric_to_keep[i],
        "n" = {additional_metadata_this_df$metric_label = "number"}, 
        "sum" = {additional_metadata_this_df$metric_label  =  "sum"},
-       "mean" = {additional_metadata_this_df$metric_label  =  "average"}
-       "sd" = {additional_metadata_this_df$metric_label  =  "standard deviation"}
-       "min" = {additional_metadata_this_df$metric_label  =  "minumum"}
-       "max" = {additional_metadata_this_df$metric_label  =  "maximum"}
-       "distance" = {additional_metadata_this_df$metric_label  =  "Distance"}
-       "surface" = {additional_metadata_this_df$metric_label  =  "Surface"}
-       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance"}
-       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface"}
+       "mean" = {additional_metadata_this_df$metric_label  =  "average"},
+       "sd" = {additional_metadata_this_df$metric_label  =  "standard deviation"},
+       "min" = {additional_metadata_this_df$metric_label  =  "minumum"},
+       "max" = {additional_metadata_this_df$metric_label  =  "maximum"},
+       "distance" = {additional_metadata_this_df$metric_label  =  "Distance traveled"},
+       "surface" = {additional_metadata_this_df$metric_label  =  "Surface explored"},
+       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance traveled"},
+       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface explored"}
        
 )
+
+additional_metadata_this_df$spatial_association_method<-spatial_association_method
 
 additional_metadata[[i]]<-additional_metadata_this_df
 
