@@ -14,7 +14,7 @@
   }
   
   # One by one load the datasets with their metadata
-  for (n_dataset_to_load in 2:length(dataset_and_metadata$dataset)){
+  for (n_dataset_to_load in 1:length(dataset_and_metadata$dataset)){
   dataset<-dataset_and_metadata$dataset[[n_dataset_to_load]]
   additional_metadata<-dataset_and_metadata$additional_metadata[[n_dataset_to_load]]
   metadata_and_parameterization_this_df=metadata_and_parameterization
