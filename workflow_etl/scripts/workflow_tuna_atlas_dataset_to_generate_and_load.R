@@ -8,7 +8,7 @@
   dataset_and_metadata<-generate_dataset(metadata_and_parameterization)
   
   # in the case there is only 1 dataset in output of the script
-  if (!is.list(dataset_and_metadata$dataset)){
+  if (inherits(dataset_and_metadata$dataset, "data.frame")){
     dataset_and_metadata$dataset<-list(dataset_and_metadata$dataset)
     dataset_and_metadata$additional_metadata<-list(dataset_and_metadata$additional_metadata)
   }
