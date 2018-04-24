@@ -64,7 +64,7 @@ metadata_and_parameterization_tuna_atlas_nominal_catch_datasets="https://raw.git
 
 
 
-repository_R_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/workflow_etl/scripts"  ## Repository where the scripts are stored
+repository_R_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/workflow_etl/scripts"  ## Repository where the scripts are stored
 repository_sql_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
 
 
