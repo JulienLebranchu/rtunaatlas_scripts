@@ -181,6 +181,10 @@ dataset<-list()
 additional_metadata<-list()
 metric_to_keep<-unlist(strsplit(metric_to_keep, split=","))
 
+# Data that do not intersect any polygon of the intersection layer have the geographic_identifier set to NA
+dataset_processed <- dataset_processed %>% mutate(geographic_identifier = if_else(geographic_identifier=="no_geo_intersection",NA,geographic_identifier))
+dataset_processed <- dataset_processed %>% mutate(geom_wkt = if_else(geom_wkt=="no_geo_intersection",NA,geom_wkt))
+
 cat("Generating metadata... \n")
 for (i in 1:length(metric_to_keep)){
 # Keep select column as value and remove the others (sd_value, min_value, etc.)
