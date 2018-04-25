@@ -221,10 +221,14 @@ switch(metric_to_keep[i],
        "sd" = {additional_metadata_this_df$metric_label  =  "standard deviation"},
        "min" = {additional_metadata_this_df$metric_label  =  "minumum"},
        "max" = {additional_metadata_this_df$metric_label  =  "maximum"},
-       "distance" = {additional_metadata_this_df$metric_label  =  "Distance traveled"},
-       "surface" = {additional_metadata_this_df$metric_label  =  "Surface explored"},
-       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance traveled"},
-       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface explored"}
+       "distance" = {additional_metadata_this_df$metric_label  =  "Distance traveled"
+                     additional_metadata_this_df$metric_unit = "expressed in kilometers"},
+       "surface" = {additional_metadata_this_df$metric_label  =  "Surface explored"
+                    additional_metadata_this_df$metric_unit = "expressed in square kilometers"},
+       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance traveled"
+                      additional_metadata_this_df$metric_unit = "normalized"},
+       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface explored"
+                     additional_metadata_this_df$metric_unit = "normalized"}
        
 )
 
