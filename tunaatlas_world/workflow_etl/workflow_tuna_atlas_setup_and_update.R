@@ -84,10 +84,6 @@ require(RPostgreSQL)
 require(rtunaatlas)
 
 
-# Connect to db with admin rights
-drv <- dbDriver("PostgreSQL")
-con_admin <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
-
 # Source scripts
 source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/deploy_database_model.R") ## function to deploy the DB model
 source(paste(repository_R_scripts,"open_dataset.R",sep="/"))
@@ -99,10 +95,11 @@ source(paste(repository_R_scripts,"push_R_script_to_server.R",sep="/"))
 source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_load.R",sep="/"))
 source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_generate_and_load.R",sep="/"))
 
+## DB Connection parameters
+con_parameters<-list(db_name=db_name,db_admin_name=db_admin_name,db_admin_password=db_admin_password,db_host=db_host)
+
 
 ## Main
-
-
 if (deploy_database_model==TRUE){ ## Deploy the database model
   deploy_database_model_function(db_name,db_host,db_admin_name,db_read_name,db_admin_password,db_dimensions,db_variables_and_associated_dimensions,"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model")
 }
@@ -114,7 +111,7 @@ if (load_codelists==TRUE){
   # One by one, load the code lists  
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
+    workflow_tuna_atlas_dataset_to_load(con_parameters,metadata_and_parameterization)
   }
   cat("End loading the code lists and related metadata in the database\n")
 }
@@ -127,7 +124,7 @@ if (load_codelists_mappings==TRUE){  ## Load the code lists mapping
   # One by one, load the code lists mappings
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
+    workflow_tuna_atlas_dataset_to_load(con_parameters,metadata_and_parameterization)
     cat("End loading the code lists mappings and related metadata in the database\n")
   }
 }
@@ -140,7 +137,7 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
   # One by one, load the primary datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
   cat("End harmonizing and loading the tRFMOs primary datasets and related metadata in the database\n")
 }
@@ -155,7 +152,7 @@ if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load t
   # One by one, generate and load the ird tuna atlas datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
   
   # Open csv metadata of ird tuna atlas nomînal catch datasets and related parameterization
@@ -165,7 +162,7 @@ if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load t
   # One by one, generate and load the ird tuna atlas datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
   cat("End generating and loading the global nominal catch tuna atlas datasets and related metadata in the database\n")
 }
