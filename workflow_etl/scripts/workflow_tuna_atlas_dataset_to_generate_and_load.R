@@ -1,6 +1,6 @@
 # workflow_tuna_atlas_dataset_to_generate_and_load
 
-  workflow_tuna_atlas_dataset_to_generate_and_load<-function(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token){
+  workflow_tuna_atlas_dataset_to_generate_and_load<-function(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token){
   
   cat(paste0("Start processing dataset ",metadata_and_parameterization$persistent_identifier,"\n"))
   
@@ -42,11 +42,18 @@
   }
   
   cat("Loading the dataset and the metadata in the DB...\n")
+  
+  # Connect to db with admin rights
+  drv <- dbDriver("PostgreSQL")
+  con_admin <- dbConnect(drv, dbname=con_parameters$db_name, user=con_parameters$db_admin_name, password=con_parameters$db_admin_password, host=con_parameters$db_host)
+  
   # Load dataset and metadata
     rtunaatlas::load_raw_dataset_in_db(con=con_admin,
                                        df_to_load=dataset,
                                        df_metadata=df_metadata,
                                        df_codelists_input=df_codelists)
+    
+    dbDisconnect(con_admin)
     
   cat("Loading the dataset and the metadata in the DB OK\n")
   cat(paste0("End processing dataset ",metadata_and_parameterization_this_df$persistent_identifier,"\n"))
