@@ -128,6 +128,9 @@ catches$source_authority<-"ICCAT"
 
 dataset<-catches
 
+# remove incoherent cwp grid codes TO REMOVE AFTER!!!!
+dataset<-dataset %>% filter (!(geographic_identifier %in% c("1410045","6425013","6428016","6454045","7405050","7410045")))
+
 ### Compute metadata
 #if (path_to_metadata_file!="NULL"){
 #  source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/transform/compute_metadata.R")
