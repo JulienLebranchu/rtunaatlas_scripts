@@ -79,7 +79,6 @@ cat("Downloading database...\n")
 cat("The harmonization of this dataset might take a long time\n")
 download.file(path_to_raw_dataset, paste0(working_directory_init,"/db.mdb"))
 
-ICCAT_CE_species_colnames<-c("ALB", "BET" ,"BFT","BUM","SAI","SKJ","SWO","WHM","YFT","BLF","BLT","BON","BOP","BRS","CER","FRI", "KGM","KGX","LTA", "MAW","SLT","SSM","WAH" , "oSmt" , "BIL", "BLM" ,"MLS","SBF" ,"SPF", "oTun" , "BSH", "POR" , "SMA", "MAK", "oSks")
 
 # Requires library(Hmisc)
 # Open the tables directly from the access database  
@@ -87,6 +86,8 @@ t2ce<-mdb.get(paste0(working_directory_init,"/db.mdb"),tables='t2ce',stringsAsFa
 Flags<-mdb.get(paste0(working_directory_init,"/db.mdb"),tables='Flags',stringsAsFactors=FALSE,strip.white=TRUE)
 
 data_pivot_ICCAT<-left_join(t2ce,Flags,by="FleetID")  # equivalent to "select FlagCode,FlagID,t2ce.* from t2ce, Flags where t2ce.FleetID=Flags.FleetID"
+
+ICCAT_CE_species_colnames<-setdiff(colnames(t2ce),c("StrataID","DSetID","FleetID","GearGrpCode","GearCode","FileTypeCode","YearC","TimePeriodID","SquareTypeCode","QuadID","Lat","Lon","Eff1","Eff1Type","Eff2","Eff2Type","DSetTypeID","CatchUnit"))
 
 catches_pivot_ICCAT<-FUN_catches_ICCAT_CE(data_pivot_ICCAT,ICCAT_CE_species_colnames)
 
