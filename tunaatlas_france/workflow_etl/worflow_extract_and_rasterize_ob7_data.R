@@ -190,7 +190,7 @@ for (i in 1:length(metric_to_keep)){
 # Keep select column as value and remove the others (sd_value, min_value, etc.)
 dataset_processed$value<-dataset_processed[,paste0(metric_to_keep[i],"_value")]
 dataset[[i]]<-dataset_processed[ , !(grepl("_value",colnames(dataset_processed)))==TRUE]
-
+dataset[[i]]<-dataset[[i]] %>% filter (value > 0)
 
 # ######################### ######################### ######################### 
 # # Metadata
