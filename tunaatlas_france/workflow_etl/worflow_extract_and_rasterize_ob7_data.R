@@ -225,16 +225,30 @@ switch(metric_to_keep[i],
        "sd" = {additional_metadata_this_df$metric_label  =  "standard deviation"},
        "min" = {additional_metadata_this_df$metric_label  =  "minumum"},
        "max" = {additional_metadata_this_df$metric_label  =  "maximum"},
-       "distance" = {additional_metadata_this_df$metric_label  =  "Distance traveled"
+       "distance" = {additional_metadata_this_df$metric_label  =  "Distance traveled by"
                      additional_metadata_this_df$metric_unit = "expressed in kilometers"},
-       "surface" = {additional_metadata_this_df$metric_label  =  "Surface explored"
-                    additional_metadata_this_df$metric_unit = "expressed in square kilometers"},
-       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance traveled"
-                      additional_metadata_this_df$metric_unit = "normalized"},
-       "nsurface" = {additional_metadata_this_df$metric_label  =  "Normalized surface explored"
-                     additional_metadata_this_df$metric_unit = "normalized"}
-       
+       "ndistance" = {additional_metadata_this_df$metric_label  =  "Normalized distance traveled by"
+                      additional_metadata_this_df$metric_unit = "normalized"}
 )
+
+if (metric_to_keep[i]=="surface"){
+  if (database_name=="fads_20160813"){
+    additional_metadata_this_df$metric_label="Area of influence of"
+  } else if (database_name=="balbaya"){
+    additional_metadata_this_df$metric_label= "Surface explored by"
+  }
+  additional_metadata_this_df$metric_unit = "expressed in square kilometers"
+}
+
+if  (metric_to_keep[i]=="nsurface"){
+  if (database_name=="fads_20160813"){
+    additional_metadata_this_df$metric_label="Normalized area of influence of"
+  } else if (database_name=="balbaya"){
+    additional_metadata_this_df$metric_label= "Normalized surface explored by"
+  }
+  additional_metadata_this_df$metric_unit = "normalized"
+}
+
 
 additional_metadata_this_df$spatial_association_method<-spatial_association_method
 additional_metadata_this_df$grid_spatial_resolution<-gsub(".","_",grid_spatial_resolution,fixed=TRUE)
