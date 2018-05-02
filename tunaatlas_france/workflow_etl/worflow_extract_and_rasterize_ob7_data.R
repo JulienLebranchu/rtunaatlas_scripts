@@ -237,7 +237,9 @@ switch(metric_to_keep[i],
 )
 
 additional_metadata_this_df$spatial_association_method<-spatial_association_method
-
+additional_metadata_this_df$grid_spatial_resolution<-gsub(".","_",grid_spatial_resolution,fixed=TRUE)
+additional_metadata_this_df$temporal_resolution<-gsub(".","_",temporal_resolution,fixed=TRUE)
+  
 additional_metadata[[i]]<-additional_metadata_this_df
 
 }
