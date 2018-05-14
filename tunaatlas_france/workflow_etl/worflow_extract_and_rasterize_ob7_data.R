@@ -39,8 +39,7 @@
 # lonmax
 # intersection_layer_type
 # grid_spatial_resolution
-# shapefile_directory_url
-# shapefile_name
+# shapefile_url
 # shapefile_colname_geographic_identifier
 # data_crs
 # temporal_resolution
@@ -59,8 +58,11 @@
 
 # Packages
 require(rtunaatlas)
+require(data.table)
 require(dplyr)
 require(rgdal)
+require(sf)
+
 
 
 ######################### ######################### ######################### 
@@ -105,6 +107,7 @@ sql_query<-gsub("%size_measure_type%","'L1','TL', 'SL', 'LJFL', 'CLJFL', 'EFL', 
 sql_query<-paste(sql_query,sql_limit,sep=" ")
 
 dataset<-dbGetQuery(con, sql_query)
+dataset$date<-as.POSIXct(dataset$date)
 cat("Query ok \n")
 
 ### Disconnect from database
@@ -115,14 +118,15 @@ dbDisconnect(con)
 # Treatments
 ######################### ######################### ######################### 
 
-cat("Creating sp SpatialPolygon to aggregate data...\n")
+cat("Creating sf SpatialPolygon to aggregate data...\n")
 
 ## Create aggregation layer
 if (intersection_layer_type=="shapefile"){
   ### If not a grid, prepare data for integration within the aggregation function. Input is a shp that needs to be converted to SpatialPolygonDataFrame
-  intersection_layer<-readOGR(shapefile_directory_url,shapefile_name)
-  intersection_layer<-spTransform(intersection_layer, CRS(data_crs))
+  intersection_layer <- st_read(shapefile_url)
+  st_crs(intersection_layer) <- data_crs
   names(intersection_layer)[which(names(intersection_layer) == shapefile_colname_geographic_identifier)]<-"geographic_identifier"
+  intersection_layer<-intersection_layer[,"geographic_identifier"]
 } else if (intersection_layer_type=="eez"){
   ## Get the EEZ from the marineregions (covering indian and atlantic oceans)
   xmin_plot=-60
@@ -141,7 +145,10 @@ if (intersection_layer_type=="shapefile"){
   intersection_layer <- rtunaatlas::create_grid(latmin,latmax,lonmin,lonmax,grid_spatial_resolution,crs=data_crs,centred=centred_grid)
 }
 
-cat("Creating sp SpatialPolygon to aggregate data OK\n")
+# Convert to sf 
+intersection_layer<-st_as_sf(intersection_layer)
+
+cat("Creating sf SpatialPolygon to aggregate data OK\n")
 
 cat("\n Creation of temporal calendar ... ")
 
@@ -182,8 +189,8 @@ additional_metadata<-list()
 metric_to_keep<-unlist(strsplit(metric_to_keep, split=","))
 
 # Data that do not intersect any polygon of the intersection layer have the geographic_identifier set to NA
-dataset_processed <- dataset_processed %>% mutate(geographic_identifier = if_else(geographic_identifier=="no_geo_intersection","ALL",geographic_identifier))
-dataset_processed <- dataset_processed %>% mutate(geom_wkt = if_else(geom_wkt=="no_geo_intersection","ALL",geom_wkt))
+dataset_processed <- dataset_processed %>% mutate(geographic_identifier = if_else(is.na(geographic_identifier),"ALL",geographic_identifier))
+dataset_processed <- dataset_processed %>% mutate(geom_wkt = if_else(is.na(geom_wkt),"ALL",geom_wkt))
 
 cat("Generating metadata... \n")
 for (i in 1:length(metric_to_keep)){
@@ -259,8 +266,3 @@ additional_metadata[[i]]<-additional_metadata_this_df
 }
 cat("Generating metadata OK \n")
 cat("The dataset has been created \n")
-
-
-
-
-
