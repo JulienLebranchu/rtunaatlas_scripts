@@ -90,8 +90,8 @@ sql_query<-gsub("%final_date%",final_date,sql_query)
 sql_query<-gsub("%size_measure_type%","'L1','TL', 'SL', 'LJFL', 'CLJFL', 'EFL', 'DL', 'CTL', 'SCL', 'CCL', 'FL'",sql_query)
 sql_query<-paste(sql_query,sql_limit,sep=" ")
 
-dataset<-dbGetQuery(con, sql_query)
-dataset$date<-as.POSIXct(dataset$date)
+dataset_output_query<-dbGetQuery(con, sql_query)
+dataset_output_query$date<-as.POSIXct(dataset_output_query$date)
 cat("Query ok \n")
 
 ### Disconnect from database
@@ -147,10 +147,10 @@ if (intersection_layer_type=="shapefile"){
   names(intersection_layer)[which(names(intersection_layer) == "geoname")]<-"geographic_identifier"
 } else if (intersection_layer_type=="grid"){
   centred_grid=TRUE
-  latmin=min(dataset$lat)
-  latmax=max(dataset$lat)
-  lonmin=min(dataset$lon)
-  lonmax=max(dataset$lon)
+  latmin=min(dataset_output_query$lat)
+  latmax=max(dataset_output_query$lat)
+  lonmin=min(dataset_output_query$lon)
+  lonmax=max(dataset_output_query$lon)
   intersection_layer <- rtunaatlas::create_grid(latmin,latmax,lonmin,lonmax,grid_spatial_resolution,crs=data_crs,centred=centred_grid)
 }
 
@@ -163,10 +163,10 @@ cat("\n Creation of temporal calendar ... ")
 
 ### create calendar
 if (is.null(first_date)){
-  first_date<-min(dataset$date)
+  first_date<-min(dataset_output_query$date)
 }
 if (is.null(final_date)){
-  final_date<-max(dataset$date)
+  final_date<-max(dataset_output_query$date)
 }
 calendar <- rtunaatlas::create_calendar(first_date,final_date,temporal_resolution,temporal_resolution_unit)
 
@@ -174,16 +174,16 @@ cat("\n Creation of temporal calendar OK ")
 
 ##
 if (!is.null(columns_to_keep)){
-dataset<-dataset[,colnames(dataset) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
+dataset_output_query<-dataset_output_query[,colnames(dataset_output_query) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
 }
 
 # filter the dataset before executing the aggregation function
-dataset<-dataset %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
+dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
 
 cat("Aggregating the data spatio-temporally...\n")
 
 ## noms de colonne obligatoire : time, lat, lon
-dataset_processed<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
+dataset_processed<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset_output_query,
                                   intersection_layer=intersection_layer,
                                   calendar=calendar,
                                   data_crs=data_crs,
@@ -192,7 +192,7 @@ dataset_processed<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset,
                                   buffer=buffer_size)
 
 cat("Aggregating the data spatio-temporally OK \n")
-rm(dataset)
+rm(dataset_output_query)
 dataset<-list()
 additional_metadata<-list()
 metric_to_keep<-unlist(strsplit(metric_to_keep, split=","))
