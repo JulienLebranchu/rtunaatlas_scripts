@@ -63,22 +63,6 @@ require(dplyr)
 require(rgdal)
 require(sf)
 
-
-
-######################### ######################### ######################### 
-# Initialisation
-######################### ######################### ######################### 
-latmin <- as.numeric(latmin)
-latmax <- as.numeric(latmax)
-lonmin <- as.numeric(lonmin)
-lonmax <- as.numeric(lonmax)
-temporal_resolution<-as.numeric(temporal_resolution)
-grid_spatial_resolution<-as.numeric(grid_spatial_resolution)
-year_tuna_atlas<-as.numeric(year_tuna_atlas)
-data_crs <- "+init=epsg:4326 +proj=longlat +datum=WGS84"
-
-
-
 ######################### ######################### ######################### 
 # Database connection
 ######################### ######################### ######################### 
@@ -114,6 +98,31 @@ cat("Query ok \n")
 dbDisconnect(con)
 
 
+latmin <- as.numeric(latmin)
+latmax <- as.numeric(latmax)
+lonmin <- as.numeric(lonmin)
+lonmax <- as.numeric(lonmax)
+temporal_resolution_list<-unlist(strsplit(temporal_resolution, split=",")) 
+temporal_resolution_list<-as.numeric(temporal_resolution_list)
+
+temporal_resolution_unit_list<-unlist(strsplit(temporal_resolution_unit, split=",")) 
+
+grid_spatial_resolution_list<-unlist(strsplit(grid_spatial_resolution, split=",")) 
+grid_spatial_resolution_list<-as.numeric(grid_spatial_resolution_list)
+
+year_tuna_atlas<-as.numeric(year_tuna_atlas)
+data_crs <- "+init=epsg:4326 +proj=longlat +datum=WGS84"
+
+## initialization of output datasets
+datasets_all<-list()
+additional_metadata_all<-list()
+
+for (k in 1:length(temporal_resolution_list)){
+
+  temporal_resolution <- temporal_resolution_list[k]
+  temporal_resolution_unit <- temporal_resolution_unit_list[k]
+  grid_spatial_resolution <- grid_spatial_resolution_list[k]
+  
 ######################### ######################### ######################### 
 # Treatments
 ######################### ######################### ######################### 
@@ -194,10 +203,11 @@ dataset_processed <- dataset_processed %>% mutate(geographic_identifier = if_els
 
 cat("Generating metadata... \n")
 for (i in 1:length(metric_to_keep)){
+n<-length(datasets_all)+1
 # Keep select column as value and remove the others (sd_value, min_value, etc.)
 dataset_processed$value<-dataset_processed[,paste0(metric_to_keep[i],"_value")]
-dataset[[i]]<-dataset_processed[ , !(grepl("_value",colnames(dataset_processed)))==TRUE]
-dataset[[i]]<-dataset[[i]] %>% filter (value > 0)
+datasets_all[[n]]<-dataset_processed[ , !(grepl("_value",colnames(dataset_processed)))==TRUE]
+datasets_all[[n]]<-datasets_all[[n]] %>% filter (value > 0)
 
 # ######################### ######################### ######################### 
 # # Metadata
@@ -261,8 +271,17 @@ additional_metadata_this_df$spatial_association_method<-spatial_association_meth
 additional_metadata_this_df$grid_spatial_resolution<-gsub(".","_",grid_spatial_resolution,fixed=TRUE)
 additional_metadata_this_df$temporal_resolution<-gsub(".","_",temporal_resolution,fixed=TRUE)
   
-additional_metadata[[i]]<-additional_metadata_this_df
+additional_metadata_all[[n]]<-additional_metadata_this_df
 
 }
+
+}
+
+additional_metadata <- additional_metadata_all
+rm(additional_metadata_all)
+
+dataset <- datasets_all
+rm(datasets_all)
+
 cat("Generating metadata OK \n")
 cat("The dataset has been created \n")
