@@ -98,6 +98,22 @@ cat("Query ok \n")
 dbDisconnect(con)
 
 
+## keep only desired columns
+if (!is.null(columns_to_keep)){
+dataset_output_query<-dataset_output_query[,colnames(dataset_output_query) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
+}
+
+# filter the dataset before executing the aggregation function
+
+if (is.null(first_date)){
+  first_date<-min(dataset_output_query$date)
+}
+if (is.null(final_date)){
+  final_date<-max(dataset_output_query$date)
+}
+dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
+
+
 latmin <- as.numeric(latmin)
 latmax <- as.numeric(latmax)
 lonmin <- as.numeric(lonmin)
@@ -160,25 +176,10 @@ intersection_layer<-st_as_sf(intersection_layer)
 cat("Creating sf SpatialPolygon to aggregate data OK\n")
 
 cat("\n Creation of temporal calendar ... ")
-
-### create calendar
-if (is.null(first_date)){
-  first_date<-min(dataset_output_query$date)
-}
-if (is.null(final_date)){
-  final_date<-max(dataset_output_query$date)
-}
+  
 calendar <- rtunaatlas::create_calendar(first_date,final_date,temporal_resolution,temporal_resolution_unit)
 
 cat("\n Creation of temporal calendar OK ")
-
-##
-if (!is.null(columns_to_keep)){
-dataset_output_query<-dataset_output_query[,colnames(dataset_output_query) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
-}
-
-# filter the dataset before executing the aggregation function
-dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
 
 cat("Aggregating the data spatio-temporally...\n")
 
@@ -192,7 +193,6 @@ dataset_processed<-rtunaatlas::rasterize_geo_timeseries(df_input=dataset_output_
                                   buffer=buffer_size)
 
 cat("Aggregating the data spatio-temporally OK \n")
-rm(dataset_output_query)
 dataset<-list()
 additional_metadata<-list()
 metric_to_keep<-unlist(strsplit(metric_to_keep, split=","))
