@@ -129,14 +129,16 @@ temporal_resolution_unit_list<-unlist(strsplit(temporal_resolution_unit, split="
   temporal_resolution_unit_list<-temporal_resolution_unit
   }
 
+if (intersection_layer_type=="grid"){
 if (grepl("/", grid_spatial_resolution)){        
 grid_spatial_resolution_list<-unlist(strsplit(grid_spatial_resolution, split="/")) 
 } else {
   grid_spatial_resolution_list<-grid_spatial_resolution
   }
 grid_spatial_resolution_list<-as.numeric(grid_spatial_resolution_list)
-    
-   
+}
+
+
 year_tuna_atlas<-as.numeric(year_tuna_atlas)
 data_crs <- "+init=epsg:4326 +proj=longlat +datum=WGS84"
 
@@ -148,7 +150,9 @@ for (k in 1:length(temporal_resolution_list)){
 
   temporal_resolution <- temporal_resolution_list[k]
   temporal_resolution_unit <- temporal_resolution_unit_list[k]
+  if (intersection_layer_type=="grid"){
   grid_spatial_resolution <- grid_spatial_resolution_list[k]
+  }
   
 ######################### ######################### ######################### 
 # Treatments
