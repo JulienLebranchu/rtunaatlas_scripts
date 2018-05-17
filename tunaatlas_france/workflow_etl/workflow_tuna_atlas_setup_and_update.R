@@ -45,7 +45,7 @@ db_variables_and_associated_dimensions="vms=flag,gear,vessel,ocean,time,area,uni
 metadata_and_parameterization_csv_codelists="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_france/metadata_and_parameterization_files/metadata_codelists_2017.csv"
 
 ## metadata_and_parameterization_csv_primary_datasets : fill-in only if transform_and_load_primary_datasets==TRUE
-metadata_and_parameterization_csv_primary_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_france/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_france_primary_datasets_2017.csv"
+metadata_and_parameterization_csv_primary_datasets="****"
 
 
 
@@ -69,21 +69,19 @@ require(RPostgreSQL)
 require(rtunaatlas)
 
 
-# Connect to db with admin rights
-drv <- dbDriver("PostgreSQL")
-con_admin <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
-
 # Source scripts
 source("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/deploy_database_model.R") ## function to deploy the DB model
 source(paste(repository_R_scripts,"open_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"generate_dataset.R",sep="/"))
 source(paste(repository_R_scripts,"get_data_frame_code_lists.R",sep="/"))
-source(paste(repository_R_scripts,"generate_persistent_identifier.R",sep="/"))
+source(paste(repository_R_scripts,"fill_missing_metadata.R",sep="/"))
 source(paste(repository_R_scripts,"generate_tuna_atlas_identifier.R",sep="/"))
 source(paste(repository_R_scripts,"push_R_script_to_server.R",sep="/"))
 source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_load.R",sep="/"))
 source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_generate_and_load.R",sep="/"))
 
+## DB Connection parameters
+con_parameters<-list(db_name=db_name,db_admin_name=db_admin_name,db_admin_password=db_admin_password,db_host=db_host)
 
 ## Main
 
@@ -99,7 +97,7 @@ if (load_codelists==TRUE){
   # One by one, load the code lists  
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_load(con_admin,metadata_and_parameterization)
+    workflow_tuna_atlas_dataset_to_load(con_parameters,metadata_and_parameterization)
   }
   cat("End loading the code lists and related metadata in the database\n")
 }
@@ -113,7 +111,7 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
   # One by one, load the primary datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
   cat("End harmonizing and loading the tRFMOs primary datasets and related metadata in the database\n")
 }
