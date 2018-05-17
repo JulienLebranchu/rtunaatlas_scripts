@@ -116,14 +116,27 @@ lonmin <- as.numeric(lonmin)
 lonmax <- as.numeric(lonmax)
 dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
 
-temporal_resolution_list<-unlist(strsplit(temporal_resolution, split=",")) 
+if (grepl("/", temporal_resolution){
+temporal_resolution_list<-unlist(strsplit(temporal_resolution, split="/")) 
+} else {
+  temporal_resolution_list<-temporal_resolution
+  }
 temporal_resolution_list<-as.numeric(temporal_resolution_list)
+    
+if (grepl("/", temporal_resolution_unit){    
+temporal_resolution_unit_list<-unlist(strsplit(temporal_resolution_unit, split="/")) 
+} else {
+  temporal_resolution_unit_list<-temporal_resolution_unit
+  }
 
-temporal_resolution_unit_list<-unlist(strsplit(temporal_resolution_unit, split=",")) 
-
-grid_spatial_resolution_list<-unlist(strsplit(grid_spatial_resolution, split=",")) 
+if (grepl("/", grid_spatial_resolution){        
+grid_spatial_resolution_list<-unlist(strsplit(grid_spatial_resolution, split="/")) 
+} else {
+  grid_spatial_resolution_list<-grid_spatial_resolution
+  }
 grid_spatial_resolution_list<-as.numeric(grid_spatial_resolution_list)
-
+    
+   
 year_tuna_atlas<-as.numeric(year_tuna_atlas)
 data_crs <- "+init=epsg:4326 +proj=longlat +datum=WGS84"
 
