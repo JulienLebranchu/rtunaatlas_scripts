@@ -55,7 +55,7 @@ Référentiel pour les types de mesures utilisé par l’Observatoire des Ecosys
 Code list for measure types used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Observe database.",,2018-03-06,,,,,,,IRD,"step1 : The table observe_longline.sizemeasuretype was extracted from Observe database on the %date_download%. The column used as code is the column named code
 step2 : A code named « L1 » was manually added to the code list. The label is : « Depends on the species. See observator manual »
 step3 : The code list was integrated into the French Tuna atlas database",,sizetype.sizetype_ob7_observe,NA,http://data.d4science.org/NWFOQkdsUVpHUytqYjQ5MXd6SmtUU0RoTW1aQkZZNUVHbWJQNStIS0N6Yz0
-vessel_vms_balbaya,codelist,Référentiel pour les navires utilisé par l’Ob7 de l’IRD dans la base de données VMS,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
+vessel_ob7_balbaya_vms,codelist,Référentiel pour les navires utilisé par l’Ob7 de l’IRD dans la base de données VMS,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les navires utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données VMS.
 
 // English
