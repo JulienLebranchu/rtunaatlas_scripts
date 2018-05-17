@@ -103,21 +103,19 @@ if (!is.null(columns_to_keep)){
 dataset_output_query<-dataset_output_query[,colnames(dataset_output_query) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
 }
 
-# filter the dataset before executing the aggregation function
-
+# filter the dataset 
 if (is.null(first_date)){
   first_date<-min(dataset_output_query$date)
 }
 if (is.null(final_date)){
   final_date<-max(dataset_output_query$date)
 }
-dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
-
-
 latmin <- as.numeric(latmin)
 latmax <- as.numeric(latmax)
 lonmin <- as.numeric(lonmin)
 lonmax <- as.numeric(lonmax)
+dataset_output_query<-dataset_output_query %>% filter(date>=first_date,date<=final_date,lat>=latmin,lat<=latmax,lon>=lonmin,lon<=lonmax )
+
 temporal_resolution_list<-unlist(strsplit(temporal_resolution, split=",")) 
 temporal_resolution_list<-as.numeric(temporal_resolution_list)
 
