@@ -55,12 +55,12 @@ Référentiel pour les types de mesures utilisé par l’Observatoire des Ecosys
 Code list for measure types used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Observe database.",,2018-03-06,,,,,,,IRD,"step1 : The table observe_longline.sizemeasuretype was extracted from Observe database on the %date_download%. The column used as code is the column named code
 step2 : A code named « L1 » was manually added to the code list. The label is : « Depends on the species. See observator manual »
 step3 : The code list was integrated into the French Tuna atlas database",,sizetype.sizetype_ob7_observe,NA,http://data.d4science.org/NWFOQkdsUVpHUytqYjQ5MXd6SmtUU0RoTW1aQkZZNUVHbWJQNStIS0N6Yz0
-vessel_ob7_balbaya_vms,codelist,Référentiel pour les navires utilisé par l’Ob7 de l’IRD dans la base de données VMS,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
-Référentiel pour les navires utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données VMS.
+vessel_ob7_balbaya,codelist,Référentiel pour les navires utilisé par l’Ob7 de l’IRD dans la base de données Balbaya,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
+Référentiel pour les navires utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Balbaya.
 
 // English
-Code list for vessels used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the VMS database.",,2018-05-20,,,,,,,IRD,"step1 : The table vms.by_maree_2000_2017 was used to retrieve the codes on the %date_download%. The column used as code is the column named c_bat
-step2 : The code list was integrated into the French Tuna atlas database",,vessel.vessel_ob7_balbaya_vms,NA,http://data.d4science.org/ZCtEU1czRnp4M2dQc3NicTZ1SkpGcXA5NmFDcnVQNmxHbWJQNStIS0N6Yz0
+Code list for vessels used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Balbaya database.",,2018-05-20,,,,,,,IRD,"step1 : The table public.bateau was used to retrieve the codes on the %date_download%. The column used as code is the column named c_bat
+step2 : The code list was integrated into the French Tuna atlas database",,vessel.vessel_ob7_balbaya,NA,http://data.d4science.org/ZkFkUERqZ1BTcWl1czdsSkRIa0EvdzVUZHZrd25sY2tHbWJQNStIS0N6Yz0
 ocean_tunaatlas,codelist,Référentiel pour les océans utilisé par l’Ob7 de l’IRD dans la base de données Atlas thonier français,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,chloe.dalleau@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les océans utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Atlas thonier français.
 
