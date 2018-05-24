@@ -285,6 +285,8 @@ if  (metric_to_keep[i]=="nsurface"){
 additional_metadata_this_df$spatial_association_method<-spatial_association_method
 additional_metadata_this_df$grid_spatial_resolution<-gsub(".","_",grid_spatial_resolution,fixed=TRUE)
 additional_metadata_this_df$temporal_resolution<-gsub(".","_",temporal_resolution,fixed=TRUE)
+additional_metadata_this_df$grid_spatial_resolution_title<-gsub(".",",",grid_spatial_resolution,fixed=TRUE)
+additional_metadata_this_df$temporal_resolution_title<-gsub(".",",",temporal_resolution,fixed=TRUE)
 additional_metadata_this_df$temporal_resolution_unit<-temporal_resolution_unit
 
   additional_metadata_all[[n]]<-additional_metadata_this_df
