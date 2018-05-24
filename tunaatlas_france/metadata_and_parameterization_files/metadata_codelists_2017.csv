@@ -46,7 +46,7 @@ program_ob7_observe,codelist,Référentiel pour les programmes utilisé par l’
 Référentiel pour les programmes utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Observe.
 
 // English
-Code list for programs used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Observe database.",,2018-03-06,,,,,,,IRD,"step1 : The table observe_common.program was extracted from Observe database on the %date_download%. The column used as code is the column named label1
+Code list for programs used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Observe database.",,2018-03-06,,,,,,,IRD,"step1 : The table observe_common.program was extracted from Observe database on the %date_download%. The column used as code is the column named topiaid
 step2 : The code list was integrated into the French Tuna atlas database",,program.program_ob7_observe,NA,http://data.d4science.org/czNrNTRlRTdUYzJqYjQ5MXd6SmtUUloxSmhKSkpnd2hHbWJQNStIS0N6Yz0
 sizetype_ob7_observe,codelist,Référentiel pour les types de mesures de poissons utilisé par l’Ob7 de l’IRD dans la base de données Observe,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,pascal.cauquil@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les types de mesures utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Observe.
