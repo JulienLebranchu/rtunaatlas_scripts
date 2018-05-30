@@ -399,6 +399,7 @@ metadata$lineage<-lineage_metadata_format
 
 
 ## Retrieve the code lists to use for integration within the Tuna Atlas DB (input parameter of the function to load datasets)
+metadata$contact_data_structure_definition="paul.taconet@ird.fr"
 if (include_IOTC=="TRUE"){
 rfmo="IOTC"
   }
@@ -416,6 +417,7 @@ if (include_CCSBT=="TRUE"){
 }
 if (mapping_map_code_lists=="TRUE" && mapping_csv_mapping_datasets_url=="http://data.d4science.org/ZWFMa3JJUHBXWk9NTXVPdFZhbU5BUFEyQnhUeWd1d3lHbWJQNStIS0N6Yz0"){
   rfmo="global"
+  metadata$contact_data_structure_definition="fdiwg@rda-groups.org"
 }
 
 table_urls_code_lists_to_use_to_load_datasets<-read.csv("https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/create_own_tuna_atlas/sourced_scripts/table_urls_code_lists_to_use_to_load_datasets.csv",stringsAsFactors = F)
