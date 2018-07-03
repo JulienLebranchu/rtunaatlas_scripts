@@ -1,62 +1,56 @@
-
-####################### Aggregation of geolocalistions data according to spatiotemporal resolution from ob7 database
-# Author : Chloe Dalleau, Geomatic engineer (IRD)
-# Supervisors : Paul Taconet (IRD), Julien Barde (IRD)
-# Date : 15/02/2018 
-# 
-# wps.des: id = aggregation_location, title = Aggregation of geolocalisation data according to spatiotemporal resolution from ob7 database, abstract = Calculation of facts (ie. : catch, catch at size, effort and fad) by spatiotemporal resolution from ob7 database.;
-# wps.in: id = file_name, type = character, title = Name of the R script which contains all the specific parameter of the fact (connection query and column names for sql data AND aggregation parameters : list of output dimensions - aggregate variable name - column name of object identifier - fact name) , value = "catch_balbaya|effort_balbaya|catch_at_size_t3p|catch_observe|effort_observe|catch_at_size_observe|fad_fads";
-# wps.in: id = file_path_parameter, type = character, title = File path of the R script which contains all the specific parameter of the fact;
-# wps.in: id = sql_limit, type = integer, title = SQL limit for the query., value = "1000";
-# wps.in: id = latmin, type = integer, title = Smallest latitude of spatial zone extent in degree. Range of values: -90° to 90°., value = "-90";
-# wps.in: id = latmax, type = integer, title = Biggest latitude of spatial zone extent in degree. Range of values: -90° to 90°., value = "90";
-# wps.in: id = lonmin, type = integer, title =  Smallest longitude of spatial zone extent in degree. Range of values : -180° to 180°., value = "-180";
-# wps.in: id = lonmax, type = integer, title =  Biggest longitude of spatial zone extent in degree. Range of values : -180° to 180°., value = "180";
-# wps.in: id = intersection_layer_type, type = string, title = Type of layer to use to intersect the data, value = "grid|shapefile|eez";
-# wps.in: id = grid_spatial_resolution, type = real, title = If intersection_layer_type="grid", spatial resolution that fits sides of the grid square polygons in degree. Range of values: 0.001° to 5°., value = "1";
-# wps.in: id = shapefile_directory_url, type = real, title = If intersection_layer_type="shapefile", directory where the shapefile is stored, value = "/home/ptaconet/Documents/eez_marineregions_10";
-# wps.in: id = shapefile_name, type = real, title = If intersection_layer_type="shapefile", name of the shapefile (without the extension)., value = "eez_v10_indian_atlantic_oceans";
-# wps.in: id = shapefile_colname_geographic_identifier, type = real, title = If intersection_layer_type="shapefile", name of the unique identifier column, value = "NULL";
-# wps.in: id = data_crs, type = boolean, title = a character string of projection arguments of data. The arguments must be entered exactly as in the PROJ.4 documentation, vale="+init=epsg:4326 +proj=longlat +datum=WGS84";
-# wps.in: id = temporal_resolution , type = integer, title = Temporal resolution of calendar in day or month., value = "15";
-# wps.in: id = temporal_resolution_unit , type = character, title = Time unit of temporal resolution, value = "day|month|year";
-# wps.in: id = first_date , type = date, title = First date of calendar, value = "1800-01-01";
-# wps.in: id = final_date , type = date, title = Final date of calendar, value = "2100-01-01";
-# wps.in: id = spatial_association_method, type character. title = Method used for data aggregation random method (if a fishing data is on several polygons (borders case) the polygon is chosen randomly), equal distribution method (if a fishing data is on several polygons (borders case) the fishing value are distribuated between these polygons) or cwp method (The processing attributes each geolocation to an unique polygon according to CWP rules (from FAO) (http://www.fao.org/fishery/cwp/en)) are available. Value : "random|equaldistribution|cwp"
-# wps.in: id = aggregate_data, type = boolean. title = Put TRUE if for aggregated data in the output, value : "TRUE|FALSE"
-# wps.in: id = program_observe, type = boolean. title = For data from observe database, put TRUE to have the dimension "program" in output data, value : "TRUE|FALSE"
-# wps.in: id = file_path_metadata_model, type = character. title = File path of the metadata model;
-# wps.out: id = output_data, type = text/zip, title = Aggregated data by space and by time; 
-#########################
-
-# path_to_query
-# path_to_databases_credentials
-# database_name
-# sql_limit
-# latmin
-# latmax
-# lonmin
-# lonmax
-# intersection_layer_type
-# grid_spatial_resolution
-# shapefile_url
-# shapefile_colname_geographic_identifier
-# data_crs
-# temporal_resolution
-# temporal_resolution_unit
-# first_date
-# final_date
-# method_asso
-# aggregate_data
-# metric_to_keep
-# program_observe
-# colname_shapefile_unique_identifier
+## WORKFLOW TO EXTRACT SPATIO-TEMPORAL FINE GRAINED DATA FROM A POSTGRESQL DATABASE AND AGGREGATE THEM SPATIALLY AND TEMPORALLY
+# Author : Chloe Dalleau (IRD), revised by Paul Taconet (IRD)
+# Date : 15/05/2018 
+## Description of the workflow:
+# wps.des: id = workflow_extract_and_rasterize_ob7_data, title = Workflow to extract spatio-temporal fine grained data from a PostgreSQL database and aggregate them spatially and temporally , abstract = This script extracts multi-dimensional fine grained spatial time series from a PostgreSQL database and aggregates them in space and time. Fine grained data might be either points or trajectories. The spatial zone to aggregate the data might be either a regular grid or a shapefile;
+# wps.des: id = path_to_query, type = character, title = Path/URL of the sql file where the query to execute to extract the data from the database is stored. The query must extract a dataset with the appropriate structure, which is: 0 to n columns of dimensions (e.g. species, gear, flag, etc.), 1 column named "date" representing the date (type: timestamp), 2 columns named "lat" and "lon" representing respectively the latitude and the longitude of the point (type: numeric), 1 column named "value" representing the value for the given association of dimensions (type: numeric), and in case of trajectory dataset 2 additional columns named "id_object" and "id_trajectory" representing respectively the identifier of the object and the identifier of the object's trajectory (type: integer) (these two columns enable to further create the trajectories), value="http://data.d4science.org/L3pxZ3pqbGVreG11czdsSkRIa0EvekhjTkVKaHg4Z2dHbWJQNStIS0N6Yz0";
+# wps.des: id = path_to_databases_credentials, type = character, title = path/URL of the csv file where the credentials of the database to connect to in order to execute the query is stored. The file contains the following columns filled-in with the appropriate values: dbname, host, port, user, password., value = "/home/ptaconet/Documents/connection_bdd.csv";
+# wps.des: id = database_name, type = character, title = Name of the database to connect to in order to execute the query. value = "balbaya";
+# wps.des: id = sql_limit, type = character, title = SQL LIMIT for the extraction of the data by the query stored under path_to_query. Useful to test the code in case of query returning a big amount of rows. If no limit, put NULL. value = "LIMIT 100";
+# wps.des: id = latmin, type = character, title = Restriction / filter on the latitude to aggregate the data (minimum latitude), value = "-90";
+# wps.des: id = latmax, type = character, title = Restriction / filter on the latitude to aggregate the data (maximum latitude), value = "90";
+# wps.des: id = lonmin, type = character, title = Restriction / filter on the longitude to aggregate the data (minimum longitude), value = "-180";
+# wps.des: id = lonmax, type = character, title = Restriction / filter on the longitude to aggregate the data (maximum longitude), value = "-180";
+# wps.des: id = intersection_layer_type, type = character, title = Type of spatial layer to use to aggregate the data. "grid" stands for a regular grid and "shapefile" for a shapefile., value="grid";
+# wps.des: id = grid_spatial_resolution, type = character, title = Set only if intersection_layer_type=="grid". Spatial resolution of the grid (in degrees). , value = "0.33";
+# wps.des: id = shapefile_url, type = character, title = Set only if intersection_layer_type=="shapefile". path/URL of the shapefile to aggregate the data. , value = "/home/ptaconet/Documents/eez_marineregions_10/eez_v10_indian_atlantic_oceans.shp";
+# wps.des: id = shapefile_colname_geographic_identifier, type = character, title = Set only if intersection_layer_type=="shapefile". Name of the column providing the unique identifiers in the shapefile., value = "MRGID";
+# wps.des: id = temporal_resolution, type = character, title = Temporal resolution of output aggregated dataset. In day, month or year (see: temporal_resolution_unit). Note: for 1/2 month put temporal_reso=0.5 and temporal_reso_unit="month" , value = "1";
+# wps.des: id = temporal_resolution_unit, type = character, title = Temporal resolution unit., value="day|month|year";
+# wps.des: id = first_date, type = character, title = Restriction / filter on the date to aggregate the data (minimum date), value = "1950-01-01";
+# wps.des: id = final_date, type = character, title =  Restriction / filter on the date to aggregate the data (maximum date), value = "2017-12-31";
+# wps.des: id = spatial_association_method, type = character, title = Method to use for the aggregation of the fine grained data that fall on a border of the grid/polygon. equaldistribution = Data are redistributed equally between the bordering polygons. cwp = Data are attributed to a cell following the Coordinating Working Party on Fishery Statistics (CWP) rules, i.e. they were assigned to the cell closest to the point of latitude = 0 and longitude = 0. random = Data are attributed randomly to one of the bordering cell/polygon. Currently only "equaldistribution" is implemented., value : "equaldistribution|random|cwp";
+# wps.des: id = aggregate_data, type = boolean, title = Aggregate the data spatially and temporally? TRUE outputs a dataset aggregated spatially and temporally. FALSE outputs a non-aggregated dataset. , value : "TRUE|FALSE";
+# wps.des: id = metric_to_keep, type = character, title = Many functions can be used to aggregate the values of the data. This function enables to choose which function should be kept., value="sum|mean|n|sd|min|max";
+# wps.des: id = buffer_size, type = character, title = Size of the buffer to compute the surface variable in case of trajectory., value = "37";
+# wps.des: id = columns_to_keep, type = character, title = In the output dataset, name of the columns to keep. This parameters enable to restrict the number of columns of the output dataset compared to what the input query returns (i.e. the input query might return more columns that those desired in the output aggregated dataset)., value = "ocean,flag,gear,vessel";
+# wps.out: id = dataset, type = data.frame, title = The dataset aggregated spatially and temporally according to the input parameters. Another output, called 'additional_metadata', is a data.frame of useful metadata computed dynamically (i.e. in function of the input parameters) ;
 
 ######################### ######################### ######################### 
 # Packages
 ######################### ######################### ######################### 
 
-# Packages
+if(!require(rtunaatlas)){
+  if(!require(devtools)){
+    install.packages("devtools")
+  }
+  require(devtools)
+  install_github("ptaconet/rtunaatlas")
+}
+
+if(!require(dplyr)){
+  install.packages("dplyr")
+}
+if(!require(dplyr)){
+  install.packages("data.table")
+}
+if(!require(dplyr)){
+  install.packages("rgdal")
+}
+if(!require(dplyr)){
+  install.packages("sf")
+}
+
 require(rtunaatlas)
 require(data.table)
 require(dplyr)
@@ -103,7 +97,7 @@ if (!is.null(columns_to_keep)){
 dataset_output_query<-dataset_output_query[,colnames(dataset_output_query) %in% c(unlist(strsplit(columns_to_keep, split=",")),"date","lat","lon","value","id_object","id_trajectory")]
 }
 
-# filter the dataset 
+# filter the dataset  spatially and temporally
 if (is.null(first_date)){
   first_date<-min(dataset_output_query$date)
 }
@@ -139,7 +133,7 @@ grid_spatial_resolution_list<-as.numeric(grid_spatial_resolution_list)
 }
 
 
-year_tuna_atlas<-as.numeric(year_tuna_atlas)
+#year_tuna_atlas<-as.numeric(year_tuna_atlas)
 data_crs <- "+init=epsg:4326 +proj=longlat +datum=WGS84"
 
 ## initialization of output datasets
@@ -155,7 +149,7 @@ for (k in 1:length(temporal_resolution_list)){
   }
   
 ######################### ######################### ######################### 
-# Treatments
+# Processings
 ######################### ######################### ######################### 
 
 cat("Creating sf SpatialPolygon to aggregate data...\n")
@@ -225,7 +219,7 @@ datasets_all[[n]]<-dataset_processed[ , !(grepl("_value",colnames(dataset_proces
 datasets_all[[n]]<-datasets_all[[n]] %>% filter (value > 0)
 
 # ######################### ######################### ######################### 
-# # Metadata
+# # Setting Metadata
 # ######################### ######################### ######################### 
 
 
