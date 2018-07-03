@@ -30,6 +30,22 @@ Référentiel pour les espèces utilisé par l’Observatoire des Ecosystèmes P
 // English
 Code list for species used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Balbaya database.",,2017-07-20,,,,,,,IRD,"step1 : The table public.espece was extracted from Balbaya database on the %date_download%. The column used as code is the column named c_esp_3l
 step2 : The code list was integrated into the French Tuna atlas database",,species.species_ob7_balbaya,NA,http://data.d4science.org/N29KaEh6aW5DTktqYjQ5MXd6SmtUWWtuVnl6Qno0TGJHbWJQNStIS0N6Yz0
+stock_ob7_balbaya,codelist,Référentiel pour les stocks utilisé par l’Ob7 de l’IRD (issu de la base Balbaya),ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
+Référentiel pour les stocks utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) (issu de la base de données Balbaya).
+
+// English
+Code list for stocks used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) (extracted from the Balbaya database).",,2017-07-20,,,,,,,IRD,"step1 : The following query was executed on the Balbaya database on the %date_download% :
+                  SELECT  distinct 
+                  espece.c_esp_3l||' ('::varchar||zfao.c_zfao::varchar||')'::varchar AS code, -- not a species but a stock
+                  espece.l_esp||' ('::varchar||zfao.l_zfao::varchar||')'::varchar AS label
+              FROM 
+              public.activite
+              INNER JOIN public.capture ON (activite.c_bat = capture.c_bat AND
+              activite.d_act = capture.d_act AND
+              activite.n_act = capture.n_act)
+LEFT JOIN public.zfao ON (activite.id_zfao=zfao.id_zfao)
+INNER JOIN public.espece ON capture.c_esp = espece.c_esp
+step2 : The code list was integrated into the French Tuna atlas database",,species.stock_ob7_balbaya,NA,http://data.d4science.org/YU8venJUS2JhWC8zcnlZaVBMTWJ2R2xYZnVuRGp0YjhHbWJQNStIS0N6Yz0
 fadclass_tunaatlas,codelist,Référentiel pour les classes de DCP utilisé par l’Ob7 de l’IRD dans la base de données fads,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les classes de DCP utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données fads
 
@@ -61,6 +77,13 @@ Référentiel pour les navires utilisé par l’Observatoire des Ecosystèmes P�
 // English
 Code list for vessels used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Balbaya database.",,2018-05-20,,,,,,,IRD,"step1 : The table public.bateau was used to retrieve the codes on the %date_download%. The column used as code is the column named c_bat
 step2 : The code list was integrated into the French Tuna atlas database",,vessel.vessel_ob7_balbaya,NA,http://data.d4science.org/ZkFkUERqZ1BTcWl1czdsSkRIa0EvdzVUZHZrd25sY2tHbWJQNStIS0N6Yz0
+eez_ob7_balbaya,codelist,Référentiel pour les ZEE utilisé par l’Ob7 de l’IRD dans la base de données Balbaya,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,laurent.floch@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
+Référentiel pour les Zones économique exclusives utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Balbaya.
+
+// English
+Code list for the Exclusive Economic Zones used by the Observatory of Exploited Tropical Pelagic Ecosystems (Ob7) of the French National Research Institute for Sustainable Development (IRD) in the Balbaya database.",,2018-05-20,,,,,,,IRD,"step1 : The table public.zee was used to retrieve the codes on the %date_download%. The column used as code is the column named c_pays_fao.
+step2 : The following lines (oid) )were removed from the table (because they are to some extent redundant) :  549101550,549101546,620009076,549101567
+step3 : The code list was integrated into the French Tuna atlas database",,ocean.eez_ob7_balbaya,NA,http://data.d4science.org/Q3dYdzhhTVFRNm4zcnlZaVBMTWJ2RlAxUWU4ZTFGRTJHbWJQNStIS0N6Yz0
 ocean_tunaatlas,codelist,Référentiel pour les océans utilisé par l’Ob7 de l’IRD dans la base de données Atlas thonier français,ird@ird.fr,ob7@ird.fr,paul.taconet@ird.fr;chloe.dalleau@ird.fr,paul.taconet@ird.fr,chloe.dalleau@ird.fr,ird@ird.fr,chloe.dalleau@ird.fr,,,"// Français
 Référentiel pour les océans utilisé par l’Observatoire des Ecosystèmes Pélagiques Tropicaux exploités (Ob7) de l’Institut de Recherche pour le Développement (IRD) dans la base de données Atlas thonier français.
 
