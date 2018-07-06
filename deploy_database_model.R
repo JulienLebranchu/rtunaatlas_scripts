@@ -28,7 +28,7 @@ drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
 
 # Preliminary step: grant select on all objects of the DB to the user with select privileges
-dbSendQuery(con_admin,paste0("alter default privileges grant select on tables to \"",db_read_name,"\""))
+dbSendQuery(con,paste0("alter default privileges grant select on tables to \"",db_read_name,"\""))
 
 ## 1) Deploy schema metadata and associated tables
 
