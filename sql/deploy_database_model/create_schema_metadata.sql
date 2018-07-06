@@ -1,10 +1,10 @@
 
 CREATE SCHEMA metadata
-  AUTHORIZATION %db_admin%;
+  AUTHORIZATION "%db_admin%";
 
-GRANT ALL ON SCHEMA metadata TO %db_admin%;
-GRANT USAGE ON SCHEMA metadata TO %db_read%;
-ALTER DEFAULT PRIVILEGES IN SCHEMA metadata GRANT SELECT ON TABLES TO %db_read%;
+GRANT ALL ON SCHEMA metadata TO "%db_admin%";
+GRANT USAGE ON SCHEMA metadata TO "%db_read%";
+ALTER DEFAULT PRIVILEGES IN SCHEMA metadata GRANT SELECT ON TABLES TO "%db_read%";
 
 
 CREATE TABLE metadata.metadata
@@ -35,8 +35,8 @@ database_view_name text,
 );
 
 ALTER TABLE metadata.metadata
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE metadata.metadata TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE metadata.metadata TO "%db_admin%";
 
 
 CREATE TABLE metadata.metadata_mapping
@@ -55,15 +55,15 @@ CREATE TABLE metadata.metadata_mapping
 );
 
 ALTER TABLE metadata.metadata_mapping
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE metadata.metadata_mapping TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE metadata.metadata_mapping TO "%db_admin%";
 
 CREATE SCHEMA fact_tables
-  AUTHORIZATION %db_admin%;
+  AUTHORIZATION "%db_admin%";
 
-GRANT ALL ON SCHEMA fact_tables TO %db_admin%;
-GRANT USAGE ON SCHEMA fact_tables TO %db_read%;
-ALTER DEFAULT PRIVILEGES IN SCHEMA fact_tables GRANT SELECT ON TABLES TO %db_read%;
+GRANT ALL ON SCHEMA fact_tables TO "%db_admin%";
+GRANT USAGE ON SCHEMA fact_tables TO "%db_read%";
+ALTER DEFAULT PRIVILEGES IN SCHEMA fact_tables GRANT SELECT ON TABLES TO "%db_read%";
 
 COMMENT ON SCHEMA fact_tables IS 'Schema containing the time series datasets stored as integer values';
 COMMENT ON SCHEMA metadata IS 'Schema containing the metadata on all the datasets available in the database';

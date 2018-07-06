@@ -1,10 +1,10 @@
 
 CREATE SCHEMA %dimension_name%
-  AUTHORIZATION %db_admin%;
+  AUTHORIZATION "%db_admin%";
 
-GRANT ALL ON SCHEMA %dimension_name% TO %db_admin%;
-GRANT USAGE ON SCHEMA %dimension_name% TO %db_read%;
-ALTER DEFAULT PRIVILEGES IN SCHEMA %dimension_name% GRANT SELECT ON TABLES TO %db_read%;
+GRANT ALL ON SCHEMA %dimension_name% TO "%db_admin%";
+GRANT USAGE ON SCHEMA %dimension_name% TO "%db_read%";
+ALTER DEFAULT PRIVILEGES IN SCHEMA %dimension_name% GRANT SELECT ON TABLES TO "%db_read%";
 
 
 CREATE TABLE %dimension_name%.%dimension_name%
@@ -21,8 +21,8 @@ CREATE TABLE %dimension_name%.%dimension_name%
 );
 
 ALTER TABLE %dimension_name%.%dimension_name%
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE %dimension_name%.%dimension_name% TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE %dimension_name%.%dimension_name% TO "%db_admin%";
 
 CREATE TABLE %dimension_name%.%dimension_name%_mapping
 (
@@ -43,8 +43,8 @@ CREATE TABLE %dimension_name%.%dimension_name%_mapping
 );
 
 ALTER TABLE %dimension_name%.%dimension_name%_mapping
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE %dimension_name%.%dimension_name%_mapping TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE %dimension_name%.%dimension_name%_mapping TO "%db_admin%";
 
 INSERT INTO %dimension_name%.%dimension_name%(id_%dimension_name%,codesource_%dimension_name%) VALUES (0,'UNK');
 

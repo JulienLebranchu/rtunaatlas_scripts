@@ -8,8 +8,8 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE area.area_wkt
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE area.area_wkt TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE area.area_wkt TO "%db_admin%";
 
 CREATE OR REPLACE FUNCTION area.func_add_new_record_in_link_table_area_wkt()
   RETURNS trigger AS
@@ -17,7 +17,7 @@ $BODY$ BEGIN INSERT INTO area.area ( codesource_area,tablesource_area) VALUES (N
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION area.func_add_new_record_in_link_table_area_wkt()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
 CREATE TRIGGER trig_add_new_record_in_link_table_area_wkt
   BEFORE INSERT
@@ -36,8 +36,8 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION area.area_wkt_calc_geom()
-  OWNER TO %db_admin%;
-GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT EXECUTE ON FUNCTION area.area_wkt_calc_geom() TO "%db_admin%";
 
 
 CREATE TRIGGER trigg_area_wkt_calc_geom

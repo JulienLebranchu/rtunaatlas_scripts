@@ -1,9 +1,9 @@
 CREATE SCHEMA sizeclass
-  AUTHORIZATION %db_admin%;
+  AUTHORIZATION "%db_admin%";
 
-GRANT ALL ON SCHEMA sizeclass TO %db_admin%;
-GRANT USAGE ON SCHEMA sizeclass TO %db_read%;
-ALTER DEFAULT PRIVILEGES IN SCHEMA sizeclass GRANT SELECT ON TABLES TO %db_read%;
+GRANT ALL ON SCHEMA sizeclass TO "%db_admin%";
+GRANT USAGE ON SCHEMA sizeclass TO "%db_read%";
+ALTER DEFAULT PRIVILEGES IN SCHEMA sizeclass GRANT SELECT ON TABLES TO "%db_read%";
 
 
 CREATE TABLE sizeclass.sizeclass
@@ -16,8 +16,8 @@ CREATE TABLE sizeclass.sizeclass
   CONSTRAINT sizeclass_pkey PRIMARY KEY (id_sizeclass)
 );
 ALTER TABLE sizeclass.sizeclass
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE sizeclass.sizeclass TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE sizeclass.sizeclass TO "%db_admin%";
 
 
 CREATE OR REPLACE FUNCTION sizeclass.sizeclass_calc_size_avg()
@@ -31,8 +31,8 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION sizeclass.sizeclass_calc_size_avg()
-  OWNER TO %db_admin%;
-GRANT EXECUTE ON FUNCTION sizeclass.sizeclass_calc_size_avg() TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT EXECUTE ON FUNCTION sizeclass.sizeclass_calc_size_avg() TO "%db_admin%";
 
 CREATE OR REPLACE FUNCTION sizeclass.sizeclass_calc_size_max()
   RETURNS trigger AS
@@ -45,8 +45,8 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION sizeclass.sizeclass_calc_size_max()
-  OWNER TO %db_admin%;
-GRANT EXECUTE ON FUNCTION sizeclass.sizeclass_calc_size_max() TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT EXECUTE ON FUNCTION sizeclass.sizeclass_calc_size_max() TO "%db_admin%";
   
 
 CREATE TRIGGER trigg_sizeclass_calc_size_avg

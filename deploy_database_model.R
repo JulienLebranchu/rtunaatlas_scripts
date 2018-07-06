@@ -28,7 +28,7 @@ drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv, dbname=db_name, user=db_admin_name, password=db_admin_password, host=db_host)
 
 # Preliminary step: grant select on all objects of the DB to the user with select privileges
-dbSendQuery(con,paste0("alter default privileges grant select on tables to ",db_read_name))
+dbSendQuery(con_admin,paste0("alter default privileges grant select on tables to \"",db_read_name,"\""))
 
 ## 1) Deploy schema metadata and associated tables
 
@@ -106,8 +106,8 @@ for (i in 1:length(facts)){
   }
   
   sql_deploy_fact_table<-paste0(sql_deploy_fact_table,"value numeric(12,2) NOT NULL);ALTER TABLE metadata.metadata
-  OWNER TO ",db_admin_name,";
-GRANT ALL ON TABLE fact_tables.",fact_name," TO ",db_admin_name,";
+  OWNER TO \"",db_admin_name,"\";
+GRANT ALL ON TABLE fact_tables.",fact_name," TO \"",db_admin_name,"\";
 
 CREATE INDEX id_metadata_",fact_name,"_idx
   ON fact_tables.",fact_name,"

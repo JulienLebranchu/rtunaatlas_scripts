@@ -1,10 +1,10 @@
 
 CREATE SCHEMA "time"
-  AUTHORIZATION %db_admin%;
+  AUTHORIZATION "%db_admin%";
 
-GRANT ALL ON SCHEMA "time" TO %db_admin%;
-GRANT USAGE ON SCHEMA "time" TO %db_read%;
-ALTER DEFAULT PRIVILEGES IN SCHEMA "time" GRANT SELECT ON TABLES TO %db_read%;
+GRANT ALL ON SCHEMA "time" TO "%db_admin%";
+GRANT USAGE ON SCHEMA "time" TO "%db_read%";
+ALTER DEFAULT PRIVILEGES IN SCHEMA "time" GRANT SELECT ON TABLES TO "%db_read%";
 
 CREATE TABLE "time"."time"
 (
@@ -24,8 +24,8 @@ CREATE TABLE "time"."time"
 
 
 ALTER TABLE "time"."time"
-  OWNER TO %db_admin%;
-GRANT ALL ON TABLE "time"."time" TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT ALL ON TABLE "time"."time" TO "%db_admin%";
 
 
 
@@ -40,8 +40,8 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_decade()
-  OWNER TO %db_admin%;
-GRANT EXECUTE ON FUNCTION time.time_calc_decade() TO %db_admin%;
+  OWNER TO "%db_admin%";
+GRANT EXECUTE ON FUNCTION time.time_calc_decade() TO "%db_admin%";
 
 CREATE OR REPLACE FUNCTION time.time_calc_month()
   RETURNS trigger AS
@@ -54,7 +54,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_month()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
   CREATE OR REPLACE FUNCTION time.time_calc_month_name()
   RETURNS trigger AS
@@ -67,7 +67,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_month_name()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
 CREATE OR REPLACE FUNCTION time.time_calc_quarter()
   RETURNS trigger AS
@@ -80,7 +80,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_quarter()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
   CREATE OR REPLACE FUNCTION time.time_calc_semester()
   RETURNS trigger AS
@@ -99,7 +99,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_semester()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
 CREATE OR REPLACE FUNCTION time.time_calc_time_interval()
   RETURNS trigger AS
@@ -112,7 +112,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_time_interval()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
   CREATE OR REPLACE FUNCTION time.time_calc_year()
   RETURNS trigger AS
@@ -125,7 +125,7 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
 ALTER FUNCTION time.time_calc_year()
-  OWNER TO %db_admin%;
+  OWNER TO "%db_admin%";
 
 
 CREATE TRIGGER trigg_time_calc_decade
