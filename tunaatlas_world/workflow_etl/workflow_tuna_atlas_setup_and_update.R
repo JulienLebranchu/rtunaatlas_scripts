@@ -156,26 +156,23 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
 
 ### GENERATE AND LOAD GLOBAL DATASETS
 if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load the global tuna atlas datasets
-  cat("Start generating and loading the global tuna atlas datasets and related metadata in the database...\n")
-  # Open csv metadata of ird tuna atlas catch datasets and related parameterization
-  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_tuna_atlas_catch_effort_datasets,stringsAsFactors = F,colClasses = "character")
-  # Update year tuna atlas
-  table_metadata_and_parameterization$parameter_datasets_year_release<-year_tuna_atlas
-  # One by one, generate and load the ird tuna atlas datasets
-  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
-    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
-    workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
-  }
   
   # Open csv metadata of ird tuna atlas nomînal catch datasets and related parameterization
   table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_tuna_atlas_nominal_catch_datasets,stringsAsFactors = F,colClasses = "character")
-  # Update year tuna atlas
-  table_metadata_and_parameterization$parameter_datasets_year_release<-year_tuna_atlas
+  # One by one, generate and load the ird tuna atlas datasets
+  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+    metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
+    workflow_tuna_atlas_dataset_to_generate_and_load(con_admin,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
+  }
+  cat("End generating and loading the global nominal catch tuna atlas datasets and related metadata in the database\n")
+  
+  cat("Start generating and loading the global tuna atlas datasets and related metadata in the database...\n")
+  # Open csv metadata of ird tuna atlas catch datasets and related parameterization
+  table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_tuna_atlas_catch_effort_datasets,stringsAsFactors = F,colClasses = "character")
   # One by one, generate and load the ird tuna atlas datasets
   for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
     workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
-  cat("End generating and loading the global nominal catch tuna atlas datasets and related metadata in the database\n")
 }
 
