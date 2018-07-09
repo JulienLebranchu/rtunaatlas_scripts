@@ -145,7 +145,8 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
   # Open csv metadata of primary datasets and related parameterization
   table_metadata_and_parameterization<-read.csv(metadata_and_parameterization_csv_primary_datasets,stringsAsFactors = F,colClasses = "character")
   # One by one, load the primary datasets
-  for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+  # for (df_to_load in 1:nrow(table_metadata_and_parameterization)){
+  for (df_to_load in 1:54){
     metadata_and_parameterization<-table_metadata_and_parameterization[df_to_load,]
     workflow_tuna_atlas_dataset_to_generate_and_load(con_parameters,metadata_and_parameterization,year_tuna_atlas,vre_username,vre_token)
   }
