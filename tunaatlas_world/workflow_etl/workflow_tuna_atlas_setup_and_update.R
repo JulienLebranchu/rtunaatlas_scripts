@@ -27,43 +27,52 @@
 
 rm(list=ls(all=TRUE))
 
-### MANDATORY PARAMETERS
-year_tuna_atlas="2017"
+#### ENABLE/DISABLE WORKFLOW STEPS
 deploy_database_model=TRUE
 load_codelists=TRUE
 load_codelists_mappings=TRUE
 transform_and_load_primary_datasets=TRUE
 generate_and_load_global_tuna_atlas_datasets=TRUE
-virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
+
+
+#### WF CONFIGURATION: 
+
+### FAO TUNA ATLAS VRE CREDENTIALS
 vre_username="paultaconet"
 vre_token="***"
+
+### DATABASE CREDENTIALS
 db_host="db-tuna.d4science.org"
 db_name="tunaatlas"
 db_admin_name="tunaatlas_u"
 db_admin_password="***"
-
-### OPTIONAL PARAMETERS depending on the values set in the mandatory parameters
-## db_read_name,dimensions,variables_and_associated_dimensions : fill-in only if deploy_database_model==TRUE
 db_read_name="tunaatlas_inv"
+
+### TUNA ATLAS YEAR
+year_tuna_atlas="2017"
+
+### DATA WAREHOUSE (set if deploy_database_model==TRUE)
 db_dimensions="area,catchtype,unit,flag,gear,schooltype,sex,sizeclass,species,time,source"
 db_variables_and_associated_dimensions="catch=schooltype,species,time,area,gear,flag,catchtype,unit,source@effort=schooltype,time,area,gear,flag,unit,source@catch_at_size=schooltype,species,time,area,gear,flag,catchtype,sex,unit,sizeclass,source"
 
-## metadata_and_parameterization_csv_codelists : fill-in only if load_codelists==TRUE
+### METADATA AND PARAMETERIZATION OF CODE LISTS (set if load_codelists==TRUE)
 metadata_and_parameterization_csv_codelists="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_codelists_2017.csv"
 
-## metadata_and_parameterization_csv_mappings : fill-in only if load_codelists_mappings==TRUE
+### METADATA AND PARAMETERIZATION OF CODE LISTS MAPPING (set if load_codelists_mappings==TRUE)
 metadata_and_parameterization_csv_mappings="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_mappings_2017.csv"
 
-## metadata_and_parameterization_csv_primary_datasets : fill-in only if transform_and_load_primary_datasets==TRUE
+### METADATA AND PARAMETERIZATION OF tRFMOs PRIMARY DATASETS (set if transform_and_load_primary_datasets==TRUE)
 metadata_and_parameterization_csv_primary_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_primary_datasets_2017.csv"
 
-## metadata_and_parameterization_tuna_atlas_catch_datasets,metadata_and_parameterization_ird_tuna_atlas_nominal_catch_datasets : fill-in only if generate_and_load_global_tuna_atlas_datasets==TRUE
+### METADATA AND PARAMETERIZATION OF GLOBAL DATASETS (set if generate_and_load_global_tuna_atlas_datasets==TRUE)
 metadata_and_parameterization_tuna_atlas_catch_effort_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_datasets_ird_2017.csv"
 metadata_and_parameterization_tuna_atlas_nominal_catch_datasets="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/tunaatlas_world/metadata_and_parameterization_files/metadata_and_parameterization_tuna_atlas_nominal_catch_datasets_2017.csv"
 
+### END WF CONFIGURATION
 
+#### BEGIN WF
 
-
+virtual_repository_with_R_files="/Workspace/VRE Folders/FAO_TunaAtlas/R_scripts/datasets_creation"
 repository_R_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/workflow_etl/scripts"  ## Repository where the scripts are stored
 repository_sql_scripts="https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model/"
 
@@ -99,11 +108,12 @@ source(paste(repository_R_scripts,"workflow_tuna_atlas_dataset_to_generate_and_l
 con_parameters<-list(db_name=db_name,db_admin_name=db_admin_name,db_admin_password=db_admin_password,db_host=db_host)
 
 
-## Main
+## DEPLOY DATABASE MODEL
 if (deploy_database_model==TRUE){ ## Deploy the database model
   deploy_database_model_function(db_name,db_host,db_admin_name,db_read_name,db_admin_password,db_dimensions,db_variables_and_associated_dimensions,"https://raw.githubusercontent.com/ptaconet/rtunaatlas_scripts/master/sql/deploy_database_model")
 }
 
+### LOAD CODE LISTS
 if (load_codelists==TRUE){ 
   cat("Start loading the code lists and related metadata in the database...\n")
   # Open csv metadata of code lists
@@ -116,7 +126,7 @@ if (load_codelists==TRUE){
   cat("End loading the code lists and related metadata in the database\n")
 }
 
-
+### LOAD CODE LISTS MAPPINGS
 if (load_codelists_mappings==TRUE){  ## Load the code lists mapping
   cat("Start loading the code lists mappings and related metadata in the database...\n")
   # Open csv metadata of code list mappings
@@ -129,7 +139,7 @@ if (load_codelists_mappings==TRUE){  ## Load the code lists mapping
   }
 }
 
-
+### HARMONIZE AND LOAD tRFMOs PRIMARY DATASETS
 if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the primary datasets
   cat("Start harmonizing and loading the tRFMOs primary datasets and related metadata in the database...\n")
   # Open csv metadata of primary datasets and related parameterization
@@ -143,6 +153,7 @@ if (transform_and_load_primary_datasets==TRUE){  ### Harmonize and load the prim
 }
 
 
+### GENERATE AND LOAD GLOBAL DATASETS
 if (generate_and_load_global_tuna_atlas_datasets==TRUE){ ### Generate and load the global tuna atlas datasets
   cat("Start generating and loading the global tuna atlas datasets and related metadata in the database...\n")
   # Open csv metadata of ird tuna atlas catch datasets and related parameterization
