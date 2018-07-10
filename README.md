@@ -1,6 +1,6 @@
 # Global Tuna Atlas - How to setup and update the database and the catalogue
 
-This document aims at presenting quickly how to setup and update the global tuna atlas database. For additional information, please check the document Global tuna atlas - technical documentation located here: https://docs.google.com/document/d/1jxaE4iMiBI1TsG0Qb0siPal_1g_VHgUufCvA9DX009M/edit?usp=sharing 
+This document aims at presenting quickly how to setup and update the global tuna atlas database. For additional information, please check the document [Global tuna atlas - technical documentation located](https://docs.google.com/document/d/1jxaE4iMiBI1TsG0Qb0siPal_1g_VHgUufCvA9DX009M/edit?usp=sharing) 
 
 ## Prerequisites :
 
