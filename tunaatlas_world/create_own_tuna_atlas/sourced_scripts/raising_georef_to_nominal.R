@@ -1,4 +1,4 @@
-function_raising_georef_to_nominal<-function(fact,dataset_to_raise,dataset_to_compute_rf,nominal_dataset_df,x_raising_dimensions){
+function_raising_georef_to_nominal<-function(fact,dataset_to_raise,dataset_to_compute_rf,nominal_dataset_df,x_raising_dimensions,raising_do_not_raise_wcfpc_data){
 
 cat("Raising georeferenced dataset to nominal dataset\n")
 
@@ -39,15 +39,24 @@ function_raise_data<-function(fact,source_authority_filter,dataset_to_raise,data
 
 if ( include_CCSBT==TRUE | include_WCPFC==TRUE ) {
   
+  if (raising_do_not_raise_wcfpc_data==TRUE){
+    source_authority_filter=c("CCSBT")
+  } else {
+    source_authority_filter=c("WCPFC","CCSBT")
+  }
+  
   cat(paste0("Raising georeferenced dataset of CCBST and WCPFC - if included in the Tuna Atlas - by ",paste(setdiff(x_raising_dimensions,"flag"),collapse = ","),"\n"))
   data_WCPFC_CCSBT_raised<-function_raise_data(fact,
-                                               source_authority_filter = c("WCPFC","CCSBT"),
+                                               source_authority_filter = source_authority_filter,
                                                 dataset_to_raise = dataset_to_raise,
                                                 dataset_to_compute_rf=dataset_to_compute_rf,
                                                 nominal_dataset_df = nominal_dataset_df,
                                                 x_raising_dimensions = setdiff(x_raising_dimensions,"flag"))
-  
+  if (raising_do_not_raise_wcfpc_data==TRUE){
+  data_WCPFC_CCSBT_raised<-rbind(dataset_to_raise %>% filter(source_authority=="WCPFC"),data_WCPFC_CCSBT_raised$df)
+  } else {
   data_WCPFC_CCSBT_raised<-data_WCPFC_CCSBT_raised$df
+  }
 } else {
   data_WCPFC_CCSBT_raised<-NULL
 }
