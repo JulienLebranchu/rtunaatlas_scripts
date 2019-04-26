@@ -2,7 +2,9 @@
 # Paul Taconet, IRD, 2017-11-25
 
 ## Install packages
-
+  if(!require(plotrix)){  # To further deal directly in rtunaatlas package
+    install.packages("plotrix")
+  } 
   if(!require(devtools)){
     install.packages("devtools")
   }
